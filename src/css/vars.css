@@ -1,6 +1,8 @@
 :root {
     /* colors */
     --secondery-color: #58c93a;
+    --info-color: rgb(70, 128, 204);
     --main-nav-color: #292929;
+    --special-btn: rgb(248, 80, 80);
     /* Fonts */
 }
