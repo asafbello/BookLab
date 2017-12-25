@@ -16,25 +16,12 @@ import { resolve } from 'path';
 //             });
 // }
 function searchBook(query, type) {
-    var options = {
-        // key: GOOGLE_KEY,
-        field: type,
-        offset: 0,
-        limit: 10,
-        type: 'books',
-        order: 'relevance',
-        lang: 'en'
-    };
-    return new Promise((resolve, reject) => {
-    googleBooks.search(query,options, function(error, results,apiResponse) {
-        if ( ! error ) {
-            console.log(results,apiResponse);
-            return resolve(results)
-        } else {
-            return reject(error)
-        }
-    })
-})
+    console.log(query);
+        return axios.get(`https://www.googleapis.com/books/v1/volumes?printType=books&q=${query}`)
+        .then(res => {
+            console.log(res.data);
+            return res.data.items;
+        });
 }
 
 

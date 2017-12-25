@@ -14,8 +14,8 @@
     <section class="answers">
         <div class="books-res" v-for="book in bookSearchRes">
                 <router-link :to="'/book/' + book.id">
-                    <p> {{book.title}}  </p>
-                      <img :src="book.thumbnail">
+                    <p> {{book.volumeInfo.title}}  </p>
+                      <img :src="book.volumeInfo.imageLinks.smallThumbnail" />
                 </router-link>
         </div>
       </section>
@@ -38,7 +38,9 @@ export default {
   methods: {
     search() {
       APIService.searchBook(this.input5, this.select)
-        .then(books => this.bookSearchRes = books)  
+        .then(books => {this.bookSearchRes = books
+        console.log(books)
+        })  
         .created(err => console.log("err", err))
     }
   },
