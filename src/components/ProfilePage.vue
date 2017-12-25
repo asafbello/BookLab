@@ -1,28 +1,55 @@
 <template>
-    <div>
-        <h3>profile</h3>
-        <!-- <h2>{{loggedinUser.username}}</h2> -->
-
+    <div class="left-panel">
+        <h1>{{loggedinUser.name}} {{loggedinUser.lastName}} </h1>
+        <img :src="loggedinUser.avatar" alt="No pic avalible" class="profile-img">
+        <button class="edit-btn"> Edit Profile</button>
+        <button class="edit-btn"> Delete Profile</button>
     </div>
 
 </template>
 
 <script>
-import store from '../store/store.js'
+import store from "../store/store.js";
 
 export default {
   name: "ProfilePage",
-  data() {
-    return {};
+  computed: {
+    loggedinUser() {
+      return this.$store.state.user.loggedinUser;
+    }
   },
-  computed : {
-    // loggedInUser() {
-    //   return this.$store.state.user.loggedinUser;
-    // }
+  data() {
+    return {
+      userImg: null
+    };
+  },
+  created(){
+    var id = this.$route.params.id;
+    console.log(id);
   }
 };
 </script>
 
 <style scoped>
+.left-panel {
+  width: 30%;
+  margin-top: 6%;
+  margin-left: 3%;
+}
 
+.left-panel > * {
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+.profile-img {
+  width: 100%;
+}
+
+.edit-btn {
+  width: 100%;
+}
 </style>
