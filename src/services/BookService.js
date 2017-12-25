@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import axios from 'axios'
 
-=======
->>>>>>> master
 const BOOK_URL = 'http://localhost:3003/data/book';
 
 function emptyBook() {

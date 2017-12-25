@@ -17,17 +17,14 @@ export default {
         currGoogleBook: null
     },
     getters: {
-<<<<<<< HEAD
         bookFromGoogle(context) {
             var { currGoogleBook } = context;
             return context.currGoogleBook
      },
-=======
         booksToDisplay(context) {
             var { books } = context;
             return books
         }
->>>>>>> master
     },
     mutations: {
         [SET_BOOKS](state, { books }) {
