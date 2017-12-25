@@ -1,0 +1,13 @@
+@import './lib/normalize.css';
+@import './_mobile.css';
+@import './vars.css';
+
+
+body{
+    background: rgb(238, 238, 238);
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    text-align: center;
+    color: var(--main-nav-color)
+}
+
+

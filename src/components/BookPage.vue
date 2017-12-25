@@ -17,6 +17,7 @@
       <article class="links">
         <button>Get a copy</button>
       </article>
+      <h5>Get in video</h5>
     </main>
     </div>
   </section>
