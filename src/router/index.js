@@ -16,7 +16,7 @@ export default new Router({
       component: HomePage
     },
     {
-      path: '/book',
+      path: '/book/:googleBookId',
       name: 'BookPage',
       component: BookPage
     },

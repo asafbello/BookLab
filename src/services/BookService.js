@@ -1,8 +1,9 @@
-const BOOK_URL = 'http://localhost:3003/data/book';
 import axios from 'axios'
 
+const BOOK_URL = 'http://localhost:3003/data/book';
+
 function emptyBook() {
-    return {goodReadsKey: '', rate: 3, imgSrc: '', reviews:[]}
+   return {goodReadsKey: '', rate: 3, imgSrc: '', reviews:[]}
 }
 
 function getBooksShelf(shelf) {
@@ -30,8 +31,8 @@ function getBooks() {
 }
 
 function saveBook(book) {
-    if (book._id) return axios.put(_getBookUrl(book._id), book)
-    else return axios.post(BOOK_URL, book);  
+   if (book._id) return axios.put(_getBookUrl(book._id), book)
+   else return axios.post(BOOK_URL, book);  
 }
 // function addBook(bookId) {
 //     var book = getBookFromGoogle(bookId)
@@ -46,19 +47,34 @@ function deleteBooK(bookId) {
 
 
 function getBookById(bookId) {
-    return axios
-    .get(_getBookUrl(bookId))
-    .then(res => res.data)
+   return axios
+   .get(_getBookUrl(bookId))
+   .then(res => res.data)
 }
 
 
 function _getBookUrl(bookId) {
-    return `${BOOK_URL}/${bookId}`;
+   return `${BOOK_URL}/${bookId}`;
 }
+
+function getBookFromGoogle(googleKey) {
+    return axios.get(`https://www.googleapis.com/books/v1/volumes/${googleKey}`)
+    .then(res => {
+        console.log(res.data);
+        return res.data;
+    });
+ }
 
 
 export default {
     getBooks,
     // addBook,
-    getBooksShelf
+    getBooksShelf,
+//    getBooks,
+//    getBookById,
+   getBookFromGoogle
 }
+
+
+
+

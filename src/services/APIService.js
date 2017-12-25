@@ -2,7 +2,6 @@ const GOODREADS_KEY = 'FELO3TUoq67L0ebw62ErQ'
 const GOOGLE_KEY = 'AIzaSyDiC5WY7xGnKy_GL6hezF3Tp8PHpbOxkGs'
 const BOOK_URL = 'http://localhost:3003/data/book';
 import axios from 'axios'
-import googleBooks from 'google-books-search'
 import { resolve } from 'path';
 import { log } from 'util';
 
