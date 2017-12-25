@@ -4,16 +4,16 @@ import UserService from "../../services/UserService.js";
 
 export const SIGNUP = 'user/signup';
 // export const SIGNIN = 'user/signin';
-// export const SET_USER = 'user/setUser';
+export const SET_USER = 'user/setUser';
 // export const SIGNOUT = 'user/signout';
 // export const TOGGLE_LIKE = 'user/toggleLike';
 
 
-// var STORAGE_KEY = 'loggedinUser';
+var STORAGE_KEY = 'loggedinUser';
 
 export default {
     state: {
-        // loggedinUser: getUserFromStorage()
+        loggedinUser: getUserFromStorage()
     },
     // getters: {
     //     isUser(state) {
@@ -24,9 +24,9 @@ export default {
     //     }
     // },
     mutations: {
-        // [SET_USER](state, { user }) {
-        //     state.loggedinUser = user;
-        // },
+        [SET_USER](state, { user }) {
+            state.loggedinUser = user;
+        },
         // [SIGNOUT](state) {
         //     state.loggedinUser = null;
         // },
@@ -89,11 +89,11 @@ export default {
 }
 
 
-// function getUserFromStorage() {
-//     var loggedinUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
-//     console.log('GETTING FROM STORAGE', loggedinUser);
-//     return loggedinUser;
-// }
+function getUserFromStorage() {
+    var loggedinUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
+    console.log('GETTING FROM STORAGE', loggedinUser);
+    return loggedinUser;
+}
 
 function saveToLocalStorage(user) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
