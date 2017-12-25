@@ -3,13 +3,18 @@
         <h1>{{loggedinUser.name}} {{loggedinUser.lastName}} </h1>
         <img :src="loggedinUser.avatar" alt="No pic avalible" class="profile-img">
         <button class="edit-btn"> Edit Profile</button>
-        <button class="edit-btn"> Delete Profile</button>
+        <button class="edit-btn"  @click="deleteUser(loggedinUser._id)">Delete Profile</button>
+  <!-- <el-button type="text" @click="open2">Delete Profile</el-button> -->
     </div>
+
+
+    
 
 </template>
 
 <script>
 import store from "../store/store.js";
+import {DELETE_USER} from '../store/modules/UserModule.js';
 
 export default {
   name: "ProfilePage",
@@ -20,12 +25,20 @@ export default {
   },
   data() {
     return {
-      userImg: null
+      userImg: null,
+      userId: this.$store.state.user.loggedinUser._id
     };
   },
-  created(){
+  created() {
     var id = this.$route.params.id;
     console.log(id);
+  },
+  methods: {
+    deleteUser(userId) {
+      console.log('id ', userId)
+      this.$router.push("/");
+      this.$store.dispatch({ type: DELETE_USER, userId })
+    }
   }
 };
 </script>

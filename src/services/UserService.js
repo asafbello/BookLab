@@ -24,6 +24,12 @@ function logout() {
     return axios.get(`${URL}/logout`)
 }
 
+function deleteUser(userId) {
+    logout()
+    // console.log('assaf', userId);
+    return axios.delete(`${URL}/data/user/${userId}`)
+}
+
 // function toggleLike(userId, carId) {
 //    return axios.post(`${URL}/data/${userId}/liked/${carId}`)
 //         // .then(({ data }) => data)
@@ -33,5 +39,6 @@ export default {
     signup,
     login,
     logout,
+    deleteUser
     // toggleLike,
 } 

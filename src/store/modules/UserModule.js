@@ -6,6 +6,7 @@ export const SIGNUP = 'user/signup';
 export const SIGNIN = 'user/signin';
 export const SET_USER = 'user/setUser';
 export const SIGNOUT = 'user/signout';
+export const DELETE_USER = 'user/deleteUser';
 // export const TOGGLE_LIKE = 'user/toggleLike';
 
 
@@ -55,6 +56,13 @@ export default {
                     console.log(err)
                     throw err;
                 });
+        },
+        [DELETE_USER]({commit}, {userId}) {
+            console.log('elad hamelch')
+            return UserService.deleteUser(userId)
+                .then(_ => {
+                        commit({type: SIGNOUT, userId})
+                })
         },
         [SIGNIN]({ commit }, { signinDetails }) {
             UserService
