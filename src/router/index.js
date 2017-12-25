@@ -31,7 +31,7 @@ export default new Router({
       component: SignInPage
     },
     {
-      path: '/user/:id',
+      path: '/user/MyProfile',
       name: 'ProfilePage',
       component: ProfilePage
     }

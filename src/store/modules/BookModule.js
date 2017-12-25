@@ -48,8 +48,10 @@ export default {
 
     actions: {
         [LOAD_BOOKS]({ commit, rootState }) {
-            return BookService.getBooks()
+            var shelf = rootState.user.loggedinUser.shelf;
+            return BookService.getBooksShelf(shelf)
                 .then(books => {
+                    console.log('books',books);
                     commit({ type: SET_BOOKS, books })
 
                 })

@@ -3,6 +3,7 @@ const GOOGLE_KEY = 'AIzaSyDiC5WY7xGnKy_GL6hezF3Tp8PHpbOxkGs'
 const BOOK_URL = 'http://localhost:3003/data/book';
 import axios from 'axios'
 import { resolve } from 'path';
+import { log } from 'util';
 
 // function searchBook(query, type) {
 //     console.log(query, type);
@@ -15,25 +16,9 @@ import { resolve } from 'path';
 //             });
 // }
 function searchBook(query, type) {
-    var options = {
-        // key: GOOGLE_KEY,
-        field: type,
-        offset: 0,
-        limit: 10,
-        type: 'books',
-        order: 'relevance',
-        lang: 'en'
-    };
-    return new Promise((resolve, reject) => {
-    googleBooks.search(query,options, function(error, results,apiResponse) {
-        if ( ! error ) {
-            console.log(results,apiResponse);
-            return resolve(results)
-        } else {
-            return reject(error)
-        }
-    })
-})
+        return axios.get(`https://www.googleapis.com/books/v1/volumes?printType=books&q=${query}`)
+        .then(res => res.data.items)
+        .catch(err => console.log(err))
 }
 
 

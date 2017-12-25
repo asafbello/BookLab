@@ -2,11 +2,13 @@
       <div class="signup">
         <h3>New User? Signup</h3>
 
-        <form @submit.prevent="signup">
-            <input type="text" placeholder="name" v-model="signupDetails.name" />
-            <input type="text" placeholder="username" v-model="signupDetails.username" />
-            <input type="password" placeholder="password" v-model="signupDetails.pass" />
+        <form class="signin-form" @submit.prevent="signup">
+             <el-input type="text" placeholder="name" v-model="signupDetails.name"></el-input>
+             <el-input type="text" placeholder="username" v-model="signupDetails.username"></el-input>
+             <el-input type="text" placeholder="Copy image URL" v-model="signupDetails.avatar"></el-input>
+             <el-input type="password" placeholder="password" v-model="signupDetails.pass"></el-input>
             <button type="submit">Signup</button>
+            <!-- <el-button type="submit">Sign Up</el-button> -->
         </form>
     </div>
 
@@ -22,7 +24,7 @@ export default {
   data() {
         return {
             loginDetails: { username: '', pass: '' },
-            signupDetails: { name: '', username: '', pass: '', avatar: null, isAdmin: false, bookReviews: [], bookRates: [], friends: [], readList: []   }
+            signupDetails: { name: '', username: '', pass: '', avatar: null, isAdmin: false, bookReviews: [], bookRates: [], friends: [], readList: [], shelf: []  }
         }
     },
     methods: {
@@ -46,5 +48,13 @@ export default {
 </script>
 
 <style scoped>
-
+.signin-form {
+  display: flex;
+  flex-flow: column wrap;
+  /* justify-content: space-between; */
+  margin: auto;
+  margin-top: 10%;
+  width: 35%;
+  /* height: 40%; */
+}
 </style>

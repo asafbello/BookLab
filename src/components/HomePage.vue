@@ -2,29 +2,34 @@
 <div>
   <section class="search-book">
     <div>
-    <el-input :placeholder="'search and add '+ select" v-model="input5" class="input-with-select">
+    <el-input  @keyup.native="searchForBook" :placeholder="'search and add '+ select" v-model="input5" class="input-with-select">
       <el-select v-model="select" slot="prepend" placeholder="Select">
         <el-option label="book" value="book"></el-option>
         <el-option label="author" value="author"></el-option>
       </el-select>
       </el-input>
     </div>
-      <el-button @click="search" type="primary" icon="el-icon-search">Search</el-button>
+      <el-button @click.native="searchForBook" type="primary" icon="el-icon-search">Search</el-button>
     </section>
     <section class="answers">
         <div class="books-res" v-for="book in bookSearchRes">
-                <router-link :to="'/book/' + book.id">
-                    <p> {{book.title}}  </p>
-                      <img :src="book.thumbnail">
-                </router-link>
+              <p> {{book.volumeInfo.title}}  </p>
+                <!-- <img :src="book.volumeInfo.imageLinks.thumbnail" /> -->
+            <router-link :to="'/book/' + book.id"> <el-button type="primary">To Book Page</el-button></router-link>
+            <el-badge :value="booksToDisplay.length" class="item">
+              <el-button @click="addBook(book.googleId)">Add to my Shelf</el-button>
+            </el-badge>
         </div>
       </section>
+      <shelf-cmp :shelf="booksToDisplay"></shelf-cmp>
 </div>
 </template>
 
 <script>
-import { LOAD_BOOKS } from "../store/modules/BookModule.js";
+import { LOAD_BOOKS, ADD_BOOK } from "../store/modules/BookModule.js";
 import APIService from "../services/APIService.js";
+import ShelfCmp from "./ShelfCmp"
+
 export default {
   name: "HomePage",
   data() {
@@ -32,33 +37,52 @@ export default {
       select: "book",
       input5: null,
       books: [],
-      bookSearchRes:[]
-    };
+      bookSearchRes:[],
+       }
   },
   methods: {
-    search() {
-      APIService.searchBook(this.input5, this.select)
-        .then(books => this.bookSearchRes = books)  
-        .created(err => console.log("err", err))
+    searchForBook() {
+      console.log('serachs');
+          _.delay(() => {
+                    console.log('getign')
+                    APIService.searchBook(this.input5, this.select)
+                      .then(books => {this.bookSearchRes = books
+                          console.log(books)
+                        })  
+                      .catch(err => console.log("err", err))
+        }, 300, 'later');
+
+    },
+    addBook(googleId){
+      this.$store
+      .dispatch({ type: ADD_BOOK , googleId})
+          .then(books =>console.log(books))
+          .catch(err => console.log(err))
     }
   },
   created() {
     this.$store
       .dispatch({ type: LOAD_BOOKS })
-      .then(books => {
-        console.log("we have books :)");
-      })
-      .catch(err => {
-        console.log("err", err);
-      });
+          .then(books => {
+            console.log("we have books :)");
+          })
+          .catch(err => {
+            console.log("err", err);
+          });
   },
   computed: {
     booksToDisplay() {
       return this.$store.getters.booksToDisplay;
     },
-    // isUser() {
-    //   return this.$store.getters.isUser;
-    // }
+    isUser() {
+      return this.$store.getters.isUser;
+    },
+      loggedInUser() {
+      return this.$store.state.user.loggedinUser;
+    }
+  },
+  components:{
+    ShelfCmp
   }
 };
 </script>
@@ -74,19 +98,17 @@ export default {
 .input-with-select {
   width: 70vw;
 }
-.answers{
+.answers {
   display: flex;
   flex-direction: column;
   z-index: 99;
-  background-color: rgba(0, 0, 0, 0.342);
   align-items: center;
-  
 }
-.books-res{
+.books-res {
   display: flex;
   border: 1px white dashed;
-}
-.books-res img{
-  height: 5vw;
+  background-color: rgba(0, 0, 0, 0.342);
+  width: 100%;
+  font-size: 0.8em;
 }
 </style>
