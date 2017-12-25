@@ -1,43 +1,48 @@
+import BookService from "../../services/BookService.js";
 
-// const BOOK_URL = 'http://localhost:3003/data/book';
-import axios from 'axios'
-
-function emptyBook() {
-    return {goodReadsKey: '', rate: 3, imgSrc: '', reviews:[]}
-}
-
-function getBooks() {
-    return axios
-            .get(BOOK_URL)
-            .then(res => res.data)
-            .catch(e => {
-                console.log('No Books', e);
-                throw e;
-            });
-}
-
-function saveBook(book) {
-    if (book._id) return axios.put(_getBookUrl(book._id), book)
-    else return axios.post(BOOK_URL, book);  
-}
-
-function deleteBookK(bookId) {
-    return axios.delete(_getBookUrl(bookId))
-}
+export const LOAD_BOOKS = 'book/loadBooks';
+export const DELETE_BOOK = 'book/deletebooks';
 
 
-function getBookById(bookId) {
-    return axios
-    .get(_getBookUrl(bookId))
-    .then(res => res.data)
-}
 
-
-function _getBookUrl(bookId) {
-    return `${BOOK_URL}/${bookId}`;
-}
+const SET_BOOKS = 'books/setBooks';
 
 
 export default {
-    getBooks
+    state: {
+        books: [],
+    },
+    getters: {
+        // booksToDisplay(context) {
+        //     var { books } = context;
+        //     return books
+    },
+    mutations: {
+        [SET_BOOKS](state, { books }) {
+            state.books = books;
+        },
+        // [DELETE_BOOK](state, { bookId }) {
+        //     state.books = state.books.filter(book => book._id !== bookId)
+        // },
+    },
+    actions: {
+        [LOAD_BOOKS]({ commit, rootState }) {
+            return BookService.getBooks()
+                .then(books => {
+                    commit({ type: SET_BOOKS, books })
+
+                })
+                .catch(err => {
+                    commit(SET_BOOKS, [])
+                    throw err;
+                })
+        },
+        // [DELETE_BOOK]({ commit }, { bookId }) {
+        //     return BookService.deleteCar(bookId)
+        //         .then(_ => {
+        //             commit({ type:DELETE_BOOK, bookId })
+        //         })
+        // },
+
+    }
 }
