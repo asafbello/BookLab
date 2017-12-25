@@ -7,7 +7,16 @@
       <span>Rating</span>
     <main class="book-content">
       <h2>Book Title</h2>
-      <h5></h5>
+      <h5>Author</h5>
+      <p>Chat about this book</p>
+      <button>Add review</button>
+      <article class="book-review">
+        <p>Book review text</p>
+        <span class="friends-review"></span>
+      </article>
+      <article class="links">
+        <button>Get a copy</button>
+      </article>
     </main>
     </div>
   </section>
