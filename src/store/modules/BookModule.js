@@ -13,9 +13,10 @@ export default {
         books: [],
     },
     getters: {
-        // booksToDisplay(context) {
-        //     var { books } = context;
-        //     return books
+        booksToDisplay(context) {
+            var { books } = context;
+            return books
+        }
     },
     mutations: {
         [SET_BOOKS](state, { books }) {

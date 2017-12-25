@@ -1,31 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const BOOK_URL = 'http://localhost:3003/data/book';
 import axios from 'axios'
 
