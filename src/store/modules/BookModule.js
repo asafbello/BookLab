@@ -78,7 +78,7 @@ export default {
 
         },
         [ADD_BOOK_TO_USER]({commit}, {googleBookId}) {
-            return 
+            // return BookService.
         }
     }
 }

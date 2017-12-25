@@ -23,7 +23,7 @@
       </article>
       <article class="links">
         <el-button type="info">Get a copy</el-button>
-        <el-button class="vid-review" type="primary">See it in video</el-button>
+        <el-button class="vid-review" type="success">See it in video</el-button>
       </article>
     </main>
   </section>
@@ -59,10 +59,6 @@ export default {
   methods: {
     addBook(googleBookId) {
       this.$store
-      .dispatch({
-        type: ADD_BOOK,
-        googleBookId
-      })
       .then(book => {
         this.$store.dispatch({
           type: ADD_BOOK_TO_USER,
@@ -99,7 +95,7 @@ export default {
 }
 
 .vid-review {
-  background: var(--special-btn);
+  background: var(--secondary-color);
   border: none;
 }
 
@@ -108,10 +104,6 @@ export default {
   height: auto;
   display: block;
   margin-bottom: 15px;
-}
-
-.book-review {
-  margin-right: 10px;
 }
 
 .pageCount {
