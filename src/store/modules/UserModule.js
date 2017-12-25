@@ -6,13 +6,10 @@ export const SIGNUP = 'user/signup';
 export const SIGNIN = 'user/signin';
 export const SET_USER = 'user/setUser';
 export const SIGNOUT = 'user/signout';
-<<<<<<< HEAD
 export const DELETE_USER = 'user/deleteUser';
 // export const TOGGLE_LIKE = 'user/toggleLike';
-=======
 export const ADD_BOOK_SHELF = 'user/addBookShelf';
 
->>>>>>> master
 
 
 var STORAGE_KEY = 'loggedinUser';

@@ -63,20 +63,12 @@ export default {
   created() {
     this.$store
       .dispatch({ type: LOAD_BOOKS })
-<<<<<<< HEAD
-      .then(books => {
-      })
-      .catch(err => {
-        console.log("err", err);
-      });
-=======
           .then(books => {
             console.log("we have books :)");
           })
           .catch(err => {
             console.log("err", err);
           });
->>>>>>> master
   },
   computed: {
     booksToDisplay() {
