@@ -1,10 +1,10 @@
 <template>
-<h1>home pageasasasasasa</h1>
+<h1>user profile</h1>
 </template>
 
 <script>
 export default {
-  name: 'HomePage',
+  name: 'UserProfile',
   data () {
     return {
     }
