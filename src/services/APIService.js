@@ -4,6 +4,7 @@ const BOOK_URL = 'http://localhost:3003/data/book';
 import axios from 'axios'
 import googleBooks from 'google-books-search'
 import { resolve } from 'path';
+import { log } from 'util';
 
 // function searchBook(query, type) {
 //     console.log(query, type);
@@ -16,12 +17,9 @@ import { resolve } from 'path';
 //             });
 // }
 function searchBook(query, type) {
-    console.log(query);
         return axios.get(`https://www.googleapis.com/books/v1/volumes?printType=books&q=${query}`)
-        .then(res => {
-            console.log(res.data);
-            return res.data.items;
-        });
+        .then(res => res.data.items)
+        .catch(err => console.log(err))
 }
 
 

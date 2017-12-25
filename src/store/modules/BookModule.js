@@ -2,6 +2,7 @@ import BookService from "../../services/BookService.js";
 
 export const LOAD_BOOKS = 'book/loadBooks';
 export const DELETE_BOOK = 'book/deletebooks';
+export const ADD_BOOK = 'book/addBook';
 
 
 
@@ -25,11 +26,16 @@ export default {
         // [DELETE_BOOK](state, { bookId }) {
         //     state.books = state.books.filter(book => book._id !== bookId)
         // },
+        [ADD_BOOK](state, { book }) {
+            state.books.push(book)
+        },
     },
     actions: {
         [LOAD_BOOKS]({ commit, rootState }) {
-            return BookService.getBooks()
+            var shelf = rootState.user.loggedinUser.shelf;
+            return BookService.getBooksShelf(shelf)
                 .then(books => {
+                    console.log('books',books);
                     commit({ type: SET_BOOKS, books })
 
                 })
@@ -39,11 +45,17 @@ export default {
                 })
         },
         // [DELETE_BOOK]({ commit }, { bookId }) {
-        //     return BookService.deleteCar(bookId)
+        //     return BookService.deleteBook(bookId)
         //         .then(_ => {
         //             commit({ type:DELETE_BOOK, bookId })
         //         })
         // },
 
-    }
+    }, [ADD_BOOK]({ commit }, { googleId }) {
+        console.log(googleId);
+        return BookService.addBook(googleId)
+            .then(_ => {
+                commit({ type: ADD_BOOK, book })
+            })
+    },
 }
