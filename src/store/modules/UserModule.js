@@ -3,7 +3,7 @@ import UserService from "../../services/UserService.js";
 
 
 export const SIGNUP = 'user/signup';
-// export const SIGNIN = 'user/signin';
+export const SIGNIN = 'user/signin';
 export const SET_USER = 'user/setUser';
 // export const SIGNOUT = 'user/signout';
 // export const TOGGLE_LIKE = 'user/toggleLike';
@@ -15,14 +15,14 @@ export default {
     state: {
         loggedinUser: getUserFromStorage()
     },
-    // getters: {
-    //     isUser(state) {
-    //         return !!state.loggedinUser
-    //     },
+    getters: {
+        isUser(state) {
+            return !!state.loggedinUser
+        },
     //     isAdmin(state) {
     //         return state.loggedinUser && state.loggedinUser.isAdmin
     //     }
-    // },
+    },
     mutations: {
         [SET_USER](state, { user }) {
             state.loggedinUser = user;
@@ -56,18 +56,18 @@ export default {
                     throw err;
                 });
         },
-        // [SIGNIN]({ commit }, { signinDetails }) {
-        //     UserService
-        //         .login(signinDetails)
-        //         .then(res => {
-        //             commit({ type: SET_USER, user: res.user });
-        //             saveToLocalStorage(res.user)
-        //         })
-        //         .catch(err => {
-        //             console.log(err)
-        //             throw err;
-        //         });
-        // },
+        [SIGNIN]({ commit }, { signinDetails }) {
+            UserService
+                .login(signinDetails)
+                .then(res => {
+                    commit({ type: SET_USER, user: res.user });
+                    saveToLocalStorage(res.user)
+                })
+                .catch(err => {
+                    console.log(err)
+                    throw err;
+                });
+        },
         // [SIGNOUT]({ commit }) {
         //     UserService
         //         .logout()
@@ -87,6 +87,7 @@ export default {
         // }
     }
 }
+
 
 
 function getUserFromStorage() {

@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HomePage from '@/components/HomePage'
 import BookPage from '@/components/BookPage'
 import SignUpPage from '@/components/SignUpPage'
+import SignInPage from '@/components/SignInPage'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/user/SignUpPage',
       name: 'SignUpPage',
       component: SignUpPage
+    },
+    {
+      path: '/user/SignInPage',
+      name: 'SignInPage',
+      component: SignInPage
     }
   ]
 })

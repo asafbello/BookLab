@@ -14,11 +14,11 @@
 
 <script>
 
-import { SIGNUP} from '../store/modules/UserModule.js';
+import { SIGNUP, SIGNIN} from '../store/modules/UserModule.js';
 
 
 export default {
-  name: 'SignInPage',
+  name: 'SignUnPage',
   data() {
         return {
             loginDetails: { username: '', pass: '' },
@@ -31,16 +31,16 @@ export default {
                 .then(_ => { this.$router.push('/') })
                 .catch(err => console.log(err));
         },
-        // login() {
-        //     this.$store.dispatch({type: SIGNIN, signinDetails: this.loginDetails})
-        //     .then(_ => { this.$router.push('/') })
-        //     .catch(err => {
-        //         console.log(err);
-        //         EventBusService.$emit(SHOW_MSG,
-        //             { type: 'danger', txt: err.response.data.error })
-        //     });
+        login() {
+            this.$store.dispatch({type: SIGNIN, signinDetails: this.loginDetails})
+            .then(_ => { this.$router.push('/') })
+            .catch(err => {
+                console.log(err);
+                // EventBusService.$emit(SHOW_MSG,
+                //     { type: 'danger', txt: err.response.data.error })
+            });
 
-        // }
+        }
     }
 } 
 </script>

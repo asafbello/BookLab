@@ -13,12 +13,12 @@ function signup(userDetails) {
         .catch(err => err)
 }
 
-// function login(userCreds) {
-//     return axios.post(`${URL}/login`, userCreds)
-//         .then(({ data }) => {
-//             return data
-//         })
-// }
+function login(userCreds) {
+    return axios.post(`${URL}/login`, userCreds)
+        .then(({ data }) => {
+            return data
+        })
+}
 
 // function logout() {
 //     return axios.get(`${URL}/logout`)
@@ -31,7 +31,7 @@ function signup(userDetails) {
 
 export default {
     signup,
-    // login,
+    login,
     // logout,
     // toggleLike,
 } 
