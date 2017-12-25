@@ -5,6 +5,9 @@
       <button>Add to shelf</button>
       <img class="book-img" src="/FrontEnd/assets/img/harryPotter.jpg" />
       <span>Rating</span>
+    <main class="book-content">
+      
+    </main>
     </div>
   </section>
 </template>
