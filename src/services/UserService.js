@@ -25,7 +25,6 @@ function logout() {
 }
 
 function deleteUser(userId) {
-    logout()
     // console.log('assaf', userId);
     return axios.delete(`${URL}/data/user/${userId}`)
 }

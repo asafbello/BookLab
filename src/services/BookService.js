@@ -6,7 +6,6 @@ function emptyBook() {
 }
 
 function getBooks() {
-    console.log('getBooks');
     return axios
             .get(BOOK_URL)
             .then(res => res.data)

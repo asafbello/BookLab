@@ -58,7 +58,6 @@ export default {
                 });
         },
         [DELETE_USER]({commit}, {userId}) {
-            console.log('elad hamelch')
             return UserService.deleteUser(userId)
                 .then(_ => {
                         commit({type: SIGNOUT, userId})

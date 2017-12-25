@@ -46,7 +46,6 @@ export default {
     this.$store
       .dispatch({ type: LOAD_BOOKS })
       .then(books => {
-        console.log("we have books :)");
       })
       .catch(err => {
         console.log("err", err);

@@ -14,7 +14,7 @@
 
 <script>
 import store from "../store/store.js";
-import {DELETE_USER} from '../store/modules/UserModule.js';
+import {DELETE_USER, SIGNOUT} from '../store/modules/UserModule.js';
 
 export default {
   name: "ProfilePage",
@@ -38,6 +38,8 @@ export default {
       console.log('id ', userId)
       this.$router.push("/");
       this.$store.dispatch({ type: DELETE_USER, userId })
+      this.$store.dispatch({ type: SIGNOUT, userId })
+      console.log('delete');
     }
   }
 };
