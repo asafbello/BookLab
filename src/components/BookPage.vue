@@ -7,7 +7,7 @@
       <span>Rating</span>
     <main class="book-content">
       <h2>Book Title</h2>
-      <h5></h5>
+      <h5>Get in video</h5>
     </main>
     </div>
   </section>
