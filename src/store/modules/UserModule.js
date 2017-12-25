@@ -5,7 +5,7 @@ import UserService from "../../services/UserService.js";
 export const SIGNUP = 'user/signup';
 export const SIGNIN = 'user/signin';
 export const SET_USER = 'user/setUser';
-// export const SIGNOUT = 'user/signout';
+export const SIGNOUT = 'user/signout';
 // export const TOGGLE_LIKE = 'user/toggleLike';
 
 
@@ -27,9 +27,9 @@ export default {
         [SET_USER](state, { user }) {
             state.loggedinUser = user;
         },
-        // [SIGNOUT](state) {
-        //     state.loggedinUser = null;
-        // },
+        [SIGNOUT](state) {
+            state.loggedinUser = null;
+        },
         // [TOGGLE_LIKE](state, { carId }) {
         //     if (!state.loggedinUser.likedCarIds) {
         //         Vue.set(state.loggedinUser, 'likedCarIds', []);
@@ -68,14 +68,14 @@ export default {
                     throw err;
                 });
         },
-        // [SIGNOUT]({ commit }) {
-        //     UserService
-        //         .logout()
-        //         .then(_ => {
-        //             commit({ type: SIGNOUT })
-        //             saveToLocalStorage(null);
-        //         })
-        // },
+        [SIGNOUT]({ commit }) {
+            UserService
+                .logout()
+                .then(_ => {
+                    commit({ type: SIGNOUT })
+                    saveToLocalStorage(null);
+                })
+        },
         // [TOGGLE_LIKE]({ commit, state }, { carId }) {
         //     UserService
         //         .toggleLike(state.loggedinUser._id, carId)

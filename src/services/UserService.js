@@ -20,9 +20,9 @@ function login(userCreds) {
         })
 }
 
-// function logout() {
-//     return axios.get(`${URL}/logout`)
-// }
+function logout() {
+    return axios.get(`${URL}/logout`)
+}
 
 // function toggleLike(userId, carId) {
 //    return axios.post(`${URL}/data/${userId}/liked/${carId}`)
@@ -32,6 +32,6 @@ function login(userCreds) {
 export default {
     signup,
     login,
-    // logout,
+    logout,
     // toggleLike,
 } 

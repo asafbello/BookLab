@@ -7,14 +7,20 @@
             <el-menu-item index="1">People</el-menu-item>
             <router-link to="/user/SignUpPage" v-if="!loggedInUser"><el-menu-item index="2">sign up</el-menu-item></router-link>
             <router-link to="/user/SignInPage" v-if="!loggedInUser"><el-menu-item index="4">sign In</el-menu-item></router-link>
-            <el-menu-item index="1" v-if="loggedInUser">Hello {{loggedInUser.username}}</el-menu-item>
 
+  <el-submenu index="5"  v-if="loggedInUser">
+    <template slot="title">Hello {{loggedInUser.username}}</template>
+      <el-menu-item index="5-1" v-if="loggedInUser" @click="logout">Sign Out</el-menu-item>
+      <el-menu-item index="5-1" v-if="loggedInUser">Go to profile</el-menu-item>
+  </el-submenu>
 
-            
             </el-menu>
     </div>
 </template>
 <script>
+
+import { SIGNOUT } from '../store/modules/UserModule.js';
+
 export default {
   data() {
     return {
@@ -23,13 +29,18 @@ export default {
     };
   },
   methods: {
-    handleSelect(key, keyPath) {}
-  },
-      computed : {
-        loggedInUser() {
-            return this.$store.state.user.loggedinUser;
-        }
+    handleSelect(key, keyPath) {},
+    logout() {
+      this.$store.dispatch({ type: SIGNOUT }).then(() => {
+        this.$router.push("/");
+      });
     }
+  },
+  computed: {
+    loggedInUser() {
+      return this.$store.state.user.loggedinUser;
+    }
+  }
 };
 </script>
 
