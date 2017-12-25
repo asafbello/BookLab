@@ -6,8 +6,13 @@ export const SIGNUP = 'user/signup';
 export const SIGNIN = 'user/signin';
 export const SET_USER = 'user/setUser';
 export const SIGNOUT = 'user/signout';
+<<<<<<< HEAD
 export const DELETE_USER = 'user/deleteUser';
 // export const TOGGLE_LIKE = 'user/toggleLike';
+=======
+export const ADD_BOOK_SHELF = 'user/addBookShelf';
+
+>>>>>>> master
 
 
 var STORAGE_KEY = 'loggedinUser';
@@ -31,18 +36,9 @@ export default {
         [SIGNOUT](state) {
             state.loggedinUser = null;
         },
-        // [TOGGLE_LIKE](state, { carId }) {
-        //     if (!state.loggedinUser.likedCarIds) {
-        //         Vue.set(state.loggedinUser, 'likedCarIds', []);
-        //     }
-        //     var idxLike = state.loggedinUser.likedCarIds
-        //         .findIndex(likeCarId => likeCarId === carId);
-        //     if (idxLike === -1) {
-        //         state.loggedinUser.likedCarIds.push(carId)
-        //     } else {
-        //         state.loggedinUser.likedCarIds.splice(idxLike, 1)
-        //     }
-        // }
+        // [UPDATE_USER](state) {
+        //     state.loggedinUser = null;
+        // },
     },
     actions: {
         [SIGNUP]({ commit }, { signupDetails }) {
@@ -83,12 +79,11 @@ export default {
                     saveToLocalStorage(null);
                 })
         },
-        // [TOGGLE_LIKE]({ commit, state }, { carId }) {
+        // [UPDATE_USER]({ commit, state }, { googleId }) {
         //     UserService
-        //         .toggleLike(state.loggedinUser._id, carId)
+        //         .addBookShelf(state.loggedinUser._id, googleId)
         //         .then(_ => {
-        //             commit({type: TOGGLE_LIKED_BY_USER, carId})
-        //             commit({ type: TOGGLE_LIKE, carId })
+        //             commit({type: UPDATE_USER, googleId})
         //             saveToLocalStorage(state.loggedinUser)
         //         })
         // }
