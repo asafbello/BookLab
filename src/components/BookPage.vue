@@ -15,15 +15,15 @@
     <main class="book-content" v-if="googleBook">
       <h1>{{googleBook.title}}/ <span class="pageCount">{{googleBook.pages}} pages</span></h1>
       <h5>{{googleBook.author}}</h5>
-      <el-button class="chat-btn" type="primary">Chat about this book</el-button>
       <el-button type="success">Add review</el-button>
+        <el-button class="vid-review" type="success">Video review</el-button>
+        <el-button type="info">Get a copy</el-button>
       <article class="book-review">
-        <p v-html="googleBook.desc"></p>
+        <p class="book-desc" v-html="googleBook.desc"></p>
         <span class="friends-review"></span>
       </article>
       <article class="links">
-        <el-button type="info">Get a copy</el-button>
-        <el-button class="vid-review" type="success">See it in video</el-button>
+      <el-button class="chat-btn" type="primary">Chat about this book <span class="down-arrow">↓</span></el-button>
       </article>
     </main>
   </section>
@@ -108,5 +108,13 @@ export default {
 
 .pageCount {
   font-size: 16px;
+}
+
+.down-arrow {
+  margin-left: 5px;
+}
+
+.book-desc {
+  padding-right: 10px;
 }
 </style>
