@@ -4,29 +4,25 @@
       <el-button class="add-book" type="primary" @click="addBook(googleBookId)">Add to shelf</el-button>
       <img v-if="googleBook" class="book-img" :src="googleBook.img" />
       <!-- Rating -->
-      <el-rate
-        v-model="ratingVal"
-        :texts="['Nah', 'Disappointed', 'Niceee', 'Great', 'Masterpiece!']"
-        show-text>
-        <span>Rate it</span>
-      </el-rate>
+      <div class="block">
+        <span class="rating-title">Avg Rating</span>
+        <el-rate @click.native="addRateToBook" v-model="ratingVal"></el-rate>
+      </div>
     </div>
     <!-- Book content -->
     <main class="book-content" v-if="googleBook">
       <h1>{{googleBook.title}}/ <span class="pageCount">{{googleBook.pages}} pages</span></h1>
       <h5>{{googleBook.author}}</h5>
       <el-button type="success" @click="showReviewModal">Add review</el-button>
-        <el-button class="vid-review" type="success">Video review</el-button>
         <el-button type="info">Get a copy</el-button>
       <article class="book-review">
         <p class="book-desc" v-html="googleBook.desc"></p>
         <span class="friends-review"></span>
       </article>
       <article class="links">
-        <el-button type="info">Get a copy</el-button>
+      <el-button class="chat-btn" type="primary">Chat about this book <span class="down-arrow">↓</span></el-button>
         <el-button class="vid-review" type="success">Video review</el-button>
         <i class="fa fa-video-camera" aria-hidden="true"></i>
-      <el-button class="chat-btn" type="primary">Chat about this book <span class="down-arrow">↓</span></el-button>
       </article>
       <div class="modal"  v-if="showModal" @keyup.esc="showReviewModal">
       <review-modal class="review-modal"></review-modal>
@@ -77,7 +73,14 @@ export default {
           type: ADD_BOOK_TO_USER,
           googleBookId
         })
-        console.log('fetching book', book); 
+      })
+    },
+    addRateToBook() {
+      this.googleBook.rate = this.ratingVal;
+      console.log(this.googleBook);
+      this.$store.dispatch({
+        type: ADD_BOOK,
+        book: this.googleBook
       })
     }
   }
@@ -93,21 +96,33 @@ export default {
   top: 50%;
   left: 50%;
   right: 50%;
-  background: rgba(255, 255, 255, 0.829);
+  background: rgba(0,0,0,0.4);
   padding: 15vw;
   margin: 5vw
 }
 .modal{
-  /* display: block; */
   position: fixed;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.445)
+  background: rgba(0, 0, 0, 0.445);
+  overflow: scroll;
 }
 .book-header {
   display: flex;
+}
+
+.block {
+  width: 100%;
+}
+
+.modal-header {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 75%;
 }
 
 .book-aside {
@@ -151,3 +166,10 @@ export default {
   padding-right: 10px;
 }
 </style>
+
+      // <el-rate class="rating"
+      //   v-model="ratingVal"
+      //   :texts="['Nah', 'Disappointed', 'Niceee', 'Great', 'Masterpiece!']"
+      //   show-text>
+      //   <span>Rate it</span>
+      // </el-rate>
