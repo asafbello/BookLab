@@ -34,12 +34,6 @@ function saveBook(book) {
     if (book._id) return axios.put(_getBookUrl(book._id), book)
     else return axios.post(BOOK_URL, book);
 }
-// function addBook(bookId) {
-//     var book = getBookFromGoogle(bookId)
-//   return axios
-//             .put(book)
-
-// }
 
 function setBook(bookFromGoogle) {
     return {
@@ -56,13 +50,11 @@ function deleteBooK(bookId) {
     return axios.delete(_getBookUrl(bookId))
 }
 
-
 function getBookById(bookId) {
     return axios
         .get(_getBookUrl(bookId))
         .then(res => res.data)
 }
-
 
 function _getBookUrl(bookId) {
     return `${BOOK_URL}/${bookId}`;
@@ -76,11 +68,24 @@ function getBookFromGoogle(googleKey) {
         });
 }
 
+function setGoogleBook(googleBook) {
+    return {
+        id: googleBook.id,
+        title: googleBook.volumeInfo.title,
+        pages: googleBook.volumeInfo.pageCount,
+        author: googleBook.volumeInfo.authors[0],
+        desc: googleBook.volumeInfo.description,
+        img: googleBook.volumeInfo.imageLinks.medium
+    }
+}
+
 
 export default {
     getBooks,
     getBooksShelf,
-    getBookFromGoogle
+    getBookFromGoogle,
+    saveBook,
+    setGoogleBook
 }
 
 

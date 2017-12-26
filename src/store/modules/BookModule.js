@@ -5,7 +5,7 @@ export const LOAD_BOOK = 'book/loadBook';
 export const DELETE_BOOK = 'book/deletebooks';
 export const ADD_BOOK = 'books/addBook'
 export const GET_BOOK = 'books/getBook'
-export const ADD_BOOK_TO_USER = 'books/addBookToUser'
+// export const ADD_RATE_TO_BOOK_ = 'books/addRateToBook'
 
 
 const SET_BOOKS = 'books/setBooks';
@@ -36,14 +36,15 @@ export default {
         },
         [SET_BOOK] (state, {book}) {
             console.log({book})
-            state.currGoogleBook = {
-                googleBookId: book.id,
-                title: book.volumeInfo.title,
-                pages: book.volumeInfo.pageCount,
-                author: book.volumeInfo.authors[0],
-                desc: book.volumeInfo.description,
-                img: book.volumeInfo.imageLinks.medium
-            };
+            state.currGoogleBook = BookService.setGoogleBook(book)
+            //  {
+            //     id: book.id,
+            //     title: book.volumeInfo.title,
+            //     pages: book.volumeInfo.pageCount,
+            //     author: book.volumeInfo.authors[0],
+            //     desc: book.volumeInfo.description,
+            //     img: book.volumeInfo.imageLinks.medium
+            // };
         }
     },
 
@@ -61,9 +62,8 @@ export default {
                     throw err;
                 })
         },
-        [ADD_BOOK] ({commit}, {bookFromGoogle}) {
-            console.log('book',bookFromGoogle);
-            return BookService.addBook(bookFromGoogle)
+        [ADD_BOOK] ({commit}, {book}) {
+            return BookService.saveBook(book)
                 .then(book => {
                     commit({
                         type: ADD_BOOK, 
@@ -81,9 +81,15 @@ export default {
             })
 
         },
-        [ADD_BOOK_TO_USER]({commit}, {googleBookId}) {
-            // return BookService.
-        }
+        // [ADD_RATE_TO_BOOK]({commit}, {googleBookId}) {
+        //     return BookService.addGeneralRate(googleBookId)
+        //     .then(book => {
+        //         commit({
+        //             type: '',
+        //             googleBookId
+        //         })
+        //     })
+        // }
     }
 }
 
