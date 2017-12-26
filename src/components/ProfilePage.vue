@@ -1,10 +1,6 @@
 <template>
-    <div>
-        <!-- <h1>{{loggedinUser.username}}  </h1>
-        <img :src="loggedinUser.avatar" alt="No pic avalible" class="profile-img">
-        <button class="edit-btn" @click="editProfile" v-if="!isEditing"> Edit Profile</button>
-        <button class="edit-btn"  @click="deleteUser(loggedinUser._id)">Delete Profile</button> -->
-
+    <div class="main-container">
+  
     <el-card :body-style="{ padding: '0px' }" class="left-panel">
       <img :src="loggedinUser.avatar" class="image">
       <div style="padding: 14px;" class="left-panel-content">
@@ -18,9 +14,15 @@
     </el-card>
 
 
+      <div class="statistics">
+          <div class="statistics-item"><p>Pages read </p><i class="fa fa-book" aria-hidden="true"></i></div>
+          <div class="statistics-item"><p>Books read </p><i class="fa fa-check" aria-hidden="true"></i></div>
+          <div class="statistics-item"><p>Books in read list</p> <i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
+      </div>
+          <!-- <div class="shelf"><shelf-cmp></shelf-cmp></div> -->
 
 
-        <form class="signin-form"  v-if="isEditing">
+        <form class="signin-form left-panel"  v-if="isEditing">
              <el-input type="text" placeholder="name" v-model="updatedUser.name"></el-input>
              <el-input type="text" placeholder="last name" v-model="updatedUser.lastName"></el-input>
              <el-input type="text" placeholder="username" v-model="updatedUser.username"></el-input>
@@ -29,12 +31,14 @@
             <button v-if="isEditing" @click="saveUpdatedPrifile">Save</button>
             <button  v-if="isEditing" @click="isEditing = false">Cancel</button>
         </form>
+
         
     </div>
 
 </template>
 
 <script>
+import ShelfCmp from "./ShelfCmp";
 import store from "../store/store.js";
 import {
   DELETE_USER,
@@ -44,6 +48,9 @@ import {
 
 export default {
   name: "ProfilePage",
+    components: {
+    ShelfCmp
+  },
   computed: {
     loggedinUser() {
       return this.$store.state.user.loggedinUser;
@@ -63,7 +70,8 @@ export default {
         isAdmin: "",
         reviews: this.$store.state.user.loggedinUser.bookReviews,
         friends: this.$store.state.user.loggedinUser.friends,
-        readList: this.$store.state.user.loggedinUser.readList
+        readList: this.$store.state.user.loggedinUser.readList,
+        joinedAt: this.$store.state.user.loggedinUser.joinedAt
       }
     };
   },
@@ -77,8 +85,6 @@ export default {
 
     saveUpdatedPrifile() {
       var userId = this.$store.state.user.loggedinUser._id;
-      //  console.log('userId: ', userId);
-      //  console.log('updatedUser: ', this.updatedUser);
       this.$store.dispatch({
         type: UPDATE_USER,
         userId,
@@ -88,7 +94,6 @@ export default {
     },
 
     deleteUser(userId) {
-      // console.log('id ', userId)
       this.$router.push("/");
       this.$store.dispatch({ type: DELETE_USER, userId });
       this.$store.dispatch({ type: SIGNOUT, userId });
@@ -99,12 +104,48 @@ export default {
 </script>
 
 <style scoped>
+
+.wrapper {
+  display: flex;
+  flex-flow: column;
+}
+
+.shelf {
+  width: 30%;
+}
+
+.statistics-item {
+  display: flex;
+  flex-direction: column-reverse;
+  color: #999;
+}
+
+.main-container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.statistics {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  align-self: flex-start;
+  margin-top: 6%;
+  margin-right: 15%;
+}
+
+.fa {
+  font-size: 5em;
+}
+
 input {
   border: none;
   background: inherit;
 }
 .left-panel {
-  width: 20%;
+  width: 15%;
   margin-top: 6%;
   margin-left: 3%;
 }

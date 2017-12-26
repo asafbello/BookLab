@@ -92,8 +92,8 @@ export default {
 
 
 function getUserFromStorage() {
-    // var loggedinUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
-    // return loggedinUser;
+    var loggedinUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
+    return loggedinUser;
     return 
 }
 
