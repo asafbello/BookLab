@@ -13,11 +13,13 @@
     </section>
     <section class="answers">
         <div class="books-res" v-for="book in bookSearchRes">
-              <p> {{book.volumeInfo.title}}  </p>
+          <el-tooltip :content="book.volumeInfo.description" placement="bottom" effect="light">
+                <el-button>{{book.volumeInfo.title}}</el-button>
+          </el-tooltip>
                 <!-- <img :src="book.volumeInfo.imageLinks.thumbnail" /> -->
-            <router-link :to="'/book/' + book.id"> <el-button type="primary">To Book Page</el-button></router-link>
+            <router-link :to="'/book/' + book.id"> <el-button type="primary" size="mini">To Book Page</el-button></router-link>
             <el-badge :value="booksToDisplay.length" class="item">
-              <el-button @click="addBook(book.googleId)">Add to my Shelf</el-button>
+              <el-button @click="addBook(book.googleId)" size="mini"><i class="fa fa-book" aria-hidden="true"></i></el-button>
             </el-badge>
         </div>
       </section>
@@ -89,7 +91,7 @@ export default {
 
 <style scoped>
 .search-book {
-  padding: 2vw 3vw;
+  padding: 2vw 3vw 0  3vw;
   display: flex;
   flex-direction: row;
   flex: 1;
@@ -99,16 +101,25 @@ export default {
   width: 70vw;
 }
 .answers {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  position: absolute;
   z-index: 99;
-  align-items: center;
+  left:15%;
+  /* right:15%; */
+  margin-left:auto;
+  margin-right:auto;
 }
 .books-res {
   display: flex;
-  border: 1px white dashed;
+  align-items: center;
+  justify-content: center;
+  border: .1vw rgb(211, 211, 211) dashed;
   background-color: rgba(0, 0, 0, 0.342);
-  width: 100%;
+  width: 70vw;
   font-size: 0.8em;
+  margin: .3vw;
+}
+.books-res *{
+  padding: .3vw;
 }
 </style>
