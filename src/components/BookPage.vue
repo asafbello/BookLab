@@ -14,7 +14,6 @@
       <h1>{{googleBook.title}}/ <span class="pageCount">{{googleBook.pages}} pages</span></h1>
       <h5>{{googleBook.author}}</h5>
       <el-button type="success" @click="showReviewModal">Add review</el-button>
-        <el-button class="vid-review" type="success">Video review</el-button>
         <el-button type="info">Get a copy</el-button>
       <article class="book-review">
         <p class="book-desc" v-html="googleBook.desc"></p>
