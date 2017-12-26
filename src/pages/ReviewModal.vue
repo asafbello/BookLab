@@ -1,18 +1,17 @@
 <template>
     <form class="modal-header">
-        <h1>{{googleBook.title}}</h1>
-        <h2>{{googleBook.author}}</h2>
-        <el-rate
+        <h1 class="book-details">{{googleBook.title}} <span>/ {{googleBook.author}}</span></h1>
+        <el-rate class="rating"
             v-model="ratingVal"
             :texts="['Nah', 'Disappointed', 'Niceee', 'Great', 'Masterpiece!']"
             show-text>
             <span>Your rating</span>
-            <p>So, what d'you think?</p>
-            <textarea placeholder="Enter review(optional)"></textarea>
        </el-rate>
+            <p>So, what d'you think?</p>
+            <textarea rows="10" cols="50" placeholder="Enter review(optional)"></textarea>
             <p>Dates read: </p>
             <div class="block">
-                <span class="demonstration">With quick options</span>
+                <span class="demonstration"></span>
                 <el-date-picker
                 v-model="value7"
                 type="daterange"
@@ -24,6 +23,9 @@
                 :picker-options="pickerOptions2">
                 </el-date-picker>
              </div>
+             <br>
+               <el-button type="success">Save</el-button>
+               <el-button type="info">Cancel</el-button>
     </form>
 </template>
 
