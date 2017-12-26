@@ -5,7 +5,7 @@ export const LOAD_BOOK = 'book/loadBook';
 export const DELETE_BOOK = 'book/deletebooks';
 export const ADD_BOOK = 'books/addBook'
 export const GET_BOOK = 'books/getBook'
-// export const ADD_RATE_TO_BOOK_ = 'books/addRateToBook'
+export const UPDATE_BOOK = 'books/updateBook'
 
 
 const SET_BOOKS = 'books/setBooks';
@@ -75,15 +75,10 @@ export default {
                 })
 
         },
-        // [ADD_RATE_TO_BOOK]({commit}, {googleBookId}) {
-        //     return BookService.addGeneralRate(googleBookId)
-        //     .then(book => {
-        //         commit({
-        //             type: '',
-        //             googleBookId
-        //         })
-        //     })
-        // }
+        [UPDATE_BOOK]({commit}, {review}) {
+            console.log('inside update book in store', {review});
+        }
+
     }
 }
 

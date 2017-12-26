@@ -33,7 +33,7 @@
 
 <script>
 import BookService from "../services/BookService.js";
-import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
+import { ADD_BOOK, GET_BOOK, UPDATE_BOOK } from "../store/modules/BookModule.js";
 import ReviewModal from "../pages/ReviewModal.vue";
 
 export default {
@@ -60,6 +60,12 @@ export default {
   computed: {
     currBook() {
       return this.$store.getters.currentBook;
+    },
+        isUser() {
+      return this.$store.getters.isUser;
+    },
+    loggedInUser() {
+      return this.$store.state.user.loggedinUser;
     }
   },
   methods: {
@@ -76,10 +82,18 @@ export default {
     },
     addRateToBook() {
       this.currBook.rate = this.ratingVal;
+      var reviewObj = {
+        createdAt: Date.now(),
+        byUserId: this.loggedInUser._id,
+        review: {
+          rate: this.ratingVal,
+          txt: 'Font Awesome!'
+        }
+      }
       console.log(this.currBook);
       this.$store.dispatch({
-        type: ADD_BOOK,
-        bookToAdd: this.currBook
+          type: UPDATE_BOOK,
+          review: reviewObj
       });
     }
   }
