@@ -31,6 +31,7 @@
 export default {
   data() {
     return {
+      ratingVal: null,
       pickerOptions2: {
         shortcuts: [
           {
@@ -73,11 +74,11 @@ export default {
       googleBookId: googleBookId
     });
   },
-    computed: {
-    googleBook(){
-      return this.$store.state.book.currGoogleBook
+  computed: {
+    googleBook() {
+      return this.$store.state.book.currGoogleBook;
     }
-  },
+  }
 };
 </script>
 

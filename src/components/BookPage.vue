@@ -23,10 +23,9 @@
         <span class="friends-review"></span>
       </article>
       <article class="links">
-        <el-button type="info">Get a copy</el-button>
+      <el-button class="chat-btn" type="primary">Chat about this book <span class="down-arrow">↓</span></el-button>
         <el-button class="vid-review" type="success">Video review</el-button>
         <i class="fa fa-video-camera" aria-hidden="true"></i>
-      <el-button class="chat-btn" type="primary">Chat about this book <span class="down-arrow">↓</span></el-button>
       </article>
     </main>
   </section>
