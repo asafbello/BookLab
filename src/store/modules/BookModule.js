@@ -20,7 +20,7 @@ export default {
         bookFromGoogle(context) {
             var { currGoogleBook } = context;
             return context.currGoogleBook
-     },
+        },
         booksToDisplay(context) {
             var { books } = context;
             return books
@@ -30,12 +30,12 @@ export default {
         [SET_BOOKS](state, { books }) {
             state.books = books;
         },
-        [ADD_BOOK](state, {book}) {
-            console.log({book});
+        [ADD_BOOK](state, { book }) {
+            // console.log({book});
             state.books.push(book);
         },
-        [SET_BOOK] (state, {book}) {
-            console.log({book})
+        [SET_BOOK](state, { book }) {
+            // console.log({book})
             state.currGoogleBook = BookService.setGoogleBook(book)
             //  {
             //     id: book.id,
@@ -49,11 +49,12 @@ export default {
     },
 
     actions: {
-        [LOAD_BOOKS]({ commit, rootState }) {
-            var shelf = rootState.user.loggedinUser.shelf;
+        [LOAD_BOOKS]({ commit, rootState }, { shelf }) {
+            if (rootState.user.loggedinUser) shelf = rootState.user.loggedinUser.shelf
+            console.log('shelf', shelf);
             return BookService.getBooksShelf(shelf)
                 .then(books => {
-                    console.log('books',books);
+                    // console.log('books',books);
                     commit({ type: SET_BOOKS, books })
 
                 })
@@ -62,23 +63,23 @@ export default {
                     throw err;
                 })
         },
-        [ADD_BOOK] ({commit}, {book}) {
+        [ADD_BOOK]({ commit }, { book }) {
             return BookService.saveBook(book)
                 .then(book => {
                     commit({
-                        type: ADD_BOOK, 
+                        type: ADD_BOOK,
                         book
                     })
-                } )
-        },
-        [GET_BOOK] ({commit}, {googleBookId}) {
-            return BookService.getBookFromGoogle(googleBookId)
-            .then(book => {
-                commit({
-                    type: SET_BOOK, 
-                    book
                 })
-            })
+        },
+        [GET_BOOK]({ commit }, { googleBookId }) {
+            return BookService.getBookFromGoogle(googleBookId)
+                .then(book => {
+                    commit({
+                        type: SET_BOOK,
+                        book
+                    })
+                })
 
         },
         // [ADD_RATE_TO_BOOK]({commit}, {googleBookId}) {

@@ -95,14 +95,13 @@ export default {
         //         })
         // }
     }
-}
-
+} 
 
 
 function getUserFromStorage() {
-    var loggedinUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
-    console.log('GETTING FROM STORAGE', loggedinUser);
-    return loggedinUser;
+    // var loggedinUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
+    // return loggedinUser;
+    return 
 }
 
 function saveToLocalStorage(user) {

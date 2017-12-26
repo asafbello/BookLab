@@ -4,9 +4,9 @@
   <ul class="books">
          <li v-for="book in shelf" :key="book.id">
         <div class="a-book">
-
+          <router-link :to="'/book/' + book.id">
           <img :src="book.volumeInfo.imageLinks.medium" alt="">
-
+          </router-link>
           <span>{{book.volumeInfo.title}}</span>
         </div>
         </li>
