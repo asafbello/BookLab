@@ -33,8 +33,13 @@
 
 <script>
 import BookService from "../services/BookService.js";
-import { ADD_BOOK, GET_BOOK, UPDATE_BOOK } from "../store/modules/BookModule.js";
+import {
+  ADD_BOOK,
+  GET_BOOK,
+  UPDATE_BOOK
+} from "../store/modules/BookModule.js";
 import ReviewModal from "../pages/ReviewModal.vue";
+import _ from "lodash";
 
 export default {
   name: "BookPage",
@@ -49,19 +54,30 @@ export default {
   },
   created() {
     var googleBookId = this.$route.params.googleBookId;
-    var self = this.$store;
-    BookService.getBookFromGoogle(googleBookId).then(function (bookToAdd) {
-      self.dispatch({
-        type: ADD_BOOK,
-        bookToAdd
-      });
+    BookService.getBookByForeignId(googleBookId).then(book => {
+      if (book) {
+        this.$store.commit({
+          type: ADD_BOOK,
+          book
+        });
+      } else {
+          var self = this.$store;
+          BookService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
+            console.log(bookToAdd);
+            if (bookToAdd._id) return;
+            self.dispatch({
+              type: ADD_BOOK,
+              bookToAdd
+          });
+        });
+      }
     });
   },
   computed: {
     currBook() {
       return this.$store.getters.currentBook;
     },
-        isUser() {
+    isUser() {
       return this.$store.getters.isUser;
     },
     loggedInUser() {
@@ -87,14 +103,24 @@ export default {
         byUserId: this.loggedInUser._id,
         review: {
           rate: this.ratingVal,
-          txt: 'Font Awesome!'
+          txt: "Font Awesome!"
         }
-      }
+      };
       console.log(this.currBook);
-      this.$store.dispatch({
+      this.$store
+        .dispatch({
           type: UPDATE_BOOK,
           review: reviewObj
-      });
+        })
+        .then(_ => {
+          var updatedUser = _.cloneDeep(this.loggedInUser);
+          updatedUser.reviews.push(reviewObj);
+          this.$store.dispatch({
+            type: UPDATE_USER,
+            userId: this.loggedInUser._id,
+            updatedUser
+          });
+        });
     }
   }
 };

@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const BOOK_URL = 'http://localhost:3003/data/book';
+const GET_BOOK_URL = 'http://localhost:3003/book'
 
 function emptyBook() {
     return { goodReadsKey: '', rate: 3, imgSrc: '', reviews: [] }
@@ -15,7 +16,6 @@ function getBooksShelf(shelf) {
     });
     return Promise.all(prmBooks)
         .then(values => {
-            console.log('values', values);
             return values
         })
         .catch(err => console.log(err, 'cant find shelf'))
@@ -31,10 +31,8 @@ function getBooks() {
 }
 
 function saveBook(book) {
-    console.log({book});
-    if (book._id)
-    {
-        console.log('inside savebook');
+    console.log(book);
+    if (book._id) {
         return axios.put(_getBookUrl(book._id), book)
     }
     else {
@@ -63,6 +61,18 @@ function getBookById(bookId) {
         .get(_getBookUrl(bookId))
         .then(res => res.data)
 }
+function getBookByForeignId(foreignId) {
+    console.log({ foreignId });
+    return axios
+        .get(`${GET_BOOK_URL}/${foreignId}`)
+        .then(res => {
+            console.log(res)
+            return res.data
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
 
 function _getBookUrl(bookId) {
     return `${BOOK_URL}/${bookId}`;
@@ -71,7 +81,6 @@ function _getBookUrl(bookId) {
 function getBookFromGoogle(googleKey) {
     return axios.get(`https://www.googleapis.com/books/v1/volumes/${googleKey}`)
         .then(res => {
-            console.log(res.data);
             return res.data;
         });
 }
@@ -84,7 +93,7 @@ function createBookObj(googleBook) {
         author: googleBook.volumeInfo.authors[0],
         desc: googleBook.volumeInfo.description,
         img: googleBook.volumeInfo.imageLinks.medium,
-        rate: null
+        reviews: []
     }
 }
 
@@ -94,7 +103,8 @@ export default {
     getBooksShelf,
     getBookFromGoogle,
     saveBook,
-    createBookObj
+    createBookObj,
+    getBookByForeignId
 }
 
 

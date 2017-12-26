@@ -1,4 +1,5 @@
 import BookService from "../../services/BookService.js";
+import _ from 'lodash'
 
 export const LOAD_BOOKS = 'book/loadBooks';
 export const LOAD_BOOK = 'book/loadBook';
@@ -30,11 +31,11 @@ export default {
             state.books = books;
         },
         [ADD_BOOK](state, {book}) {
-            console.log({book});
+            // console.log({book});
             state.currBook = book;
         },
         [SET_BOOK] (state, {book}) {
-            console.log({book})
+            // console.log({book})
             state.currGoogleBook = BookService.createBookObj(book)
         }
     },
@@ -55,7 +56,8 @@ export default {
                 })
         },
         [ADD_BOOK] ({commit}, {bookToAdd}) {
-            console.log({bookToAdd});
+          
+            console.log(bookToAdd.data);
             return BookService.saveBook(bookToAdd)
                 .then(book => {
                     console.log('----',book)
@@ -75,8 +77,17 @@ export default {
                 })
 
         },
-        [UPDATE_BOOK]({commit}, {review}) {
-            console.log('inside update book in store', {review});
+        [UPDATE_BOOK]({commit, rootState}, {review}) {
+            var bookToAdd =   _.cloneDeep(rootState.book.currBook);             
+            bookToAdd.reviews.push(review); 
+            console.log({bookToAdd});
+            return BookService.saveBook(bookToAdd)
+            .then(res => {
+                commit({
+                    type: ADD_BOOK, 
+                    book: res.data
+                })
+            })
         }
 
     }

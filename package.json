@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "clone-deep": "^2.0.1",
     "element-ui": "^2.0.9",
     "font-awesome-webpack": "0.0.5-beta.2",
     "google-books-search": "^0.3.1",
