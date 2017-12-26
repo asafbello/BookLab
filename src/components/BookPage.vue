@@ -2,7 +2,7 @@
   <section class="book-header">
     <div class="book-aside">
       <el-button class="add-book" type="primary" @click="addBook(googleBookId)">Add to shelf</el-button>
-      <img v-if="googleBook" class="book-img" :src="googleBook.img" />
+      <img v-if="currBook" class="book-img" :src="currBook.img" />
       <!-- Rating -->
       <div class="block">
         <span class="rating-title">Avg Rating</span>
@@ -10,18 +10,18 @@
       </div>
     </div>
     <!-- Book content -->
-    <main class="book-content" v-if="googleBook">
-      <h1>{{googleBook.title}}/ <span class="pageCount">{{googleBook.pages}} pages</span></h1>
-      <h5>{{googleBook.author}}</h5>
+    <main class="book-content" v-if="currBook">
+      <h1>{{currBook.title}}/ <span class="pageCount">{{currBook.pages}} pages</span></h1>
+      <h5>{{currBook.author}}</h5>
       <el-button type="success" @click="showReviewModal">Add review</el-button>
         <el-button type="info">Get a copy</el-button>
       <article class="book-review">
-        <p class="book-desc" v-html="googleBook.desc"></p>
+        <p class="book-desc" v-html="currBook.desc"></p>
         <span class="friends-review"></span>
       </article>
       <article class="links">
       <el-button class="chat-btn" type="primary">Chat about this book <span class="down-arrow">↓</span></el-button>
-        <el-button class="vid-review" type="success">Video review</el-button>
+        <el-button class="vid-review" type="primary">Video review</el-button>
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
       <div class="modal"  v-if="showModal" @keyup.esc="showReviewModal">
@@ -32,13 +32,12 @@
 </template>
 
 <script>
-
-import BookService from '../services/BookService.js'
-import { ADD_BOOK, GET_BOOK } from '../store/modules/BookModule.js'
-import ReviewModal from '../pages/ReviewModal.vue'
+import BookService from "../services/BookService.js";
+import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
+import ReviewModal from "../pages/ReviewModal.vue";
 
 export default {
-  name: 'BookPage',
+  name: "BookPage",
   components: {
     ReviewModal
   },
@@ -46,61 +45,60 @@ export default {
     return {
       ratingVal: null,
       showModal: false
-    }
+    };
   },
-    created() {
-      var googleBookId = this.$route.params.googleBookId;
-      console.log({googleBookId});
-      this.$store
-          .dispatch({
-              type: GET_BOOK,
-              googleBookId: googleBookId
-            })
+  created() {
+    var googleBookId = this.$route.params.googleBookId;
+    var self = this.$store;
+    BookService.getBookFromGoogle(googleBookId).then(function (bookToAdd) {
+      self.dispatch({
+        type: ADD_BOOK,
+        bookToAdd
+      });
+    });
   },
   computed: {
-    googleBook(){
-      return this.$store.state.book.currGoogleBook
+    currBook() {
+      return this.$store.getters.currentBook;
     }
   },
   methods: {
-    showReviewModal(){
-          this.showModal = !this.showModal
+    showReviewModal() {
+      this.showModal = !this.showModal;
     },
     addBook(googleBookId) {
-      this.$store
-      .then(book => {
+      this.$store.then(book => {
         this.$store.dispatch({
           type: ADD_BOOK_TO_USER,
           googleBookId
-        })
-      })
+        });
+      });
     },
     addRateToBook() {
-      this.googleBook.rate = this.ratingVal;
-      console.log(this.googleBook);
+      this.currBook.rate = this.ratingVal;
+      console.log(this.currBook);
       this.$store.dispatch({
         type: ADD_BOOK,
-        book: this.googleBook
-      })
+        bookToAdd: this.currBook
+      });
     }
   }
 };
 </script>
 
 <style scoped>
-
-.review-modal{
+.review-modal {
   margin-right: auto;
   margin-left: auto;
   z-index: 1;
   top: 50%;
   left: 50%;
   right: 50%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   padding: 15vw;
-  margin: 5vw
+  margin: 5vw;
 }
-.modal{
+.modal {
   position: fixed;
   left: 0;
   top: 0;
@@ -118,11 +116,11 @@ export default {
 }
 
 .modal-header {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 75%;
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 75%;
 }
 
 .book-aside {
@@ -134,16 +132,10 @@ export default {
 }
 
 .add-book {
-  background: var(--info-color);
   margin-bottom: 5px;
 }
 
-.chat-btn {
-  background: var(--info-color);
-}
-
 .vid-review {
-  background: var(--secondary-color);
   border: none;
 }
 
@@ -166,10 +158,3 @@ export default {
   padding-right: 10px;
 }
 </style>
-
-      // <el-rate class="rating"
-      //   v-model="ratingVal"
-      //   :texts="['Nah', 'Disappointed', 'Niceee', 'Great', 'Masterpiece!']"
-      //   show-text>
-      //   <span>Rate it</span>
-      // </el-rate>

@@ -31,8 +31,16 @@ function getBooks() {
 }
 
 function saveBook(book) {
-    if (book._id) return axios.put(_getBookUrl(book._id), book)
-    else return axios.post(BOOK_URL, book);
+    console.log({book});
+    if (book._id)
+    {
+        console.log('inside savebook');
+        return axios.put(_getBookUrl(book._id), book)
+    }
+    else {
+        var newBook = createBookObj(book)
+        return axios.post(BOOK_URL, newBook)
+    }
 }
 
 function deleteBooK(bookId) {
@@ -57,14 +65,15 @@ function getBookFromGoogle(googleKey) {
         });
 }
 
-function setGoogleBook(googleBook) {
+function createBookObj(googleBook) {
     return {
         id: googleBook.id,
         title: googleBook.volumeInfo.title,
         pages: googleBook.volumeInfo.pageCount,
         author: googleBook.volumeInfo.authors[0],
         desc: googleBook.volumeInfo.description,
-        img: googleBook.volumeInfo.imageLinks.medium
+        img: googleBook.volumeInfo.imageLinks.medium,
+        rate: null
     }
 }
 
@@ -74,7 +83,7 @@ export default {
     getBooksShelf,
     getBookFromGoogle,
     saveBook,
-    setGoogleBook
+    createBookObj
 }
 
 

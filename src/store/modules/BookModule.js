@@ -14,12 +14,11 @@ const SET_BOOK = 'books/setBook';
 export default {
     state: {
         books: [],
-        currGoogleBook: null
+        currBook: null
     },
     getters: {
-        bookFromGoogle(context) {
-            var { currGoogleBook } = context;
-            return context.currGoogleBook
+        currentBook({currBook}) {
+            return JSON.parse(JSON.stringify(currBook));
      },
         booksToDisplay(context) {
             var { books } = context;
@@ -32,19 +31,11 @@ export default {
         },
         [ADD_BOOK](state, {book}) {
             console.log({book});
-            state.books.push(book);
+            state.currBook = book;
         },
         [SET_BOOK] (state, {book}) {
             console.log({book})
-            state.currGoogleBook = BookService.setGoogleBook(book)
-            //  {
-            //     id: book.id,
-            //     title: book.volumeInfo.title,
-            //     pages: book.volumeInfo.pageCount,
-            //     author: book.volumeInfo.authors[0],
-            //     desc: book.volumeInfo.description,
-            //     img: book.volumeInfo.imageLinks.medium
-            // };
+            state.currGoogleBook = BookService.createBookObj(book)
         }
     },
 
@@ -62,12 +53,14 @@ export default {
                     throw err;
                 })
         },
-        [ADD_BOOK] ({commit}, {book}) {
-            return BookService.saveBook(book)
+        [ADD_BOOK] ({commit}, {bookToAdd}) {
+            console.log({bookToAdd});
+            return BookService.saveBook(bookToAdd)
                 .then(book => {
+                    console.log('----',book)
                     commit({
                         type: ADD_BOOK, 
-                        book
+                        book: book.data
                     })
                 } )
         },
