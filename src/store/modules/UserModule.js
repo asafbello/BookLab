@@ -52,8 +52,8 @@ export default {
             UserService
                 .signup(signupDetails)
                 .then(res => {
-                    commit({ type: SET_USER, user: res.user })
-                    saveToLocalStorage(res.user)
+                    commit({ type: SET_USER, user: res.data.user })
+                    saveToLocalStorage(res.data.user)
                 })
                 .catch(err => {
                     console.log(err)
@@ -70,8 +70,9 @@ export default {
             UserService
                 .login(signinDetails)
                 .then(res => {
-                    commit({ type: SET_USER, user: res.user });
-                    saveToLocalStorage(res.user)
+                    console.log(res)
+                    commit({ type: SET_USER, user: res.data.user });
+                    saveToLocalStorage(res.data.user)
                 })
                 .catch(err => {
                     console.log(err)
@@ -86,14 +87,6 @@ export default {
                     saveToLocalStorage(null);
                 })
         },
-        // [UPDATE_USER]({ commit, state }, { googleId }) {
-        //     UserService
-        //         .addBookShelf(state.loggedinUser._id, googleId)
-        //         .then(_ => {
-        //             commit({type: UPDATE_USER, googleId})
-        //             saveToLocalStorage(state.loggedinUser)
-        //         })
-        // }
     }
 }
 
