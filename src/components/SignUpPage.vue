@@ -17,6 +17,7 @@
 <script>
 
 import { SIGNUP, SIGNIN} from '../store/modules/UserModule.js';
+import moment from 'moment'
 
 
 export default {
@@ -24,11 +25,12 @@ export default {
   data() {
         return {
             loginDetails: { username: '', pass: '' },
-            signupDetails: { name: '', username: '', pass: '', avatar: null, isAdmin: false, bookReviews: [], bookRates: [], friends: [], readList: [], shelf: []  }
+            signupDetails: {joinedAt: moment().format('ll') , name: '', username: '', pass: '', avatar: null, isAdmin: false, uBooks: [], friends: [], readList: [], reviews: [] }
         }
     },
     methods: {
         signup() {
+            if(!this.signupDetails.avatar) this.signupDetails.avatar = 'http://www.nanigans.com/wp-content/uploads/2014/07/Generic-Avatar.png'
             this.$store.dispatch({type: SIGNUP, signupDetails: this.signupDetails})
                 .then(_ => { this.$router.push('/') })
                 .catch(err => console.log(err));
