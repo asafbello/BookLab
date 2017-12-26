@@ -23,7 +23,11 @@
             </el-badge>
         </div>
       </section>
+<<<<<<< HEAD
       <shelf-cmp v-if="isUser" :shelf="booksToDisplay"></shelf-cmp>
+=======
+      <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"></shelf-cmp>
+>>>>>>> master
 </div>
 </template>
 
@@ -40,26 +44,18 @@ export default {
       select: "book",
       input5: null,
       books: [],
-      bookSearchRes: []
+      bookSearchRes: [],
     };
   },
   methods: {
-    searchForBook: _.debounce(() => {
+    searchForBook:_.debounce(function() {
+        var self = this   
          APIService.searchBook(this.input5, this.select)
-        .then(books => {
-          this.bookSearchRes = books;
-          console.log(books);
+        .then(function(books) {
+          self.bookSearchRes = books;
         })
         .catch(err => console.log("err", err));
         }, 300),
-    // searchForBook() {
-    //   APIService.searchBook(this.input5, this.select)
-    //     .then(books => {
-    //       this.bookSearchRes = books;
-    //       console.log(books);
-    //     })
-    //     .catch(err => console.log("err", err));
-    // },
     addToShlef(bookFromGoogleId) {
       //   var user = this.loggedinUser
       //   user.shelf.push(bookFromGoogleId)
@@ -69,8 +65,9 @@ export default {
     }
   },
   created() {
+    var shelf = ['U9V8JYt7WwoC']
     this.$store
-      .dispatch({ type: LOAD_BOOKS })
+      .dispatch({ type: LOAD_BOOKS, shelf })
       .then(books => {
         console.log("we have books :)");
       })

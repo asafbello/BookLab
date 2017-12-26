@@ -88,7 +88,11 @@ export default {
     },
 
     deleteUser(userId) {
+<<<<<<< HEAD
       console.log("id ", userId);
+=======
+      // console.log('id ', userId)
+>>>>>>> master
       this.$router.push("/");
       this.$store.dispatch({ type: DELETE_USER, userId });
       this.$store.dispatch({ type: SIGNOUT, userId });

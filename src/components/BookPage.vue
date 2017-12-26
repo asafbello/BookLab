@@ -50,7 +50,7 @@ export default {
   },
     created() {
       var googleBookId = this.$route.params.googleBookId;
-      console.log({googleBookId});
+      // console.log({googleBookId});
       this.$store
           .dispatch({
               type: GET_BOOK,
@@ -77,7 +77,7 @@ export default {
     },
     addRateToBook() {
       this.googleBook.rate = this.ratingVal;
-      console.log(this.googleBook);
+      // console.log(this.googleBook);
       this.$store.dispatch({
         type: ADD_BOOK,
         book: this.googleBook
