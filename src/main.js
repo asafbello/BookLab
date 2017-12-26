@@ -11,6 +11,7 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import lodash from 'lodash'
 import moment from 'moment'
+import cloneDeep from 'clone-deep'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false

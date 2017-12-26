@@ -1,11 +1,12 @@
 import BookService from "../../services/BookService.js";
+import _ from 'lodash'
 
 export const LOAD_BOOKS = 'book/loadBooks';
 export const LOAD_BOOK = 'book/loadBook';
 export const DELETE_BOOK = 'book/deletebooks';
 export const ADD_BOOK = 'books/addBook'
 export const GET_BOOK = 'books/getBook'
-// export const ADD_RATE_TO_BOOK_ = 'books/addRateToBook'
+export const UPDATE_BOOK = 'books/updateBook'
 
 
 const SET_BOOKS = 'books/setBooks';
@@ -14,13 +15,12 @@ const SET_BOOK = 'books/setBook';
 export default {
     state: {
         books: [],
-        currGoogleBook: null
+        currBook: null
     },
     getters: {
-        bookFromGoogle(context) {
-            var { currGoogleBook } = context;
-            return context.currGoogleBook
-        },
+        currentBook({currBook}) {
+            return JSON.parse(JSON.stringify(currBook));
+     },
         booksToDisplay(context) {
             var { books } = context;
             return books
@@ -30,27 +30,20 @@ export default {
         [SET_BOOKS](state, { books }) {
             state.books = books;
         },
-        [ADD_BOOK](state, { book }) {
+        [ADD_BOOK](state, {book}) {
             // console.log({book});
-            state.books.push(book);
+            state.currBook = book;
         },
-        [SET_BOOK](state, { book }) {
+        [SET_BOOK] (state, {book}) {
             // console.log({book})
-            state.currGoogleBook = BookService.setGoogleBook(book)
-            //  {
-            //     id: book.id,
-            //     title: book.volumeInfo.title,
-            //     pages: book.volumeInfo.pageCount,
-            //     author: book.volumeInfo.authors[0],
-            //     desc: book.volumeInfo.description,
-            //     img: book.volumeInfo.imageLinks.medium
-            // };
+            state.currGoogleBook = BookService.createBookObj(book)
         }
     },
 
     actions: {
         [LOAD_BOOKS]({ commit, rootState }, { shelf }) {
-            if (rootState.user.loggedinUser) shelf = rootState.user.loggedinUser.shelf
+            if (rootState.user.loggedinUser) shelf = rootState.user.loggedinUser.uBooks
+            
             console.log('shelf', shelf);
             return BookService.getBooksShelf(shelf)
                 .then(books => {
@@ -63,12 +56,15 @@ export default {
                     throw err;
                 })
         },
-        [ADD_BOOK]({ commit }, { book }) {
-            return BookService.saveBook(book)
+        [ADD_BOOK] ({commit}, {bookToAdd}) {
+          
+            console.log(bookToAdd.data);
+            return BookService.saveBook(bookToAdd)
                 .then(book => {
+                    console.log('----',book)
                     commit({
-                        type: ADD_BOOK,
-                        book
+                        type: ADD_BOOK, 
+                        book: book.data
                     })
                 })
         },
@@ -82,15 +78,19 @@ export default {
                 })
 
         },
-        // [ADD_RATE_TO_BOOK]({commit}, {googleBookId}) {
-        //     return BookService.addGeneralRate(googleBookId)
-        //     .then(book => {
-        //         commit({
-        //             type: '',
-        //             googleBookId
-        //         })
-        //     })
-        // }
+        [UPDATE_BOOK]({commit, rootState}, {review}) {
+            var bookToAdd =   _.cloneDeep(rootState.book.currBook);             
+            bookToAdd.reviews.push(review); 
+            console.log({bookToAdd});
+            return BookService.saveBook(bookToAdd)
+            .then(res => {
+                commit({
+                    type: ADD_BOOK, 
+                    book: res.data
+                })
+            })
+        }
+
     }
 }
 

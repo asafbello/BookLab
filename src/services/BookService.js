@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const BOOK_URL = 'http://localhost:3003/data/book';
+const GET_BOOK_URL = 'http://localhost:3003/book'
 
 function emptyBook() {
     return { goodReadsKey: '', rate: 3, imgSrc: '', reviews: [] }
@@ -15,7 +16,6 @@ function getBooksShelf(shelf) {
     });
     return Promise.all(prmBooks)
         .then(values => {
-            console.log('values', values);
             return values
         })
         .catch(err => console.log(err, 'cant find shelf'))
@@ -31,8 +31,14 @@ function getBooks() {
 }
 
 function saveBook(book) {
-    if (book._id) return axios.put(_getBookUrl(book._id), book)
-    else return axios.post(BOOK_URL, book);
+    console.log(book);
+    if (book._id) {
+        return axios.put(_getBookUrl(book._id), book)
+    }
+    else {
+        var newBook = createBookObj(book)
+        return axios.post(BOOK_URL, newBook)
+    }
 }
 
 function setBook(bookFromGoogle) {
@@ -55,6 +61,18 @@ function getBookById(bookId) {
         .get(_getBookUrl(bookId))
         .then(res => res.data)
 }
+function getBookByForeignId(foreignId) {
+    console.log({ foreignId });
+    return axios
+        .get(`${GET_BOOK_URL}/${foreignId}`)
+        .then(res => {
+            console.log(res)
+            return res.data
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
 
 function _getBookUrl(bookId) {
     return `${BOOK_URL}/${bookId}`;
@@ -63,19 +81,19 @@ function _getBookUrl(bookId) {
 function getBookFromGoogle(googleKey) {
     return axios.get(`https://www.googleapis.com/books/v1/volumes/${googleKey}`)
         .then(res => {
-            console.log(res.data);
             return res.data;
         });
 }
 
-function setGoogleBook(googleBook) {
+function createBookObj(googleBook) {
     return {
         id: googleBook.id,
         title: googleBook.volumeInfo.title,
         pages: googleBook.volumeInfo.pageCount,
         author: googleBook.volumeInfo.authors[0],
         desc: googleBook.volumeInfo.description,
-        img: googleBook.volumeInfo.imageLinks.medium
+        img: googleBook.volumeInfo.imageLinks.medium,
+        reviews: []
     }
 }
 
@@ -85,7 +103,8 @@ export default {
     getBooksShelf,
     getBookFromGoogle,
     saveBook,
-    setGoogleBook
+    createBookObj,
+    getBookByForeignId
 }
 
 
