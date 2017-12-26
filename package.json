@@ -13,10 +13,12 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "clone-deep": "^2.0.1",
     "element-ui": "^2.0.9",
     "font-awesome-webpack": "0.0.5-beta.2",
     "google-books-search": "^0.3.1",
     "lodash": "^4.17.4",
+    "moment": "^2.20.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

@@ -1,6 +1,6 @@
 <template>
     <form class="modal-header">
-        <h1 class="book-details">{{googleBook.title}} <span>/ {{googleBook.author}}</span></h1>
+        <h1 class="book-details">{{googleBook.title}} <span class="review-author">/ {{googleBook.author}}</span></h1>
         <el-rate class="rating"
             v-model="ratingVal"
             :texts="['Nah', 'Disappointed', 'Niceee', 'Great', 'Masterpiece!']"
@@ -30,6 +30,9 @@
 </template>
 
 <script>
+
+import { GET_BOOK } from '../store/modules/BookModule.js'
+
 export default {
   data() {
     return {
@@ -86,4 +89,7 @@ export default {
 
 <style scoped>
 
+.review-author {
+  font-size: 16px;  
+}
 </style>
