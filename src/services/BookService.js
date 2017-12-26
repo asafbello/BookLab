@@ -43,6 +43,17 @@ function saveBook(book) {
     }
 }
 
+function setBook(bookFromGoogle) {
+    return {
+        googleBookId: bookFromGoogle.id,
+        title: bookFromGoogle.volumeInfo.title,
+        pages: bookFromGoogle.volumeInfo.pageCount,
+        author: bookFromGoogle.volumeInfo.authors[0],
+        desc: bookFromGoogle.volumeInfo.description,
+        img: bookFromGoogle.volumeInfo.imageLinks.medium
+    }
+}
+
 function deleteBooK(bookId) {
     return axios.delete(_getBookUrl(bookId))
 }

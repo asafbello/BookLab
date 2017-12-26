@@ -15,7 +15,7 @@ function signup(userDetails) {
 
 function login(userCreds) {
     return axios.post(`${URL}/login`, userCreds)
-        .then(({ data }) => {
+        .then(( data ) => {
             return data
         })
 }
@@ -29,6 +29,13 @@ function deleteUser(userId) {
     return axios.delete(`${URL}/data/user/${userId}`)
 }
 
+function editUser(userId, updatedUser) {
+    return axios.put(`${URL}/data/user/${userId}`, updatedUser).then(res => {
+        return res.data;
+    })
+    
+}
+
 // function toggleLike(userId, carId) {
 //    return axios.post(`${URL}/data/${userId}/liked/${carId}`)
 //         // .then(({ data }) => data)
@@ -38,6 +45,7 @@ export default {
     signup,
     login,
     logout,
-    deleteUser
+    deleteUser,
+    editUser
     // toggleLike,
 } 

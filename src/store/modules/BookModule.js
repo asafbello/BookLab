@@ -40,11 +40,12 @@ export default {
     },
 
     actions: {
-        [LOAD_BOOKS]({ commit, rootState }) {
-            var shelf = rootState.user.loggedinUser.shelf;
+        [LOAD_BOOKS]({ commit, rootState }, { shelf }) {
+            if (rootState.user.loggedinUser) shelf = rootState.user.loggedinUser.shelf
+            console.log('shelf', shelf);
             return BookService.getBooksShelf(shelf)
                 .then(books => {
-                    console.log('books',books);
+                    // console.log('books',books);
                     commit({ type: SET_BOOKS, books })
 
                 })
@@ -62,16 +63,16 @@ export default {
                         type: ADD_BOOK, 
                         book: book.data
                     })
-                } )
-        },
-        [GET_BOOK] ({commit}, {googleBookId}) {
-            return BookService.getBookFromGoogle(googleBookId)
-            .then(book => {
-                commit({
-                    type: SET_BOOK, 
-                    book
                 })
-            })
+        },
+        [GET_BOOK]({ commit }, { googleBookId }) {
+            return BookService.getBookFromGoogle(googleBookId)
+                .then(book => {
+                    commit({
+                        type: SET_BOOK,
+                        book
+                    })
+                })
 
         },
         // [ADD_RATE_TO_BOOK]({commit}, {googleBookId}) {

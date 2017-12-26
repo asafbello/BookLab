@@ -7,6 +7,7 @@ export const SIGNIN = 'user/signin';
 export const SET_USER = 'user/setUser';
 export const SIGNOUT = 'user/signout';
 export const DELETE_USER = 'user/deleteUser';
+export const UPDATE_USER = 'user/editUser';
 // export const TOGGLE_LIKE = 'user/toggleLike';
 export const ADD_BOOK_SHELF = 'user/addBookShelf';
 
@@ -27,17 +28,26 @@ export default {
     //     }
     },
     mutations: {
-        [SET_USER](state, { user }) {
+        [SET_USER](state,  {user} ) {
             state.loggedinUser = user;
         },
         [SIGNOUT](state) {
             state.loggedinUser = null;
         },
-        // [UPDATE_USER](state) {
-        //     state.loggedinUser = null;
-        // },
+        [UPDATE_USER](state, {user}) {
+            state.loggedinUser = user;
+        },
     },
     actions: {
+        [UPDATE_USER]({commit}, {userId, updatedUser} )  {
+            // console.log('updatedUser: ', updatedUser);
+            // console.log('userId: ', userId);
+            return UserService.editUser(userId, updatedUser)
+                .then(user => {
+                        commit({type: UPDATE_USER, user})
+                        saveToLocalStorage(user)
+                })
+        },
         [SIGNUP]({ commit }, { signupDetails }) {
             UserService
                 .signup(signupDetails)
@@ -85,14 +95,13 @@ export default {
         //         })
         // }
     }
-}
-
+} 
 
 
 function getUserFromStorage() {
-    var loggedinUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
-    console.log('GETTING FROM STORAGE', loggedinUser);
-    return loggedinUser;
+    // var loggedinUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
+    // return loggedinUser;
+    return 
 }
 
 function saveToLocalStorage(user) {
