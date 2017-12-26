@@ -15,7 +15,7 @@
     <main class="book-content" v-if="googleBook">
       <h1>{{googleBook.title}}/ <span class="pageCount">{{googleBook.pages}} pages</span></h1>
       <h5>{{googleBook.author}}</h5>
-      <el-button type="success">Add review</el-button>
+      <el-button type="success" @click="showReviewModal">Add review</el-button>
         <el-button class="vid-review" type="success">Video review</el-button>
         <el-button type="info">Get a copy</el-button>
       <article class="book-review">
@@ -28,6 +28,9 @@
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       <el-button class="chat-btn" type="primary">Chat about this book <span class="down-arrow">↓</span></el-button>
       </article>
+      <div class="modal"  v-if="showModal" @keyup.esc="showReviewModal">
+      <review-modal class="review-modal"></review-modal>
+      </div>
     </main>
   </section>
 </template>
@@ -36,13 +39,17 @@
 
 import BookService from '../services/BookService.js'
 import { ADD_BOOK, GET_BOOK } from '../store/modules/BookModule.js'
+import ReviewModal from '../pages/ReviewModal.vue'
 
 export default {
   name: 'BookPage',
-
+  components: {
+    ReviewModal
+  },
   data() {
     return {
       ratingVal: null,
+      showModal: false
     }
   },
     created() {
@@ -60,6 +67,9 @@ export default {
     }
   },
   methods: {
+    showReviewModal(){
+          this.showModal = !this.showModal
+    },
     addBook(googleBookId) {
       this.$store
       .then(book => {
@@ -76,6 +86,26 @@ export default {
 
 <style scoped>
 
+.review-modal{
+  margin-right: auto;
+  margin-left: auto;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  right: 50%;
+  background: rgba(255, 255, 255, 0.829);
+  padding: 15vw;
+  margin: 5vw
+}
+.modal{
+  /* display: block; */
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.445)
+}
 .book-header {
   display: flex;
 }
