@@ -23,11 +23,7 @@
             </el-badge>
         </div>
       </section>
-<<<<<<< HEAD
-      <shelf-cmp v-if="isUser" :shelf="booksToDisplay"></shelf-cmp>
-=======
       <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"></shelf-cmp>
->>>>>>> master
 </div>
 </template>
 
