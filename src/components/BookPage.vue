@@ -23,7 +23,8 @@
       </article>
       <article class="links">
         <el-button type="info">Get a copy</el-button>
-        <el-button class="vid-review" type="success">See it in video</el-button>
+        <el-button class="vid-review" type="success">Video review</el-button>
+        <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
     </main>
   </section>
