@@ -111,7 +111,11 @@ input {
 
 .left-panel-content {
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
+}
+
+.left-panel-content > * {
+  margin-bottom: 5px;
 }
 
 .left-panel > * {
@@ -150,6 +154,10 @@ h1 {
   display: block;
 }
 
+.clearfix {
+  display: flex;
+  flex-direction: column;
+}
 .clearfix:before,
 .clearfix:after {
   display: table;
