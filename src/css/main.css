@@ -1,4 +1,5 @@
 @import './lib/normalize.css';
+@import './lib/animate.css';
 @import './_mobile.css';
 @import './vars.css';
 /* @import './_vendors.css'; */

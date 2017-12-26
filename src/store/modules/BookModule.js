@@ -37,6 +37,7 @@ export default {
         [SET_BOOK] (state, {book}) {
             console.log({book})
             state.currGoogleBook = {
+                googleBookId: book.id,
                 title: book.volumeInfo.title,
                 pages: book.volumeInfo.pageCount,
                 author: book.volumeInfo.authors[0],
@@ -60,8 +61,9 @@ export default {
                     throw err;
                 })
         },
-        [ADD_BOOK] ({commit}, {googleBookId}) {
-            return BookService.getBookById(googleBookId)
+        [ADD_BOOK] ({commit}, {bookFromGoogle}) {
+            console.log('book',bookFromGoogle);
+            return BookService.addBook(bookFromGoogle)
                 .then(book => {
                     commit({
                         type: ADD_BOOK, 
