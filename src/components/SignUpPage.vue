@@ -95,8 +95,6 @@ export default {
         avatar: null,
         isAdmin: false,
         uBooks: [],
-        friends: [],
-        readList: [],
         reviews: [],
         favoriteJenre: []
       },

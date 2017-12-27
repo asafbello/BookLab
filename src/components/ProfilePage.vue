@@ -15,8 +15,14 @@
 
 <section class="content-wrapper">
       <div class="statistics" v-if="!isEditing">
-          <div class="statistics-item"><p>Pages read </p><i class="fa fa-book" aria-hidden="true"></i></div>
-          <div class="statistics-item"><p>Books read </p><i class="fa fa-check" aria-hidden="true"></i></div>
+          <div class="statistics-item">
+            <div class="icon-count">
+              <!-- <p>{{loggedinUser.readList.length}}</p> -->
+            <p>Pages read </p></div><i class="fa fa-book" aria-hidden="true"></i></div>
+          <div class="statistics-item">
+          <div class="icon-count">
+            <p>{{loggedinUser.reviews.length}}</p>
+            <p>Books read </p> </div><i class="fa fa-check" aria-hidden="true"></i></div>
           <div class="statistics-item"><p>Books in read list</p> <i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
    <div class="jenres">
@@ -189,7 +195,6 @@ h4 {
   width: 50%;
   align-self: flex-start;
   margin-top: 6%;
-  margin-right: 15%;
 }
 
 .fa {
