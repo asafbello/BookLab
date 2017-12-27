@@ -13,8 +13,8 @@
       </div>
     </el-card>
 
-<section class="content-wrapper">
-      <div class="statistics" v-if="!isEditing">
+<section class="content-wrapper" v-if="!isEditing">
+      <div class="statistics">
           <div class="statistics-item">
             <div class="icon-count">
               <p>{{pagesRead }}</p>
@@ -28,7 +28,7 @@
               <p>{{loggedinUser.uBooks.length}}</p>
             <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
-   <div class="jenres">
+   <div class="jenres" v-if="!isEditing">
      <div class="jenres-wrapper">
      <h1>Favorie jenres</h1>
      <p v-for="jenre in loggedinUser.favoriteJenre">{{jenre}}</p></div>
@@ -53,16 +53,6 @@
   </section>      
 
         <form class="signin-form "  v-if="isEditing">
-
-    <el-card :body-style="{ padding: '0px' }" class="profile-pic-edit" v-if="isEditing">
-      <img :src="loggedinUser.avatar" class="image">
-      <div style="padding: 14px;" class="left-panel-content">
-        <span>{{loggedinUser.username}}</span>
-        <div class="bottom clearfix">
-          <time class="time">Joind at: {{ loggedinUser.joinedAt }}</time> <br>
-        </div>
-      </div>
-    </el-card>
 
           <h4>Name</h4>
              <el-input type="text" placeholder="name" v-model="updatedUser.name"></el-input>
@@ -190,6 +180,7 @@ export default {
   width: 70%;
   flex-flow: row wrap;
   margin-right: 2%;
+  margin-top: 2%;
 }
 
 .profile-pic-edit {
