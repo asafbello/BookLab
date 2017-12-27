@@ -1,7 +1,7 @@
 <template>
     <div class="main-container">
   
-    <el-card :body-style="{ padding: '0px' }" class="left-panel">
+    <el-card :body-style="{ padding: '0px' }" class="left-panel" v-if="!isEditing">
       <img :src="loggedinUser.avatar" class="image">
       <div style="padding: 14px;" class="left-panel-content">
         <span>{{loggedinUser.username}}</span>
@@ -13,26 +13,44 @@
       </div>
     </el-card>
 
-
-      <div class="statistics">
+      <div class="statistics" v-if="!isEditing">
           <div class="statistics-item"><p>Pages read </p><i class="fa fa-book" aria-hidden="true"></i></div>
           <div class="statistics-item"><p>Books read </p><i class="fa fa-check" aria-hidden="true"></i></div>
           <div class="statistics-item"><p>Books in read list</p> <i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
           <!-- <div class="shelf"><shelf-cmp></shelf-cmp></div> -->
 
+        <form class="signin-form "  v-if="isEditing">
 
-        <form class="signin-form left-panel"  v-if="isEditing">
+    <el-card :body-style="{ padding: '0px' }" class="profile-pic-edit" v-if="isEditing">
+      <img :src="loggedinUser.avatar" class="image">
+      <div style="padding: 14px;" class="left-panel-content">
+        <span>{{loggedinUser.username}}</span>
+        <div class="bottom clearfix">
+          <time class="time">Joind at: {{ loggedinUser.joinedAt }}</time> <br>
+        </div>
+      </div>
+    </el-card>
+
+          <h4>Name</h4>
              <el-input type="text" placeholder="name" v-model="updatedUser.name"></el-input>
+          
+          <h4>Last Name</h4>
              <el-input type="text" placeholder="last name" v-model="updatedUser.lastName"></el-input>
+
+          <h4>User Name</h4>
              <el-input type="text" placeholder="username" v-model="updatedUser.username"></el-input>
+
+          <h4>Password</h4>
              <el-input type="password" placeholder="password" v-model="updatedUser.pass"></el-input>
+
+          <h4>Profile Image</h4>
              <el-input type="text" placeholder="Copy image URL" v-model="updatedUser.avatar"></el-input>
-            <button v-if="isEditing" @click="saveUpdatedPrifile">Save</button>
-            <button  v-if="isEditing" @click="isEditing = false">Cancel</button>
+
+            <el-button type="default" v-if="isEditing" @click="isEditing = false">Cancel</el-button>
+            <el-button type="default" v-if="isEditing" @click="saveUpdatedPrifile">Save</el-button>
         </form>
 
-        
     </div>
 
 </template>
@@ -40,6 +58,7 @@
 <script>
 import ShelfCmp from "./ShelfCmp";
 import store from "../store/store.js";
+
 import {
   DELETE_USER,
   SIGNOUT,
@@ -48,9 +67,6 @@ import {
 
 export default {
   name: "ProfilePage",
-    components: {
-    ShelfCmp
-  },
   computed: {
     loggedinUser() {
       return this.$store.state.user.loggedinUser;
@@ -97,13 +113,30 @@ export default {
       this.$router.push("/");
       this.$store.dispatch({ type: DELETE_USER, userId });
       this.$store.dispatch({ type: SIGNOUT, userId });
-      console.log("delete");
     }
   }
 };
 </script>
 
 <style scoped>
+
+.profile-pic-edit {
+  width: 45%;
+}
+
+.signin-form {
+  margin-left: 5%;
+  margin-top: 3%;
+}
+
+.signin-form > * {
+  margin-bottom: 5px;
+}
+
+h4 {
+  color: #999;
+  text-align: left;
+}
 
 .wrapper {
   display: flex;
