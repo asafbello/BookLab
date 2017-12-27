@@ -13,12 +13,18 @@
       </div>
     </el-card>
 
+<section class="content-wrapper">
       <div class="statistics" v-if="!isEditing">
           <div class="statistics-item"><p>Pages read </p><i class="fa fa-book" aria-hidden="true"></i></div>
           <div class="statistics-item"><p>Books read </p><i class="fa fa-check" aria-hidden="true"></i></div>
           <div class="statistics-item"><p>Books in read list</p> <i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
-          <!-- <div class="shelf"><shelf-cmp></shelf-cmp></div> -->
+   <div class="jenres">
+     <div class="jenres-wrapper">
+     <h1>Favorie jenres</h1>
+     <p v-for="jenre in loggedinUser.favoriteJenre">{{jenre}}</p></div>
+     </div>
+  </section>      
 
         <form class="signin-form "  v-if="isEditing">
 
@@ -50,7 +56,6 @@
             <el-button type="default" v-if="isEditing" @click="isEditing = false">Cancel</el-button>
             <el-button type="default" v-if="isEditing" @click="saveUpdatedPrifile">Save</el-button>
         </form>
-
     </div>
 
 </template>
@@ -100,6 +105,10 @@ export default {
     },
 
     saveUpdatedPrifile() {
+      if (this.updatedUser.avatar === "" || null) {
+        this.updatedUser.avatar =
+          "http://www.nanigans.com/wp-content/uploads/2014/07/Generic-Avatar.png";
+      }
       var userId = this.$store.state.user.loggedinUser._id;
       this.$store.dispatch({
         type: UPDATE_USER,
@@ -119,6 +128,20 @@ export default {
 </script>
 
 <style scoped>
+.jenres {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex-wrap: wrap;
+  color: #999;
+}
+
+.content-wrapper {
+  display: flex;
+  width: 70%;
+  flex-flow: row wrap;
+}
 
 .profile-pic-edit {
   width: 45%;
