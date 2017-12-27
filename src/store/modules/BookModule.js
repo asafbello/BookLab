@@ -43,8 +43,6 @@ export default {
     actions: {
         [LOAD_BOOKS]({ commit, rootState }, { shelf }) {
             if (rootState.user.loggedinUser) shelf = rootState.user.loggedinUser.uBooks
-            
-            console.log('shelf', shelf);
             return BookService.getBooksShelf(shelf)
                 .then(books => {
                     // console.log('books',books);
