@@ -85,6 +85,11 @@ export default {
         createdAt: Date.now(),
         byUserId: this.$store.state.user.loggedinUser._id,
         review: {
+          book: this.currBook.title,
+          author: this.currBook.author, 
+          pages: this.currBook.pages, 
+          img: this.currBook.img, 
+          id: this.currBook.id,
           txt:  this.txtRate,
           rate: this.ratingVal,
           readDates: this.readDates,
@@ -98,7 +103,7 @@ export default {
     }
   },
   created() {
-
+console.log(this.currBook, 'asaf');
   }
 };
 </script>

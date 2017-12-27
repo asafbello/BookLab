@@ -17,7 +17,7 @@
       <div class="statistics" v-if="!isEditing">
           <div class="statistics-item">
             <div class="icon-count">
-              <!-- <p>{{loggedinUser.readList.length}}</p> -->
+              <p>{{loggedinUser.reviews[3].review.pages }}</p>
             <p>Pages read </p></div><i class="fa fa-book" aria-hidden="true"></i></div>
           <div class="statistics-item">
           <div class="icon-count">
@@ -30,6 +30,26 @@
      <h1>Favorie jenres</h1>
      <p v-for="jenre in loggedinUser.favoriteJenre">{{jenre}}</p></div>
      </div>
+     <!-- <div class="reviews"> -->
+<!-- <h2>{{loggedinUser.reviews[0].review.txt}}</h2> -->
+
+    <el-card v-for="review in loggedinUser.reviews" :body-style="{ padding: '0px' }" class="review-cards" v-if="!isEditing">
+      <img :src="review.review.img" class="image">
+      <div style="padding: 14px;" class="left-panel-content">
+        <span>{{ loggedinUser.reviews[3].review.title}}</span>
+        <div class="bottom clearfix">
+          <time class="time">Book by: {{ review.review.author }}</time> <br>
+          <time class="time">My rate: {{ review.review.rate }}</time> <br>
+          <el-button type="text" class="button"  @click="showReview(review.review.id)" v-if="!isEditing">
+            Go to review
+          </el-button>
+
+        </div>
+      </div>
+    </el-card>
+
+
+     <!-- </div> -->
   </section>      
 
         <form class="signin-form "  v-if="isEditing">
@@ -106,6 +126,10 @@ export default {
     var id = this.$route.params.id;
   },
   methods: {
+    showReview(id) {
+      this.$router.push( `/book/${id}/BookReviewPage`)
+    },
+
     editProfile(userId, updatedUser) {
       this.isEditing = !this.isEditing;
     },
@@ -134,6 +158,18 @@ export default {
 </script>
 
 <style scoped>
+
+.review-cards{
+  width: 15%;
+  /* margin-top: 6%; */
+  margin-left: 3%;
+}
+
+.reviews {
+  width: 200px;
+  height: 200px;
+  border: 1px solid black;
+}
 .jenres {
   width: 50%;
   display: flex;
@@ -194,7 +230,6 @@ h4 {
   justify-content: space-between;
   width: 50%;
   align-self: flex-start;
-  margin-top: 6%;
 }
 
 .fa {
