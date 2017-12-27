@@ -13,7 +13,7 @@
             <div class="block">
                 <span class="demonstration"></span>
                 <el-date-picker 
-                v-model="value7"
+                v-model="readDates"
                 type="daterange"
                 align="right"
                 unlink-panels
@@ -72,7 +72,7 @@ export default {
         ]
       },
       value6: "",
-      value7: ""
+      readDates: ""
     };
   },
   methods:{
@@ -87,9 +87,11 @@ export default {
         review: {
           txt:  this.txtRate,
           rate: this.ratingVal,
+          readDates: this.readDates,
           }
         }
         this.$emit('addUserReview', userReviewObj)
+        console.log({userReviewObj});
     },
     closeOnEsc() {
       this.$emit('closeModalOnEsc');

@@ -25,7 +25,7 @@
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
       <div class="modal" v-if="showModal" @closeModalOnEsc="showReviewModal">
-      <review-modal @closeFromCancel="showReviewModal" :curr-book="currBook" class="review-modal" @addUserReview="addRateToBook"></review-modal>
+      <review-modal @closeFromCancel="closeFromCancel" :curr-book="currBook" class="review-modal" @addUserReview="addRateToBook"></review-modal>
       </div>
     </main>
   </section>
@@ -106,7 +106,6 @@ export default {
       });
     },
     addRateToBook(reviewObj) {
-      console.log(reviewObj);
       this.$store
         .dispatch({
           type: UPDATE_BOOK,
@@ -114,6 +113,7 @@ export default {
         })
         .then( () => {
           var updatedUser = _.cloneDeep(this.loggedInUser);
+          console.log({updatedUser});
           updatedUser.reviews.push(reviewObj);
           this.$store.dispatch({
             type: UPDATE_USER,
@@ -121,6 +121,7 @@ export default {
             updatedUser
           });
         });
+        this.showModal = false;
     }
   }
 };
