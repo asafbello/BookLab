@@ -17,31 +17,31 @@
       <div class="statistics" v-if="!isEditing">
           <div class="statistics-item">
             <div class="icon-count">
-              <p>{{loggedinUser.reviews[3].review.pages }}</p>
+              <p>{{pagesRead }}</p>
             <p>Pages read </p></div><i class="fa fa-book" aria-hidden="true"></i></div>
           <div class="statistics-item">
           <div class="icon-count">
             <p>{{loggedinUser.reviews.length}}</p>
             <p>Books read </p> </div><i class="fa fa-check" aria-hidden="true"></i></div>
-          <div class="statistics-item"><p>Books in read list</p> <i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
+          <div class="statistics-item">
+            <div class="icon-count">
+              <p>{{loggedinUser.uBooks.length}}</p>
+            <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
    <div class="jenres">
      <div class="jenres-wrapper">
      <h1>Favorie jenres</h1>
      <p v-for="jenre in loggedinUser.favoriteJenre">{{jenre}}</p></div>
      </div>
-     <!-- <div class="reviews"> -->
-<!-- <h2>{{loggedinUser.reviews[0].review.txt}}</h2> -->
+     <div class="reviews">
 
     <el-card v-for="review in loggedinUser.reviews" :body-style="{ padding: '0px' }" class="review-cards" v-if="!isEditing">
       <img :src="review.review.img" class="image">
       <div style="padding: 14px;" class="left-panel-content">
-        <span>{{ loggedinUser.reviews[3].review.title}}</span>
         <div class="bottom clearfix">
-          <time class="time">Book by: {{ review.review.author }}</time> <br>
           <time class="time">My rate: {{ review.review.rate }}</time> <br>
           <el-button type="text" class="button"  @click="showReview(review.review.id)" v-if="!isEditing">
-            Go to review
+            Expand
           </el-button>
 
         </div>
@@ -49,7 +49,7 @@
     </el-card>
 
 
-     <!-- </div> -->
+     </div>
   </section>      
 
         <form class="signin-form "  v-if="isEditing">
@@ -105,6 +105,7 @@ export default {
   },
   data() {
     return {
+      pagesRead: 0,
       userImg: null,
       userId: this.$store.state.user.loggedinUser._id,
       isEditing: false,
@@ -124,6 +125,11 @@ export default {
   },
   created() {
     var id = this.$route.params.id;
+    var pagesCount = this.loggedinUser.reviews.reduce((acu, curr) => {
+      // console.log('pages', curr.review.pages);
+      return acu + curr.review.pages
+    }, 0)
+   this.pagesRead = pagesCount
   },
   methods: {
     showReview(id) {
@@ -166,9 +172,9 @@ export default {
 }
 
 .reviews {
-  width: 200px;
-  height: 200px;
-  border: 1px solid black;
+  width: 100%;
+  display: flex;
+  /* height: 200px; */
 }
 .jenres {
   width: 50%;
@@ -183,6 +189,7 @@ export default {
   display: flex;
   width: 70%;
   flex-flow: row wrap;
+  margin-right: 2%;
 }
 
 .profile-pic-edit {
