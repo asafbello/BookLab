@@ -16,7 +16,6 @@
           <el-tooltip :content="book.volumeInfo.description" placement="bottom" effect="light">
                 <el-button>{{book.volumeInfo.title}}</el-button>
           </el-tooltip>
-                <!-- <img :src="book.volumeInfo.imageLinks.thumbnail" /> -->
             <router-link :to="'/book/' + book.id"> <el-button type="primary" size="mini">To Book Page</el-button></router-link>
             <el-badge :value="booksToDisplay.length" class="item">
               <el-button @click.native="addToShlef(book)" size="mini"><i class="fa fa-book" aria-hidden="true"></i></el-button>
