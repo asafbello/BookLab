@@ -25,7 +25,7 @@
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
       <div class="modal" v-if="showModal" @closeModalOnEsc="showReviewModal">
-      <review-modal @closeFromCancel="showReviewModal" :curr-book="currBook" class="review-modal"></review-modal>
+      <review-modal @closeFromCancel="showReviewModal" :curr-book="currBook" class="review-modal" @addUserReview="addRateToBook"></review-modal>
       </div>
     </main>
   </section>
@@ -40,6 +40,7 @@ import {
 } from "../store/modules/BookModule.js";
 import ReviewModal from "../pages/ReviewModal.vue";
 import _ from "lodash";
+import {UPDATE_USER} from '../store/modules/UserModule.js'
 
 export default {
   name: "BookPage",
@@ -104,22 +105,14 @@ export default {
         });
       });
     },
-    addRateToBook() {
-      this.currBook.rate = this.ratingVal;
-      var reviewObj = {
-        createdAt: Date.now(),
-        byUserId: this.loggedInUser._id,
-        review: {
-          rate: this.ratingVal,
-          txt: "Font Awesome!"
-        }
-      };
+    addRateToBook(reviewObj) {
+      console.log(reviewObj);
       this.$store
         .dispatch({
           type: UPDATE_BOOK,
           review: reviewObj
         })
-        .then(_ => {
+        .then( () => {
           var updatedUser = _.cloneDeep(this.loggedInUser);
           updatedUser.reviews.push(reviewObj);
           this.$store.dispatch({

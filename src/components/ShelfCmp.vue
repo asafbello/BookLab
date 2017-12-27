@@ -1,33 +1,56 @@
 <template>
 <section class="shelf-cmp">
   <div>
-  <ul class="books">
-         <li v-for="book in shelf" :key="book.id">
+  <div class="books">
+         <el-card :body-style="{ padding: '0px' }" v-for="book in shelf" :key="book.id">
+            <router-link :to="'/book/' + book.googleBookId">
         <div class="a-book">
-          <router-link :to="'/book/' + book.id">
-          <img :src="book.volumeInfo.imageLinks.medium" alt="">
-          </router-link>
-          <span>{{book.volumeInfo.title}}</span>
+          <img :src="book.img"  class="image" >
+     <h2>{{book.title}}</h2>
         </div>
-        </li>
-    
-  </ul>
+             </router-link>
+        </el-card>
   </div>
-          <div class="shelf">
+  </div>
+   <transition name="fade" mode="out-in" >
+          <div class="shelf" v-if="show" >
               <div class="bottom-shelf"></div>
               <div class="bottom-shelf-edge"></div>
-    </div>
+          </div>
+            </transition>
 </section>
 </template>
 
 <script>
 export default {
   name: "ShelfCmp",
-  props: ["shelf"]
+  props: ["shelf"],
+  methods: {},
+  data() {
+    return {
+      show: false
+    };
+  },
+  created() {
+    setTimeout(() => {
+      this.show = true;
+    }, 0);
+  }
 };
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+  height: 0;
+  padding: 0 10px;
+  opacity: 0;
+}
 .a-book {
   display: flex;
   flex-direction: column;
@@ -40,7 +63,7 @@ export default {
   transform: rotateY(30deg), rotateZ(30deg);
 }
 .a-book span {
-width: 10vw;
+  width: 10vw;
 }
 .shelf-cmp {
   display: flex;

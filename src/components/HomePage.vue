@@ -2,7 +2,7 @@
 <div>
   <section class="search-book">
     <div>
-    <el-input  @keyup.native="searchForBook()" :placeholder="'search and add '+ select" v-model="input5" class="input-with-select">
+    <el-input  @keyup.native="searchForBook()"  suffix-icon="el-icon-search" :placeholder="'search and add '+ select" v-model="input5" class="input-with-select">
       <el-select v-model="select" slot="prepend" placeholder="Select">
         <el-option label="book" value="book"></el-option>
         <el-option label="author" value="author"></el-option>
@@ -11,18 +11,21 @@
     </div>
       <el-button @click.native="searchForBook()" type="primary" icon="el-icon-search">Search</el-button>
     </section>
-    <section class="answers">
-        <div class="books-res" v-for="book in bookSearchRes">
-          <el-tooltip :content="book.volumeInfo.description" placement="bottom" effect="light">
-                <el-button>{{book.volumeInfo.title}}</el-button>
-          </el-tooltip>
-            <router-link :to="'/book/' + book.id"> <el-button type="primary" size="mini">To Book Page</el-button></router-link>
-            <el-badge :value="booksToDisplay.length" class="item">
-              <el-button @click.native="addToShlef(book)" size="mini"><i class="fa fa-book" aria-hidden="true"></i></el-button>
-            </el-badge>
-        </div>
+    <section  class="answers"  v-loading="searching"
+    element-loading-text="Getting Your Books..."
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.342)">
+          <div class="books-res flip-list" v-for="book in bookSearchRes" :key="book.id">
+            <el-tooltip :content="book.volumeInfo.description" placement="bottom" effect="light">
+                  <el-button>{{book.volumeInfo.title}}</el-button>
+            </el-tooltip>
+              <router-link :to="'/book/' + book.id"> <el-button type="primary" size="mini">To Book Page</el-button></router-link>
+              <el-badge :value="booksToDisplay.length" class="item">
+                <el-button @click.native="addToShlef(book)" size="mini"><i class="fa fa-book" aria-hidden="true"></i></el-button>
+              </el-badge>
+          </div>
       </section>
-      <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"></shelf-cmp>
+      <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"  v-loading="loading"></shelf-cmp>
 </div>
 </template>
 
@@ -40,17 +43,22 @@ export default {
       input5: null,
       books: [],
       bookSearchRes: [],
+      loading: true,
+      searching: false
     };
   },
   methods: {
-    searchForBook:_.debounce(function() {
-        var self = this   
-         APIService.searchBook(this.input5, this.select)
+    searchForBook:
+     _.debounce(function() {
+       this.searching = true
+      var self = this;
+      APIService.searchBook(this.input5, this.select)
         .then(function(books) {
           self.bookSearchRes = books;
+           this.searching = false
         })
-        .catch(err => console.log("err", err));
-        }, 300),
+        .catch(err => this.searching = false);
+    }, 300),
     addToShlef(bookFromGoogleId) {
       //   var user = this.loggedinUser
       //   user.shelf.push(bookFromGoogleId)
@@ -60,11 +68,12 @@ export default {
     }
   },
   created() {
-    var shelf = ['U9V8JYt7WwoC']
+    var shelf = ["U9V8JYt7WwoC"];
     this.$store
       .dispatch({ type: LOAD_BOOKS, shelf })
       .then(books => {
         console.log("we have books :)");
+        this.loading = false;
       })
       .catch(err => {
         console.log("err", err);
@@ -120,4 +129,12 @@ export default {
 .books-res * {
   padding: 0.3vw;
 }
+/* .flip-list-move {
+  transition: transform 1s;
+}
+.flip-list-item {
+  transition: all 1s;
+  display: inline-block;
+  margin-right: 30px;
+} */
 </style>

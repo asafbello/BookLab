@@ -15,8 +15,9 @@ function getBooksShelf(shelf) {
             });
     });
     return Promise.all(prmBooks)
-        .then(values => {
-            return values
+        .then(booksFromGoogle => {
+            var books = booksFromGoogle.map(book => { return setBook(book)})
+            return books
         })
         .catch(err => console.log(err, 'cant find shelf'))
 }
@@ -31,7 +32,6 @@ function getBooks() {
 }
 
 function saveBook(book) {
-    console.log(book);
     if (book._id) {
         return axios.put(_getBookUrl(book._id), book)
     }
@@ -55,18 +55,15 @@ function setBook(bookFromGoogle) {
 function deleteBooK(bookId) {
     return axios.delete(_getBookUrl(bookId))
 }
-
 function getBookById(bookId) {
     return axios
         .get(_getBookUrl(bookId))
         .then(res => res.data)
 }
 function getBookByForeignId(foreignId) {
-    console.log({ foreignId });
     return axios
         .get(`${GET_BOOK_URL}/${foreignId}`)
         .then(res => {
-            console.log(res)
             return res.data
         })
         .catch(err => {
@@ -86,6 +83,7 @@ function getBookFromGoogle(googleKey) {
 }
 
 function createBookObj(googleBook) {
+    console.log({googleBook});
     return {
         id: googleBook.id,
         title: googleBook.volumeInfo.title,

@@ -31,11 +31,9 @@ export default {
             state.books = books;
         },
         [ADD_BOOK](state, {book}) {
-            // console.log({book});
             state.currBook = book;
         },
         [SET_BOOK] (state, {book}) {
-            // console.log({book})
             state.currGoogleBook = BookService.createBookObj(book)
         }
     },
@@ -43,11 +41,8 @@ export default {
     actions: {
         [LOAD_BOOKS]({ commit, rootState }, { shelf }) {
             if (rootState.user.loggedinUser) shelf = rootState.user.loggedinUser.uBooks
-            
-            console.log('shelf', shelf);
             return BookService.getBooksShelf(shelf)
                 .then(books => {
-                    // console.log('books',books);
                     commit({ type: SET_BOOKS, books })
 
                 })
@@ -57,11 +52,8 @@ export default {
                 })
         },
         [ADD_BOOK] ({commit}, {bookToAdd}) {
-          
-            console.log(bookToAdd.data);
             return BookService.saveBook(bookToAdd)
                 .then(book => {
-                    console.log('----',book)
                     commit({
                         type: ADD_BOOK, 
                         book: book.data
@@ -81,7 +73,6 @@ export default {
         [UPDATE_BOOK]({commit, rootState}, {review}) {
             var bookToAdd =   _.cloneDeep(rootState.book.currBook);             
             bookToAdd.reviews.push(review); 
-            console.log({bookToAdd});
             return BookService.saveBook(bookToAdd)
             .then(res => {
                 commit({
@@ -89,8 +80,7 @@ export default {
                     book: res.data
                 })
             })
-        }
-
+        },
     }
 }
 
