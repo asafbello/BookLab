@@ -24,8 +24,8 @@
         <el-button class="vid-review" type="primary">Video review</el-button>
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
-      <div class="modal"  v-if="showModal" @keyup.esc="showReviewModal">
-      <review-modal class="review-modal"></review-modal>
+      <div class="modal" v-if="showModal" @closeModalOnEsc="showReviewModal">
+      <review-modal @closeFromCancel="showReviewModal" :curr-book="currBook" class="review-modal"></review-modal>
       </div>
     </main>
   </section>
@@ -61,13 +61,13 @@ export default {
           book
         });
       } else {
-          var self = this.$store;
-          BookService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
-            console.log(bookToAdd);
-            if (bookToAdd._id) return;
-            self.dispatch({
-              type: ADD_BOOK,
-              bookToAdd
+        var self = this.$store;
+        BookService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
+          console.log(bookToAdd);
+          if (bookToAdd._id) return;
+          self.dispatch({
+            type: ADD_BOOK,
+            bookToAdd
           });
         });
       }
@@ -86,6 +86,14 @@ export default {
   },
   methods: {
     showReviewModal() {
+      this.showModal = true;
+      document.addEventListener("keyup", evt => {
+        if (evt.keyCode === 27) {
+          this.showModal = false;
+        }
+      });
+    },
+    closeFromCancel() {
       this.showModal = !this.showModal;
     },
     addBook(googleBookId) {
@@ -106,7 +114,6 @@ export default {
           txt: "Font Awesome!"
         }
       };
-      console.log(this.currBook);
       this.$store
         .dispatch({
           type: UPDATE_BOOK,
