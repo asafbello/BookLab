@@ -39,13 +39,15 @@ import {
   UPDATE_BOOK
 } from "../store/modules/BookModule.js";
 import ReviewModal from "../pages/ReviewModal.vue";
+import BookPreview from "../components/BookPreview.vue";
 import _ from "lodash";
-import {UPDATE_USER} from '../store/modules/UserModule.js'
+import { UPDATE_USER } from "../store/modules/UserModule.js";
 
 export default {
   name: "BookPage",
   components: {
-    ReviewModal
+    ReviewModal, 
+    // BookPreview
   },
   data() {
     return {
@@ -93,6 +95,13 @@ export default {
           this.showModal = false;
         }
       });
+
+      // TODO: close modal from outside the box
+      // window.onclick = function(event) {
+      //   if (event.target == modal) {
+      //     modal.style.display = "none";
+      //   }
+      // };
     },
     closeFromCancel() {
       this.showModal = !this.showModal;
@@ -111,9 +120,9 @@ export default {
           type: UPDATE_BOOK,
           review: reviewObj
         })
-        .then( () => {
+        .then(() => {
           var updatedUser = _.cloneDeep(this.loggedInUser);
-          console.log({updatedUser});
+          console.log({ updatedUser });
           updatedUser.reviews.push(reviewObj);
           this.$store.dispatch({
             type: UPDATE_USER,
@@ -121,7 +130,7 @@ export default {
             updatedUser
           });
         });
-        this.showModal = false;
+      this.showModal = false;
     }
   }
 };
