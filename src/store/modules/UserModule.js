@@ -8,7 +8,6 @@ export const SET_USER = 'user/setUser';
 export const SIGNOUT = 'user/signout';
 export const DELETE_USER = 'user/deleteUser';
 export const UPDATE_USER = 'user/editUser';
-// export const TOGGLE_LIKE = 'user/toggleLike';
 export const ADD_BOOK_SHELF = 'user/addBookShelf';
 
 
@@ -40,8 +39,6 @@ export default {
     },
     actions: {
         [UPDATE_USER]({commit}, {userId, updatedUser} )  {
-            // console.log('updatedUser: ', updatedUser);
-            // console.log('userId: ', userId);
             return UserService.editUser(userId, updatedUser)
                 .then(user => {
                         commit({type: UPDATE_USER, user})
