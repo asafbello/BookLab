@@ -31,7 +31,6 @@ function getBooks() {
 }
 
 function saveBook(book) {
-    console.log(book);
     if (book._id) {
         return axios.put(_getBookUrl(book._id), book)
     }
@@ -62,11 +61,9 @@ function getBookById(bookId) {
         .then(res => res.data)
 }
 function getBookByForeignId(foreignId) {
-    console.log({ foreignId });
     return axios
         .get(`${GET_BOOK_URL}/${foreignId}`)
         .then(res => {
-            console.log(res)
             return res.data
         })
         .catch(err => {
@@ -86,6 +83,7 @@ function getBookFromGoogle(googleKey) {
 }
 
 function createBookObj(googleBook) {
+    console.log({googleBook});
     return {
         id: googleBook.id,
         title: googleBook.volumeInfo.title,

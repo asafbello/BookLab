@@ -8,11 +8,11 @@
             <span>Your rating</span>
        </el-rate>
             <p>So, what d'you think?</p>
-            <textarea rows="10" cols="50" placeholder="Enter review(optional)"></textarea>
+            <textarea rows="10" cols="50" placeholder="Enter review(optional)" v-model="txtRate"></textarea>
             <p>Dates read: </p>
             <div class="block">
                 <span class="demonstration"></span>
-                <el-date-picker
+                <el-date-picker 
                 v-model="value7"
                 type="daterange"
                 align="right"
@@ -24,7 +24,7 @@
                 </el-date-picker>
              </div>
              <br>
-               <el-button @click.native="AddUserReview" type="success">Save</el-button>
+               <el-button @click.native="addUserReview" type="success">Save</el-button>
                <el-button @click.native="closeModal" type="info">Cancel</el-button>
     </form>
 </template>
@@ -32,13 +32,14 @@
 <script>
 
 import { GET_BOOK } from '../store/modules/BookModule.js'
+import state from '../store/modules/UserModule.js'
 
 export default {
   props: ['currBook'],
   data() {
     return {
       ratingVal: null,
-      showModal: false,
+      txtRate: '',
       pickerOptions2: {
         shortcuts: [
           {
@@ -78,8 +79,17 @@ export default {
     closeModal() {
       this.$emit('closeFromCancel');
     },
-    AddUserReview() {
-      this.currBook.rate = this.ratingVal;
+    addUserReview() {
+      this.$store.state.user.loggedInUser;
+        var userReviewObj = {
+        createdAt: Date.now(),
+        byUserId: this.$store.state.user.loggedinUser._id,
+        review: {
+          txt:  this.txtRate,
+          rate: this.ratingVal,
+          }
+        }
+        this.$emit('addUserReview', userReviewObj)
     },
     closeOnEsc() {
       this.$emit('closeModalOnEsc');
@@ -92,12 +102,12 @@ export default {
 </script>
 
 <style scoped>
-
 .review-author {
-  font-size: 16px;  
+  font-size: 16px;
 }
 
 textarea {
   resize: none;
+  padding-left: 8px;
 }
 </style>
