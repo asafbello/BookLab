@@ -1,6 +1,6 @@
 <template>
-    <form class="modal-header">
-        <h1 class="book-details">{{googleBook.title}} <span class="review-author">/ {{googleBook.author}}</span></h1>
+    <form class="modal-header" @keypress.native="closeOnEsc">
+        <h1 class="book-details">{{currBook.title}} <span class="review-author">/ {{currBook.author}}</span></h1>
         <el-rate class="rating"
             v-model="ratingVal"
             :texts="['Nah', 'Disappointed', 'Niceee', 'Great', 'Masterpiece!']"
@@ -24,8 +24,8 @@
                 </el-date-picker>
              </div>
              <br>
-               <el-button type="success">Save</el-button>
-               <el-button type="info">Cancel</el-button>
+               <el-button @click.native="AddUserReview" type="success">Save</el-button>
+               <el-button @click.native="closeModal" type="info">Cancel</el-button>
     </form>
 </template>
 
@@ -34,9 +34,11 @@
 import { GET_BOOK } from '../store/modules/BookModule.js'
 
 export default {
+  props: ['currBook'],
   data() {
     return {
       ratingVal: null,
+      showModal: false,
       pickerOptions2: {
         shortcuts: [
           {
@@ -72,17 +74,19 @@ export default {
       value7: ""
     };
   },
-  created() {
-    var googleBookId = this.$route.params.googleBookId;
-    this.$store.dispatch({
-      type: GET_BOOK,
-      googleBookId: googleBookId
-    });
-  },
-  computed: {
-    googleBook() {
-      return this.$store.state.book.currGoogleBook;
+  methods:{
+    closeModal() {
+      this.$emit('closeFromCancel');
+    },
+    AddUserReview() {
+      this.currBook.rate = this.ratingVal;
+    },
+    closeOnEsc() {
+      this.$emit('closeModalOnEsc');
     }
+  },
+  created() {
+
   }
 };
 </script>
@@ -91,5 +95,9 @@ export default {
 
 .review-author {
   font-size: 16px;  
+}
+
+textarea {
+  resize: none;
 }
 </style>
