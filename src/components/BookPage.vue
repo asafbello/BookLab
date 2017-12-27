@@ -1,12 +1,20 @@
 <template>
   <section class="book-header">
     <div class="book-aside">
-      <el-button class="add-book" type="primary" @click="addBook(googleBookId)">Add to shelf</el-button>
+      <div class="add-to-shelf">
+          <el-select v-model="readState" placeholder="Wish List">
+            <el-option value="read"></el-option>
+            <el-option value="reading"></el-option>
+            <el-option value="wishList"></el-option>
+          </el-select>
+           <el-button class="add-book" type="primary" @click.native="addBook">Add To My Shelf</el-button>
+      </div>
       <img v-if="currBook" class="book-img" :src="currBook.img" />
       <!-- Rating -->
       <div class="block">
         <span class="rating-title">Avg Rating</span>
-        <el-rate @click.native="addRateToBook" v-model="ratingVal"></el-rate>
+          <el-rate  :value="4.5"  disabled  show-score  text-color="#ff9900" score-template="{value} points">
+          </el-rate>
       </div>
     </div>
     <!-- Book content -->
@@ -36,11 +44,11 @@ import BookService from "../services/BookService.js";
 import {
   ADD_BOOK,
   GET_BOOK,
-  UPDATE_BOOK
+  UPDATE_BOOK_AND_USER
 } from "../store/modules/BookModule.js";
 import ReviewModal from "../pages/ReviewModal.vue";
 import _ from "lodash";
-import {UPDATE_USER} from '../store/modules/UserModule.js'
+import { UPDATE_USER } from "../store/modules/UserModule.js";
 
 export default {
   name: "BookPage",
@@ -50,12 +58,14 @@ export default {
   data() {
     return {
       ratingVal: null,
-      showModal: false
+      showModal: false,
+      readState:'read'
     };
   },
   created() {
     var googleBookId = this.$route.params.googleBookId;
     BookService.getBookByForeignId(googleBookId).then(book => {
+      console.log(book,'----------');
       if (book) {
         this.$store.commit({
           type: ADD_BOOK,
@@ -76,7 +86,7 @@ export default {
   },
   computed: {
     currBook() {
-      return this.$store.getters.currentBook;
+      return this.$store.state.book.currentBook;
     },
     isUser() {
       return this.$store.getters.isUser;
@@ -87,41 +97,53 @@ export default {
   },
   methods: {
     showReviewModal() {
+      if (!this.$store.getters.isUser) {
+      this.$message.error('Oops, Please log in to add a review')
+      } else {
       this.showModal = true;
       document.addEventListener("keyup", evt => {
         if (evt.keyCode === 27) {
           this.showModal = false;
         }
       });
+      } 
     },
     closeFromCancel() {
       this.showModal = !this.showModal;
     },
-    addBook(googleBookId) {
-      this.$store.then(book => {
-        this.$store.dispatch({
-          type: ADD_BOOK_TO_USER,
-          googleBookId
-        });
-      });
+    addBook() {
+        if (!this.$store.getters.isUser) {
+      this.$message.error('Oops, Please log in to add a to shelf')
+      } else {
+      var userThatRead = {userId : this.loggedInUser._id , readState: this.readState }
+      console.log(this.currBook);
+      
+      var updatedBook = _.cloneDeep(this.currBook);
+      updatedBook.bookReaders.push(userThatRead);
+
+      var bookInUser = {bookForigenId:updatedBook.forigenId,readState: this.readState}
+      var updatedUser = _.cloneDeep(this.loggedInUser);
+      updatedUser.uBooks.push(bookInUser);
+
+       this.$store
+        .dispatch({ type: UPDATE_BOOK_AND_USER, updatedBook, updatedUser })
+        .then(_ => console.log("updated"))
+        .catch(err => console.log("err", err));
+      }
     },
     addRateToBook(reviewObj) {
+      var updatedBook = _.cloneDeep(this.currBook);
+      updatedBook.reviews.push(reviewObj);
+
+      var updatedUser = _.cloneDeep(this.loggedInUser);
+      updatedUser.uBooks.push(reviewObj);
+      //FIXINT THE OBJET FOR THE USER
+
+      this.showModal = !this.showModal;
       this.$store
-        .dispatch({
-          type: UPDATE_BOOK,
-          review: reviewObj
-        })
-        .then( () => {
-          var updatedUser = _.cloneDeep(this.loggedInUser);
-          console.log({updatedUser});
-          updatedUser.reviews.push(reviewObj);
-          this.$store.dispatch({
-            type: UPDATE_USER,
-            userId: this.loggedInUser._id,
-            updatedUser
-          });
-        });
-        this.showModal = false;
+        .dispatch({ type: UPDATE_BOOK_AND_USER, updatedBook, updatedUser })
+        .then(_ => console.log("updated"))
+        .catch(err => console.log("err", err));
     }
   }
 };
@@ -197,5 +219,12 @@ export default {
 
 .book-desc {
   padding-right: 10px;
+}
+.add-to-shelf {
+  display: flex;
+  flex-direction: row;
+}
+.add-to-shelf * {
+  margin: 0.3vw;
 }
 </style>

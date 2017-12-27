@@ -15,7 +15,7 @@
     element-loading-text="Getting Your Books..."
     element-loading-spinner="el-icon-loading"
     element-loading-background="rgba(0, 0, 0, 0.342)">
-          <div class="books-res flip-list" v-for="book in bookSearchRes" :key="book.id">
+          <div class="books-res flip-list" v-for="book in bookSearchRes" :key="book.forigenId">
             <el-tooltip :content="book.volumeInfo.description" placement="bottom" effect="light">
                   <el-button>{{book.volumeInfo.title}}</el-button>
             </el-tooltip>
@@ -60,6 +60,7 @@ export default {
         .catch(err => this.searching = false);
     }, 300),
     addToShlef(bookFromGoogleId) {
+      this.bookSearchRes = null
       //   var user = this.loggedinUser
       //   user.shelf.push(bookFromGoogleId)
       //   .dispatch({ type: UPDATE_USER , user})

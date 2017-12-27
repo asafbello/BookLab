@@ -1,12 +1,10 @@
 <template>
     <form class="modal-header" @keypress.native="closeOnEsc">
         <h1 class="book-details">{{currBook.title}} <span class="review-author">/ {{currBook.author}}</span></h1>
-        <el-rate class="rating"
+      <div><el-rate class="rating"
             v-model="ratingVal"
-            :texts="['Nah', 'Disappointed', 'Niceee', 'Great', 'Masterpiece!']"
-            show-text>
-            <span>Your rating</span>
-       </el-rate>
+            :texts="['Nah', 'Disappointed', 'Nice', 'Great', 'Masterpiece!']">
+       </el-rate> </div>
             <p>So, what d'you think?</p>
             <textarea rows="10" cols="50" placeholder="Enter review(optional)" v-model="txtRate"></textarea>
             <p>Dates read: </p>
@@ -24,7 +22,7 @@
                 </el-date-picker>
              </div>
              <br>
-               <el-button @click.native="addUserReview" type="success">Save</el-button>
+               <el-button @click.native="addUserReview" type="success">Add Your Review</el-button>
                <el-button @click.native="closeModal" type="info">Cancel</el-button>
     </form>
 </template>
@@ -84,6 +82,7 @@ export default {
         var userReviewObj = {
         createdAt: Date.now(),
         byUserId: this.$store.state.user.loggedinUser._id,
+        foreignId: currBook.foreignId,
         review: {
           txt:  this.txtRate,
           rate: this.ratingVal,
