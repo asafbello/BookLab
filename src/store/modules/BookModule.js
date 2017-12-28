@@ -39,8 +39,7 @@ export default {
         [SET_BOOK](state, { book }) {
             state.currGoogleBook = BookService.createBookObj(book)
         },
-        [UPDATE_BOOK](state, { book }) {
-            console.log('hi');
+        [UPDATE_BOOK](state, {book}) {
             state.currBook = book;
         },
     },
@@ -79,7 +78,8 @@ export default {
                 })
 
         },
-        [UPDATE_BOOK]({ commit }, { bookId, updatedBook }) {
+        [UPDATE_BOOK]({ commit }, obj) {
+            var { bookId, updatedBook } = obj;
             console.log(userId, updatedBook);
             commit({ type: UPDATE_BOOK, updatedBook })
         },
