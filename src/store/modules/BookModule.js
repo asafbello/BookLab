@@ -20,8 +20,8 @@ export default {
         currBook: null
     },
     getters: {
-        currentBook({currBook}) {
-            return _.cloneDeep(currBook);
+        currBook: state =>  {
+            return state.currBook;
      },
         booksToDisplay(context) {
             var { books } = context;
@@ -37,7 +37,10 @@ export default {
         },
         [SET_BOOK] (state, {book}) {
             state.currGoogleBook = BookService.createBookObj(book)
-        }
+        },
+        [UPDATE_BOOK](state, {book}) {
+            state.currBook = book;
+        },
     },
 
     actions: {

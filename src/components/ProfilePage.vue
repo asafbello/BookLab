@@ -1,5 +1,5 @@
 <template>
-    <div class="main-container">
+    <div class="main-container" v-if="loggedinUser">
   
     <el-card :body-style="{ padding: '0px' }" class="left-panel" v-if="!isEditing">
       <img :src="loggedinUser.avatar" class="image">
@@ -13,36 +13,46 @@
       </div>
     </el-card>
 
-<section class="content-wrapper">
-      <div class="statistics" v-if="!isEditing">
+<section class="content-wrapper" v-if="!isEditing">
+      <div class="statistics">
           <div class="statistics-item">
             <div class="icon-count">
-              <!-- <p>{{loggedinUser.readList.length}}</p> -->
+              <p>{{pagesRead }}</p>
             <p>Pages read </p></div><i class="fa fa-book" aria-hidden="true"></i></div>
           <div class="statistics-item">
           <div class="icon-count">
             <p>{{loggedinUser.reviews.length}}</p>
             <p>Books read </p> </div><i class="fa fa-check" aria-hidden="true"></i></div>
-          <div class="statistics-item"><p>Books in read list</p> <i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
+          <div class="statistics-item">
+            <div class="icon-count">
+              <p>{{loggedinUser.uBooks.length}}</p>
+            <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
-   <div class="jenres">
+   <div class="jenres" v-if="!isEditing">
      <div class="jenres-wrapper">
      <h1>Favorie jenres</h1>
-     <p v-for="jenre in loggedinUser.favoriteJenre">{{jenre}}</p></div>
+     <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
      </div>
-  </section>      
+     <div class="reviews">
 
-        <form class="signin-form "  v-if="isEditing">
-
-    <el-card :body-style="{ padding: '0px' }" class="profile-pic-edit" v-if="isEditing">
-      <img :src="loggedinUser.avatar" class="image">
+    <el-card v-for="(review , idx) in loggedinUser.reviews" :key="idx" :body-style="{ padding: '0px' }" class="review-cards" v-if="!isEditing && loggedinUser.reviews.length > 0">
+      <img :src="review.review.img" class="image">
       <div style="padding: 14px;" class="left-panel-content">
-        <span>{{loggedinUser.username}}</span>
         <div class="bottom clearfix">
-          <time class="time">Joind at: {{ loggedinUser.joinedAt }}</time> <br>
+          <time class="time">My rate: {{ review.review.rate }}</time> <br>
+          <el-button type="text" class="button"  @click="showReview(review.review.id)" v-if="!isEditing">
+            Expand
+          </el-button>
+          <el-button type="text" class="button"  @click="deleteReview(loggedinUser.reviews[0].review.id)">
+            Delete
+          </el-button>
         </div>
       </div>
     </el-card>
+  </div>
+</section>      
+
+        <form class="signin-form "  v-if="isEditing">
 
           <h4>Name</h4>
              <el-input type="text" placeholder="name" v-model="updatedUser.name"></el-input>
@@ -85,6 +95,7 @@ export default {
   },
   data() {
     return {
+      pagesRead: 0,
       userImg: null,
       userId: this.$store.state.user.loggedinUser._id,
       isEditing: false,
@@ -104,8 +115,30 @@ export default {
   },
   created() {
     var id = this.$route.params.id;
+    // if(!this.loggedinUser) return;
+    var pagesCount = this.loggedinUser.reviews.reduce((acu, curr) => {
+      return acu + curr.review.pages
+    }, 0)
+   this.pagesRead = pagesCount
   },
   methods: {
+    showReview(id) {
+      this.$router.push( `/book/${id}/BookReviewPage`)
+    },
+
+    deleteReview(bookId) {
+      console.log('bookid ',bookId)
+      console.log(' this.updatedUser.reviews ', this.updatedUser)
+      // this.updatedUser.reviews = this.updatedUser.reviews.filter(review => review.id != bookId)
+      // var userId = this.$store.state.user.loggedinUser._id;
+      // this.$store.dispatch({
+      //   type: UPDATE_USER,
+      //   userId,
+      //   user
+      // });
+    
+    },
+
     editProfile(userId, updatedUser) {
       this.isEditing = !this.isEditing;
     },
@@ -134,6 +167,18 @@ export default {
 </script>
 
 <style scoped>
+
+.review-cards{
+  width: 15%;
+  /* margin-top: 6%; */
+  margin-left: 3%;
+}
+
+.reviews {
+  width: 100%;
+  display: flex;
+  /* height: 200px; */
+}
 .jenres {
   width: 50%;
   display: flex;
@@ -147,6 +192,8 @@ export default {
   display: flex;
   width: 70%;
   flex-flow: row wrap;
+  margin-right: 2%;
+  margin-top: 2%;
 }
 
 .profile-pic-edit {
@@ -194,7 +241,6 @@ h4 {
   justify-content: space-between;
   width: 50%;
   align-self: flex-start;
-  margin-top: 6%;
 }
 
 .fa {

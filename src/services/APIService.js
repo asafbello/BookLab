@@ -5,7 +5,7 @@ const GOOGLE_AUTH = '1004785258315-k04uc3m0oct08c9hevhconv1ptiafulc.apps.googleu
 import axios from 'axios'
 
 
-var GoogleAuth; // Google Auth object.
+// var GoogleAuth; // Google Auth object.
 // function initClient() {
 //   gapi.client.init({
 //       'apiKey': GOOGLE_KEY,

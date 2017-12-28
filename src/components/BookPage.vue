@@ -32,7 +32,7 @@
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
       <div class="modal" v-if="showModal" @closeModalOnEsc="showReviewModal">
-      <review-modal @closeFromCancel="closeFromCancel"  class="review-modal" @addUserReview="addRateToBook"></review-modal>
+      <review-modal :currBook="currBook" @closeFromCancel="closeFromCancel"  class="review-modal" @addUserReview="addRateToBook"></review-modal>
       </div>
     </main>
   </section>
@@ -46,6 +46,7 @@ import BookService from "../services/BookService.js";
 import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
 import { UPDATE_USER } from "../store/modules/UserModule.js";
 import { UPDATE_BOOK_AND_USER } from "../store/modules/ReviewModule.js";
+import { mapGetters } from 'vuex'
 
 export default {
   name: "BookPage",
@@ -81,9 +82,17 @@ export default {
     });
   },
   computed: {
-    currBook() {
-      return this.$store.state.book.currBook;
-    },
+    ...mapGetters([
+      'currBook'
+    ]),
+    // currBook() {
+    //   return this.$store.state.book.currBook;
+    // },
+    //     ...mapGetters([
+    //   'doneTodosCount',
+    //   'anotherGetter',
+    //   // ...
+    // ])
     isUser() {
       return this.$store.getters.isUser;
     },
@@ -141,18 +150,14 @@ export default {
           .catch(err => console.log("err", err));
       }
     },
-    addRateToBook(reviewObj) {
-      //FIXINT THE OBJET FOR THE USER
+    addRateToBook(objToUpdateBook,objToUpdateUser) {
       if (!this.$store.getters.isUser) {
         this.$message.error("Oops, Please log in to add a to shelf");
       } else {
-        var objToUpdateBook = reviewObj
-        var objToUpdateUser = reviewObj
         this.showModal = !this.showModal;
-              console.log('inside book page');
-      
+        // this.$message.sucsess("adding your review...");
         this.$store
-          .dispatch({type: UPDATE_BOOK_AND_USER, reviewObj})
+          .dispatch({type: UPDATE_BOOK_AND_USER, objToUpdateBook,objToUpdateUser})
           .then(_ => console.log("updated"))
           .catch(err => console.log("err", err));
       }

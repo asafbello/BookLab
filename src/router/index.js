@@ -5,6 +5,7 @@ import BookPage from '@/components/BookPage'
 import SignUpPage from '@/components/SignUpPage'
 import SignInPage from '@/components/SignInPage'
 import ProfilePage from '@/components/ProfilePage'
+import BookReviewPage from '@/pages/BookReviewPage'
 
 Vue.use(Router)
 
@@ -34,7 +35,14 @@ export default new Router({
       path: '/user/MyProfile',
       name: 'ProfilePage',
       component: ProfilePage
+    },
+    {
+      path: '/book/:id/BookReviewPage',
+      name: 'BookReviewPage',
+      component: BookReviewPage
     }
+
+    
   ]
 })
 ProfilePage

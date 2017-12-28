@@ -1,7 +1,6 @@
 <template>
       <div class="signup">
-        <!-- <h3>New User? Signup</h3> -->
-        <!-- <h2>{{signupDetails.favoriteJenre}}</h2> -->
+
     <section class="fav-jenres">
       <h2>Choose your fav<span><i class="fa fa-star" aria-hidden="true"></i></span>rite jenres</h2>
   <div class="lables">

@@ -95,6 +95,8 @@ function getUserFromStorage() {
     return 
 }
 
+
+
 function saveToLocalStorage(user) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
 }
