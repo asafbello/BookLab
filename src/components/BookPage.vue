@@ -33,22 +33,19 @@
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
       <div class="modal" v-if="showModal" @closeModalOnEsc="showReviewModal">
-      <review-modal @closeFromCancel="closeFromCancel" :curr-book="currBook" class="review-modal" @addUserReview="addRateToBook"></review-modal>
+      <review-modal @closeFromCancel="closeFromCancel"  class="review-modal" @addUserReview="addRateToBook"></review-modal>
       </div>
     </main>
   </section>
 </template>
 
 <script>
-import BookService from "../services/BookService.js";
-import {
-  ADD_BOOK,
-  GET_BOOK,
-  UPDATE_BOOK_AND_USER
-} from "../store/modules/BookModule.js";
 import ReviewModal from "../pages/ReviewModal.vue";
 import _ from "lodash";
+import BookService from "../services/BookService.js";
+import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
 import { UPDATE_USER } from "../store/modules/UserModule.js";
+import { UPDATE_BOOK_AND_USER } from "../store/modules/ReviewModule.js";
 
 export default {
   name: "BookPage",
@@ -59,13 +56,12 @@ export default {
     return {
       ratingVal: null,
       showModal: false,
-      readState:'read'
+      readState: "read"
     };
   },
   created() {
     var googleBookId = this.$route.params.googleBookId;
     BookService.getBookByForeignId(googleBookId).then(book => {
-      console.log(book,'----------');
       if (book) {
         this.$store.commit({
           type: ADD_BOOK,
@@ -74,7 +70,7 @@ export default {
       } else {
         var self = this.$store;
         BookService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
-          console.log(bookToAdd);
+          console.log(bookToAdd, "----------");
           if (bookToAdd._id) return;
           self.dispatch({
             type: ADD_BOOK,
@@ -86,7 +82,7 @@ export default {
   },
   computed: {
     currBook() {
-      return this.$store.state.book.currentBook;
+      return this.$store.state.book.currBook;
     },
     isUser() {
       return this.$store.getters.isUser;
@@ -98,52 +94,56 @@ export default {
   methods: {
     showReviewModal() {
       if (!this.$store.getters.isUser) {
-      this.$message.error('Oops, Please log in to add a review')
+        this.$message.error("Oops, Please log in to add a review");
       } else {
-      this.showModal = true;
-      document.addEventListener("keyup", evt => {
-        if (evt.keyCode === 27) {
-          this.showModal = false;
-        }
-      });
-      } 
+        this.showModal = true;
+        document.addEventListener("keyup", evt => {
+          if (evt.keyCode === 27) {
+            this.showModal = false;
+          }
+        });
+      }
     },
     closeFromCancel() {
       this.showModal = !this.showModal;
     },
     addBook() {
-        if (!this.$store.getters.isUser) {
-      this.$message.error('Oops, Please log in to add a to shelf')
+      if (!this.$store.getters.isUser) {
+        this.$message.error("Oops, Please log in to add a to shelf");
       } else {
-      var userThatRead = {userId : this.loggedInUser._id , readState: this.readState }
-      console.log(this.currBook);
-      
-      var updatedBook = _.cloneDeep(this.currBook);
-      updatedBook.bookReaders.push(userThatRead);
-
-      var bookInUser = {bookForigenId:updatedBook.forigenId,readState: this.readState}
-      var updatedUser = _.cloneDeep(this.loggedInUser);
-      updatedUser.uBooks.push(bookInUser);
-
-       this.$store
-        .dispatch({ type: UPDATE_BOOK_AND_USER, updatedBook, updatedUser })
-        .then(_ => console.log("updated"))
-        .catch(err => console.log("err", err));
+        var objToUpdateBook = {
+          userId: this.loggedInUser._id,
+          readState: this.readState
+        };
+        var objToUpdateUser = {
+          bookForigenId: updatedBook.forigenId,
+          readState: this.readState
+        };
+        this.$store
+          .dispatch({
+            type: UPDATE_BOOK_AND_USER,
+            objToUpdateBook,
+            objToUpdateUser
+          })
+          .then(_ => console.log("updated"))
+          .catch(err => console.log("err", err));
       }
     },
     addRateToBook(reviewObj) {
-      var updatedBook = _.cloneDeep(this.currBook);
-      updatedBook.reviews.push(reviewObj);
-
-      var updatedUser = _.cloneDeep(this.loggedInUser);
-      updatedUser.uBooks.push(reviewObj);
       //FIXINT THE OBJET FOR THE USER
-
-      this.showModal = !this.showModal;
-      this.$store
-        .dispatch({ type: UPDATE_BOOK_AND_USER, updatedBook, updatedUser })
-        .then(_ => console.log("updated"))
-        .catch(err => console.log("err", err));
+      if (!this.$store.getters.isUser) {
+        this.$message.error("Oops, Please log in to add a to shelf");
+      } else {
+        var objToUpdateBook = reviewObj
+        var objToUpdateUser = reviewObj
+        this.showModal = !this.showModal;
+              console.log('inside book page');
+      
+        this.$store
+          .dispatch({type: UPDATE_BOOK_AND_USER, reviewObj})
+          .then(_ => console.log("updated"))
+          .catch(err => console.log("err", err));
+      }
     }
   }
 };

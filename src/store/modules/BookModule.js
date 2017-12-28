@@ -8,7 +8,7 @@ export const DELETE_BOOK = 'book/deletebooks';
 export const ADD_BOOK = 'books/addBook'
 export const GET_BOOK = 'books/getBook'
 export const UPDATE_BOOK = 'books/updateBook'
-export const UPDATE_BOOK_AND_USER = 'books/updateBookAndUser'
+
 
 
 const SET_BOOKS = 'books/setBooks';
@@ -50,7 +50,7 @@ export default {
                 })
                 .catch(err => {
                     commit(SET_BOOKS, [])
-                    throw err;
+                    this.$message.error(err)
                 })
         },
         [ADD_BOOK] ({commit}, {bookToAdd}) {
@@ -69,27 +69,12 @@ export default {
                         type: SET_BOOK,
                         book
                     })
+                    .catch(err =>  this.$message.error(err))
                 })
 
         },
-        [UPDATE_BOOK_AND_USER](context, {updatedBook, updatedUser}) {
-            console.log(updatedBook,'hi');
-           return context
-            .dispatch({
-              type: UPDATE_BOOK,
-              updatedBook
-            })
-            .then(() => {
-                console.log(updatedUser,'hi');
-                context.dispatch({
-                type: UPDATE_USER,
-                userId: updatedUser._id,
-                updatedUser
-              });
-            });
-        },
-        [UPDATE_BOOK]({commit}, {updatedBook}) {
-            return BookService.saveBook(updatedBook)
+        [UPDATE_BOOK]({commit}, {bookId, objToUpdateBook}) {
+            return BookService.updateBook(bookId, objToUpdateBook)
             .then(res => {
                 commit({
                     type: ADD_BOOK, 
