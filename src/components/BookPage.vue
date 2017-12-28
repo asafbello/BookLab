@@ -13,7 +13,7 @@
       <!-- Rating -->
       <div class="block">
         <span class="rating-title">Avg Rating</span>
-          <el-rate  :value="4.5"  disabled  show-score  text-color="#ff9900" score-template="{value} points">
+          <el-rate :value="4.5"  disabled  show-score  text-color="#ff9900" score-template="{value} points">
           </el-rate>
       </div>
     </div>
@@ -31,10 +31,11 @@
         <el-button class="vid-review" type="primary">Video review</el-button>
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
-      <div class="modal" v-if="showModal" @closeModalOnEsc="showReviewModal">
-      <review-modal :currBook="currBook" @closeFromCancel="closeFromCancel"  class="review-modal" @addUserReview="addRateToBook"></review-modal>
+      <div class="modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
+      <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="review-modal" @addUserReview="addRateToBook"></review-modal>
       </div>
     </main>
+    <book-preview></book-preview>
   </section>
 </template>
 
@@ -53,6 +54,7 @@ export default {
   name: "BookPage",
   components: {
     ReviewModal, 
+    BookPreview
   },
   data() {
     return {
@@ -243,5 +245,9 @@ export default {
 
 .book-review {
   cursor: pointer;
+}
+
+.book-content {
+  margin-top: 25px;
 }
 </style>

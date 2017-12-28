@@ -1,17 +1,17 @@
 <template>
     <form class="modal-header" @keypress.native="closeOnEsc">
-      <!-- {{currentBook}} -->
         <h1 class="book-details">{{currBook.title}} <span class="review-author">/ {{currBook.author}}</span></h1>
       <div><el-rate class="rating"
             v-model="ratingVal"
             :texts="['Nah', 'Disappointed', 'Nice', 'Great', 'Masterpiece!']">
-       </el-rate> </div>
+       </el-rate></div>
             <p>So, what d'you think?</p>
             <textarea rows="10" cols="50" placeholder="Enter review(optional)" v-model="txtRate"></textarea>
             <p>Dates read: </p>
             <div class="block">
                 <span class="demonstration"></span>
                 <el-date-picker 
+                class="picker"
                 v-model="readDates"
                 type="daterange"
                 align="right"
@@ -119,6 +119,7 @@ export default {
 </script>
 
 <style scoped>
+
 .review-author {
   font-size: 16px;
 }
@@ -126,5 +127,9 @@ export default {
 textarea {
   resize: none;
   padding-left: 8px;
+}
+
+.picker {
+  cursor: pointer;
 }
 </style>
