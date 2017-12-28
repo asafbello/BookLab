@@ -1,10 +1,9 @@
 const GOODREADS_KEY = 'FELO3TUoq67L0ebw62ErQ'
-const GOOGLE_KEY = 'AIzaSyDiC5WY7xGnKy_GL6hezF3Tp8PHpbOxkGs'
+const GOOGLE_KEY = 'AIzaSyBZD7e18qKjBq3N_we3BoHEoYmMHlTAYtM'
 const BOOK_URL = 'http://localhost:3003/data/book';
 const GOOGLE_AUTH = '1004785258315-k04uc3m0oct08c9hevhconv1ptiafulc.apps.googleusercontent.com';
 import axios from 'axios'
-import { resolve } from 'path';
-import { log } from 'util';
+
 
 var GoogleAuth; // Google Auth object.
 function initClient() {
@@ -22,19 +21,15 @@ function initClient() {
 }
 
 // function searchBook(query, type) {
-//     console.log(query, type);
-//     return axios
-//             .get(`https://www.goodreads.com/search/index.xml?key=${GOODREADS_KEY}=${query}`)
-//             .then(res => res.data)
-//             .catch(e => {
-//                 console.log('No search', e);
-//                 // throw e;
-//             });
+//         return axios.get(`https://www.googleapis.com/books/v1/volumes?printType=books&q=${query}`)
+//         .then(res => res.data.items)
+//         .catch(err => console.log(err))
 // }
+
 function searchBook(query, type) {
-        return axios.get(`https://www.googleapis.com/books/v1/volumes?printType=books&q=${query}`)
+        return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`)
         .then(res => res.data.items)
-        .catch(err => console.log(err))
+        .catch(err => err)
 }
 
 initClient();

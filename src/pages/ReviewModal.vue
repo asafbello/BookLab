@@ -1,6 +1,7 @@
 <template>
     <form class="modal-header" @keypress.native="closeOnEsc">
-        <h1 class="book-details">{{currBook.title}} <span class="review-author">/ {{currBook.author}}</span></h1>
+      {{currentBook}}
+        <h1 class="book-details">{{currentBook.title}} <span class="review-author">/ {{currentBook.author}}</span></h1>
       <div><el-rate class="rating"
             v-model="ratingVal"
             :texts="['Nah', 'Disappointed', 'Nice', 'Great', 'Masterpiece!']">
@@ -28,16 +29,22 @@
 </template>
 
 <script>
-
-import { GET_BOOK } from '../store/modules/BookModule.js'
-import state from '../store/modules/UserModule.js'
+import { GET_BOOK } from "../store/modules/BookModule.js";
+import state from "../store/modules/UserModule.js";
 
 export default {
-  props: ['currBook'],
+  //NEDD TO FIXXXXXXXXXXXXXXXXXXXXXXXXXXXX!!!
+        //!!!!!!!!!!!!!
+        //MOVE TO PROPSSSSSSSS
+  computed: {
+    currentBook() {
+      return this.$store.state.book.currBook;
+    }
+  },
   data() {
     return {
       ratingVal: null,
-      txtRate: '',
+      txtRate: "",
       pickerOptions2: {
         shortcuts: [
           {
@@ -73,32 +80,32 @@ export default {
       readDates: ""
     };
   },
-  methods:{
+  methods: {
     closeModal() {
-      this.$emit('closeFromCancel');
+      this.$emit("closeFromCancel");
     },
     addUserReview() {
       this.$store.state.user.loggedInUser;
-        var userReviewObj = {
+      var userReviewObj = {
         createdAt: Date.now(),
         byUserId: this.$store.state.user.loggedinUser._id,
-        foreignId: currBook.foreignId,
+        //NEDD TO FIXXXXXXXXXXXXXXXXXXXXXXXXXXXX!!!
+        //!!!!!!!!!!!!!
+        foreignId: '5a43c55c1ab019062cf9f5fb',
         review: {
-          txt:  this.txtRate,
+          txt: this.txtRate,
           rate: this.ratingVal,
-          readDates: this.readDates,
-          }
+          readDates: this.readDates
         }
-        this.$emit('addUserReview', userReviewObj)
-        console.log({userReviewObj});
+      };
+      this.$emit("addUserReview", userReviewObj);
+      console.log({ userReviewObj });
     },
     closeOnEsc() {
-      this.$emit('closeModalOnEsc');
+      this.$emit("closeModalOnEsc");
     }
   },
-  created() {
-
-  }
+  created() {}
 };
 </script>
 
