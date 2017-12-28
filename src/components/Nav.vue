@@ -5,8 +5,6 @@
             <el-menu-item class="logo-container" index="0">
             <router-link to="/"><img class="logo" src="../assets/img/logo.png" width="125" height="125"/></router-link>
             </el-menu-item>
-            <router-link to="/"> 
-            </router-link>
             <el-menu-item index="2">Readers</el-menu-item>
             <el-menu-item index="3">Browse</el-menu-item>
             <div class="user-area" v-if="!loggedInUser">
@@ -14,6 +12,7 @@
               <router-link to="/user/SignInPage"><el-menu-item index="5">Sign In</el-menu-item></router-link>
             </div>
             <div v-else class="user-area">
+                  <i class="fa fa-user-circle fa-2x" style="color:#DDDDDD;" aria-hidden="true"></i>
               <el-submenu index="5-1">
                   <template slot="title">Hello {{loggedInUser.name}}</template>
                   <el-menu-item class="submenu-items" index="5-1" v-if="loggedInUser" @click="logout">Sign Out</el-menu-item>
@@ -65,7 +64,7 @@ export default {
 .user-area {
   display: flex;
   justify-content: flex-end;
-  /* margin-right: 40px; */
+  align-items: center;
 }
 
 .submenu-items {
