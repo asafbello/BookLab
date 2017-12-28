@@ -83,15 +83,7 @@ export default {
     });
   },
   computed: {
-    ...mapGetters([
-      'currBook'
-    ]),
-    isUser() {
-      return this.$store.getters.isUser;
-    },
-    loggedInUser() {
-      return this.$store.state.user.loggedinUser;
-    },
+    ...mapGetters([ 'currBook', 'isUser', 'loggedInUser' ]),
     styleReadMore() {
       return {
         height: this.isReadMore ? "" : "300px"
@@ -136,7 +128,7 @@ export default {
           .catch(err => console.log("err", err));
       }
     },
-    addRateToBook(objToUpdateBook, objToUpdateUser) {
+    addRateToBook(reviewBook, reviewUser) {
       if (!this.$store.getters.isUser) {
         this.$message.error("Oops, Please log in to add a to shelf");
       } else {
@@ -144,11 +136,9 @@ export default {
         this.$message('adding your review...');
         this.$store
           .dispatch({
-            type: UPDATE_BOOK_AND_USER,
-            payload: {
-              objToUpdateBook,
-              objToUpdateUser
-            }
+            type: UPDATE_BOOK_AND_USER,   
+              reviewBook,
+              reviewUser
           })
           .then(_ => console.log("updated"))
           .catch(err => {
