@@ -16,7 +16,10 @@ import BookService from './BookService.js'
 function getBookFromGoogle(foreingId) {
     return axios
     .get(`${GOOGLE_URL}/${foreingId}`)
-        .then(res => res.data)
+        .then(res => {
+            console.log(res.data, 'assaf')    
+            return res.data
+        })
         .catch(err => err)
 }
 

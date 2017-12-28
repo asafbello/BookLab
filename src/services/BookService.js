@@ -92,7 +92,7 @@ function createBookObj(googleBook) {
         pages: googleBook.volumeInfo.pageCount || 0,
         author: googleBook.volumeInfo.authors[0] || '',
         desc: googleBook.volumeInfo.description || '',
-        img: googleBook.volumeInfo.imageLinks.medium || '',
+        img: googleBook.volumeInfo.imageLinks.thumbnail || '',
         reviews: [],
         bookReaders:[]
     }

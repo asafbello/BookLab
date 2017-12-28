@@ -52,8 +52,5 @@ export default {
   margin-top: 5%;
 }
 
-img {
-  width: 30%;
-}
 </style>
 
