@@ -10,9 +10,7 @@ export const DELETE_USER = 'user/deleteUser';
 export const UPDATE_USER = 'user/editUser';
 export const ADD_BOOK_SHELF = 'user/addBookShelf';
 
-
-
-var STORAGE_KEY = 'loggedinUser';
+const STORAGE_KEY = 'loggedinUser';
 
 export default {
     state: {
@@ -39,7 +37,7 @@ export default {
     },
     actions: {
         [UPDATE_USER]({commit}, {userId, updatedUser} )  {
-            console.log(userId, updatedUser);
+            console.log('nooo action');
             return UserService.editUser(userId, updatedUser)
                 .then(user => {
                         commit({type: UPDATE_USER, user})

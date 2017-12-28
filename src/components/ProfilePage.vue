@@ -17,7 +17,7 @@
       <div class="statistics">
           <div class="statistics-item">
             <div class="icon-count">
-              <p>{{pagesRead }}</p>
+              <p>{{pagesRead}}</p>
             <p>Pages read </p></div><i class="fa fa-book" aria-hidden="true"></i></div>
           <div class="statistics-item">
           <div class="icon-count">
@@ -25,22 +25,22 @@
             <p>Books read </p> </div><i class="fa fa-check" aria-hidden="true"></i></div>
           <div class="statistics-item">
             <div class="icon-count">
-              <p>{{loggedinUser.uBooks.length}}</p>
+              <!-- <p>{{loggedinUser.uBooks.length}}</p> -->
             <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
 <div class="right-panel jenres">
 
-   <div class="jenres" v-if="!isEditing">
-      <div class="jenres-wrapper">
-      <h1>Favorie jenres</h1>
-      <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
-    </div>
+  
 
-    <div class="curr-book-reading">
-      <h3>Readind right now</h3>
-<book-preview :img-url="loggedinUser.reviews[1].review.img" ></book-preview>
-
+  <div class="curr-book-reading">
+      <h3>Reading right now</h3>
+      <book-preview :img-url="loggedinUser.reviews[1].review.img" ></book-preview>
+      <div class="jenres" v-if="!isEditing">
+        <div class="jenres-wrapper">
+        <h1>Favorite jenres</h1>
+        <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
     </div>
+  </div>
 
 </div>
      <div class="reviews">
@@ -186,6 +186,15 @@ export default {
 </script>
 
 <style scoped>
+
+.right-panel jenres {
+  display: flex;
+
+}
+
+.curr-book-reading > * {
+  padding:  10px;
+}
 .curr-book-reading {
   display: flex;
   flex-direction: column;

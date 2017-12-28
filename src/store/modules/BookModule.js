@@ -1,6 +1,7 @@
 import BookService from "../../services/BookService.js";
 import _ from 'lodash'
 import { UPDATE_USER } from "./UserModule.js";
+import APIService from "../../services/APIService";
 
 export const LOAD_BOOKS = 'book/loadBooks';
 export const LOAD_BOOK = 'book/loadBook';
@@ -20,9 +21,9 @@ export default {
         currBook: null
     },
     getters: {
-        currBook: state =>  {
+        currBook: state => {
             return state.currBook;
-     },
+        },
         booksToDisplay(context) {
             var { books } = context;
             return books
@@ -32,21 +33,23 @@ export default {
         [SET_BOOKS](state, { books }) {
             state.books = books;
         },
-        [ADD_BOOK](state, {book}) {
+        [ADD_BOOK](state, { book }) {
             state.currBook = book;
         },
-        [SET_BOOK] (state, {book}) {
+        [SET_BOOK](state, { book }) {
             state.currGoogleBook = BookService.createBookObj(book)
         },
-        [UPDATE_BOOK](state, {book}) {
+        [UPDATE_BOOK](state, { book }) {
+            console.log('hi');
             state.currBook = book;
         },
     },
 
     actions: {
         [LOAD_BOOKS]({ commit, rootState }, { shelf }) {
-            if (rootState.user.loggedinUser) shelf = rootState.user.loggedinUser.uBooks
-            return BookService.getBooksShelf(shelf)
+            // if (rootState.user.loggedinUser) shelf = rootState.user.loggedinUser.uBooks
+            console.log(shelf,'---------------')
+            return APIService.getBooksShelf(shelf)
                 .then(books => {
                     commit({ type: SET_BOOKS, books })
 
@@ -56,34 +59,29 @@ export default {
                     this.$message.error(err)
                 })
         },
-        [ADD_BOOK] ({commit}, {bookToAdd}) {
+        [ADD_BOOK]({ commit }, { bookToAdd }) {
             return BookService.saveBook(bookToAdd)
                 .then(book => {
                     commit({
-                        type: ADD_BOOK, 
+                        type: ADD_BOOK,
                         book: book.data
                     })
                 })
         },
         [GET_BOOK]({ commit }, { googleBookId }) {
-            return BookService.getBookFromGoogle(googleBookId)
+            return APIServicevice.getBookFromGoogle(googleBookId)
                 .then(book => {
                     commit({
                         type: SET_BOOK,
                         book
                     })
-                    .catch(err =>  this.$message.error(err))
+                        .catch(err => this.$message.error(err))
                 })
 
         },
-        [UPDATE_BOOK]({commit}, {bookId, objToUpdateBook}) {
-            return BookService.updateBook(bookId, objToUpdateBook)
-            .then(res => {
-                commit({
-                    type: ADD_BOOK, 
-                    book: res.data
-                })
-            })
+        [UPDATE_BOOK]({ commit }, { bookId, updatedBook }) {
+            console.log(userId, updatedBook);
+            commit({ type: UPDATE_BOOK, updatedBook })
         },
     }
 }

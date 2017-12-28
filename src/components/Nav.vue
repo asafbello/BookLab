@@ -3,22 +3,23 @@
         <div class="line"></div>
             <el-menu  class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
             <el-menu-item class="logo-container" index="0">
-            <img class="logo" src="../assets/img/logo.png" width="125" height="125"/>
+            <router-link to="/"><img class="logo" src="../assets/img/logo.png" width="125" height="125"/></router-link>
             </el-menu-item>
             <router-link to="/"> 
             </router-link>
             <el-menu-item index="2">Readers</el-menu-item>
             <el-menu-item index="3">Browse</el-menu-item>
-            <div class="user-area">
-              <router-link to="/user/SignUpPage" v-if="!loggedInUser"><el-menu-item index="4">sign up</el-menu-item></router-link>
-              <router-link to="/user/SignInPage" v-if="!loggedInUser"><el-menu-item index="5">sign In</el-menu-item></router-link>
+            <div class="user-area" v-if="!loggedInUser">
+              <router-link to="/user/SignUpPage"><el-menu-item index="4">Sign Up</el-menu-item></router-link>
+              <router-link to="/user/SignInPage"><el-menu-item index="5">Sign In</el-menu-item></router-link>
             </div>
-            <el-submenu index="6" v-if="loggedInUser">
-              <template slot="title">Hello {{loggedInUser.name}}</template>
-                <el-menu-item index="5-1" v-if="loggedInUser" @click="logout">Sign Out</el-menu-item>
-                <router-link to="/user/MyProfile"><el-menu-item index="5-1" v-if="loggedInUser">Go to profile</el-menu-item></router-link> 
-            </el-submenu>
-
+            <div v-else class="user-area">
+              <el-submenu index="5-1">
+                  <template slot="title">Hello {{loggedInUser.name}}</template>
+                  <el-menu-item class="submenu-items" index="5-1" v-if="loggedInUser" @click="logout">Sign Out</el-menu-item>
+                  <router-link to="/user/MyProfile"><el-menu-item index="5-1" class="submenu-items" v-if="loggedInUser">Go To Profile</el-menu-item></router-link> 
+              </el-submenu>
+            </div>
             </el-menu>
     </div>
 </template>
@@ -64,11 +65,13 @@ export default {
 .user-area {
   display: flex;
   justify-content: flex-end;
+  /* margin-right: 40px; */
 }
 
-.logo-container {
+.submenu-items {
   display: flex;
   justify-content: flex-start;
 }
+
 </style>
 

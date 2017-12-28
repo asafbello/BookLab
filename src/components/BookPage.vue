@@ -13,7 +13,7 @@
       <!-- Rating -->
       <div class="block">
         <span class="rating-title">Avg Rating</span>
-          <el-rate  :value="4.5"  disabled  show-score  text-color="#ff9900" score-template="{value} points">
+          <el-rate :value="4.5"  disabled  show-score  text-color="#ff9900" score-template="{value} points">
           </el-rate>
       </div>
     </div>
@@ -31,8 +31,8 @@
         <el-button class="vid-review" type="primary">Video review</el-button>
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
-      <div class="modal" v-if="showModal" @closeModalOnEsc="showReviewModal">
-      <review-modal :currBook="currBook" @closeFromCancel="closeFromCancel"  class="review-modal" @addUserReview="addRateToBook"></review-modal>
+      <div class="modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
+      <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="review-modal" @addUserReview="addRateToBook"></review-modal>
       </div>
     </main>
   </section>
@@ -43,6 +43,7 @@ import ReviewModal from "../pages/ReviewModal.vue";
 import BookPreview from "../components/BookPreview.vue";
 import _ from "lodash";
 import BookService from "../services/BookService.js";
+import APIService from "../services/APIService.js";
 import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
 import { UPDATE_USER } from "../store/modules/UserModule.js";
 import { UPDATE_BOOK_AND_USER } from "../store/modules/ReviewModule.js";
@@ -71,7 +72,7 @@ export default {
         });
       } else {
         var self = this.$store;
-        BookService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
+        APIService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
           if (bookToAdd._id) return;
           self.dispatch({
             type: ADD_BOOK,
@@ -85,14 +86,6 @@ export default {
     ...mapGetters([
       'currBook'
     ]),
-    // currBook() {
-    //   return this.$store.state.book.currBook;
-    // },
-    //     ...mapGetters([
-    //   'doneTodosCount',
-    //   'anotherGetter',
-    //   // ...
-    // ])
     isUser() {
       return this.$store.getters.isUser;
     },
@@ -155,11 +148,13 @@ export default {
         this.$message.error("Oops, Please log in to add a to shelf");
       } else {
         this.showModal = !this.showModal;
-        // this.$message.sucsess("adding your review...");
+        this.$message('adding your review...');
         this.$store
           .dispatch({type: UPDATE_BOOK_AND_USER, objToUpdateBook,objToUpdateUser})
           .then(_ => console.log("updated"))
-          .catch(err => console.log("err", err));
+          .catch(err => {
+            this.$message.error('Oops, coldnt gut your review. try again');
+            console.log("err", err)});
       }
     }
   }
@@ -248,5 +243,9 @@ export default {
 
 .book-review {
   cursor: pointer;
+}
+
+.book-content {
+  margin-top: 25px;
 }
 </style>
