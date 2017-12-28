@@ -6,10 +6,10 @@
         <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
             <div class="flipper">
                 <div class="front">
-                    <img class="book-img" src="../assets/img/bookCovers/catch22.jpg"/>
+                 <img class="book-img" :src="imgUrl"/>
                 </div>
                 <div class="back">
-                    <img class="book-img" src="../assets/img/bookCovers/catch22.jpg"/>
+                    <img  class="book-img" :src="imgUrl" />
                 </div>
             </div>
         </div>
@@ -18,11 +18,26 @@
 
 <script>
 
-export default {
-    props: [],
+import store from "../store/store.js";
 
-  
-};
+
+export default {
+    props: ["imgUrl"],
+// computed: {
+//     loggedinUser() {
+//       return this.$store.state.user.loggedinUser;
+//     }
+//   },
+// methods: {
+//     showReview() {
+//         console.log('asaf',this.loggedinUser )
+        
+//     },
+
+// }
+}
+
+
 </script>
 
 <style scoped>

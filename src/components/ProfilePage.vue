@@ -17,7 +17,7 @@
       <div class="statistics">
           <div class="statistics-item">
             <div class="icon-count">
-              <p>{{pagesRead }}</p>
+              <p>{{pagesRead}}</p>
             <p>Pages read </p></div><i class="fa fa-book" aria-hidden="true"></i></div>
           <div class="statistics-item">
           <div class="icon-count">
@@ -25,17 +25,31 @@
             <p>Books read </p> </div><i class="fa fa-check" aria-hidden="true"></i></div>
           <div class="statistics-item">
             <div class="icon-count">
-              <p>{{loggedinUser.uBooks.length}}</p>
+              <!-- <p>{{loggedinUser.uBooks.length}}</p> -->
             <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
-   <div class="jenres" v-if="!isEditing">
-     <div class="jenres-wrapper">
-     <h1>Favorie jenres</h1>
-     <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
-     </div>
+<div class="right-panel jenres">
+
+  
+
+  <div class="curr-book-reading">
+      <h3>Reading right now</h3>
+      <book-preview :img-url="loggedinUser.reviews[1].review.img" ></book-preview>
+      <div class="jenres" v-if="!isEditing">
+        <div class="jenres-wrapper">
+        <h1>Favorite jenres</h1>
+        <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
+    </div>
+  </div>
+
+</div>
      <div class="reviews">
 
-    <el-card v-for="(review , idx) in loggedinUser.reviews" :key="idx" :body-style="{ padding: '0px' }" class="review-cards" v-if="!isEditing && loggedinUser.reviews.length > 0">
+    <!-- <book-preview @click.native="showReview(review.review.id)" v-for="(review, idx)  in loggedinUser.reviews"  
+                    :key="idx"
+                    :img-url="review.review.img" ></book-preview>  -->
+
+    <!-- <el-card v-for="(review , idx) in loggedinUser.reviews" :key="idx" :body-style="{ padding: '0px' }" class="review-cards" v-if="!isEditing && loggedinUser.reviews.length > 0">
       <img :src="review.review.img" class="image">
       <div style="padding: 14px;" class="left-panel-content">
         <div class="bottom clearfix">
@@ -48,7 +62,7 @@
           </el-button>
         </div>
       </div>
-    </el-card>
+    </el-card> -->
   </div>
 </section>      
 
@@ -79,6 +93,7 @@
 <script>
 import ShelfCmp from "./ShelfCmp";
 import store from "../store/store.js";
+import bookPreview from "./BookPreview";
 
 import {
   DELETE_USER,
@@ -88,6 +103,10 @@ import {
 
 export default {
   name: "ProfilePage",
+  components: {
+    bookPreview
+  },
+
   computed: {
     loggedinUser() {
       return this.$store.state.user.loggedinUser;
@@ -117,18 +136,19 @@ export default {
     var id = this.$route.params.id;
     // if(!this.loggedinUser) return;
     var pagesCount = this.loggedinUser.reviews.reduce((acu, curr) => {
-      return acu + curr.review.pages
-    }, 0)
-   this.pagesRead = pagesCount
+      return acu + curr.review.pages;
+    }, 0);
+    this.pagesRead = pagesCount;
   },
   methods: {
     showReview(id) {
-      this.$router.push( `/book/${id}/BookReviewPage`)
+      console.log("id: ", id);
+      this.$router.push(`/book/${id}/BookReviewPage`);
     },
 
     deleteReview(bookId) {
-      console.log('bookid ',bookId)
-      console.log(' this.updatedUser.reviews ', this.updatedUser)
+      console.log("bookid ", bookId);
+      console.log(" this.updatedUser.reviews ", this.updatedUser);
       // this.updatedUser.reviews = this.updatedUser.reviews.filter(review => review.id != bookId)
       // var userId = this.$store.state.user.loggedinUser._id;
       // this.$store.dispatch({
@@ -136,7 +156,6 @@ export default {
       //   userId,
       //   user
       // });
-    
     },
 
     editProfile(userId, updatedUser) {
@@ -168,7 +187,21 @@ export default {
 
 <style scoped>
 
-.review-cards{
+.right-panel jenres {
+  display: flex;
+
+}
+
+.curr-book-reading > * {
+  padding:  10px;
+}
+.curr-book-reading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.review-cards {
   width: 15%;
   /* margin-top: 6%; */
   margin-left: 3%;
@@ -183,7 +216,7 @@ export default {
   width: 50%;
   display: flex;
   justify-content: space-evenly;
-  flex-direction: row;
+  flex-direction: column-reverse;
   flex-wrap: wrap;
   color: #999;
 }

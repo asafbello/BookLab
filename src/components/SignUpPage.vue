@@ -53,9 +53,10 @@
                 <el-form-item label="User Name" prop="username">
                     <el-input type="text" placeholder="username" v-model="signupDetails.username"></el-input>
                  </el-form-item>
-                                        <el-upload
-                        class="upload-demo"
-                        drag
+                            <el-upload class="upload-demo"  :limit="1"     
+                             :auto-upload="false"   
+                            @change="submitUpload"
+                                           drag
                         action="https://jsonplaceholder.typicode.com/posts/"
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"><i class="el-icon-upload"></i>
@@ -72,6 +73,7 @@
                         <el-button type="primary"  @click.native="signup(signupDetails)">Sign Up</el-button>
                  </el-form-item>    
                 </el-form>
+                <!-- <input type="file" @change="submitUpload" id="file-upload" /> -->
     </div>
 
 </template>
@@ -79,6 +81,7 @@
 <script>
 import { SIGNUP, SIGNIN } from "../store/modules/UserModule.js";
 import moment from "moment";
+import UserService from "../services/UserService.js";
 
 export default {
   name: "SignUnPage",
@@ -160,6 +163,18 @@ export default {
     },
     handlePreview(file) {
       console.log(file);
+    },
+    submitUpload({target}) {
+      var file = target.files
+      UserService.uploadImage(file)
+        .then(imgUrl => {
+          // console.log('photo uploaded')
+          this.signupDetails.avatar = imgUrl;
+        })
+        .catch(err => {
+          console.error("error adding photo:", err);
+          this.$message.error("Oops, Cant get your Avatar");
+        });
     }
   }
 };
