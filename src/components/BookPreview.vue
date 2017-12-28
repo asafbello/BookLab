@@ -40,6 +40,7 @@ export default {
 .flip-container, .front, .back {
 	width: 320px;
 	height: 200px;
+    
 }
 .flip-container img {
     height: 200px;
@@ -49,17 +50,16 @@ export default {
 .flipper {
 	transition: 0.6s;
 	transform-style: preserve-3d;
-
 	position: relative;
 }
 
 /* hide back of pane during swap */
 .front, .back {
 	backface-visibility: hidden;
-
 	position: absolute;
 	top: 0;
 	left: 0;
+    
 }
 
 /* front pane, placed above back */

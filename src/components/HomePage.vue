@@ -1,32 +1,32 @@
 <template>
-<div>
-  <section class="search-book">
     <div>
-    <el-input  @keyup.native="searchForBook()"  suffix-icon="el-icon-search" :placeholder="'search and add '+ select" v-model="input5" class="input-with-select">
-      <el-select v-model="select" slot="prepend" placeholder="Select">
-        <el-option label="book" value="book"></el-option>
-        <el-option label="author" value="author"></el-option>
-      </el-select>
-      </el-input>
+      <section class="search-book">
+        <div>
+        <el-input  @keyup.native="searchForBook()"  suffix-icon="el-icon-search" :placeholder="'search and add '+ select" v-model="input5" class="input-with-select">
+          <el-select v-model="select" slot="prepend" placeholder="Select">
+            <el-option label="book" value="book"></el-option>
+            <el-option label="author" value="author"></el-option>
+          </el-select>
+          </el-input>
+        </div>
+          <el-button @click.native="searchForBook()" type="primary" icon="el-icon-search">Search</el-button>
+        </section>
+        <section class="answers" v-loading="searching"
+        element-loading-text="Getting Your Books..."
+        element-loading-spinner="el-icon-loading"
+        element-loading-background="rgba(0, 0, 0, 0.342)">
+              <div class="books-res flip-list" v-for="book in bookSearchRes" :key="book.forigenId">
+                <el-tooltip :content="book.volumeInfo.description" placement="bottom" effect="light">
+                      <el-button>{{book.volumeInfo.title}}</el-button>
+                </el-tooltip>
+                  <router-link :to="'/book/' + book.id"> <el-button type="primary" size="mini">To Book Page</el-button></router-link>
+                  <el-badge :value="booksToDisplay.length" class="item">
+                    <el-button @click.native="addToShlef(book)" size="mini"><i class="fa fa-book" aria-hidden="true"></i></el-button>
+                  </el-badge>
+              </div>
+          </section>
+          <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"  v-loading="loading"></shelf-cmp>
     </div>
-      <el-button @click.native="searchForBook()" type="primary" icon="el-icon-search">Search</el-button>
-    </section>
-    <section  class="answers"  v-loading="searching"
-    element-loading-text="Getting Your Books..."
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.342)">
-          <div class="books-res flip-list" v-for="book in bookSearchRes" :key="book.forigenId">
-            <el-tooltip :content="book.volumeInfo.description" placement="bottom" effect="light">
-                  <el-button>{{book.volumeInfo.title}}</el-button>
-            </el-tooltip>
-              <router-link :to="'/book/' + book.id"> <el-button type="primary" size="mini">To Book Page</el-button></router-link>
-              <el-badge :value="booksToDisplay.length" class="item">
-                <el-button @click.native="addToShlef(book)" size="mini"><i class="fa fa-book" aria-hidden="true"></i></el-button>
-              </el-badge>
-          </div>
-      </section>
-      <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"  v-loading="loading"></shelf-cmp>
-</div>
 </template>
 
 <script>
@@ -129,6 +129,12 @@ export default {
 }
 .books-res * {
   padding: 0.3vw;
+}
+
+.page-entry {
+  display: flex;
+  justify-content: center;
+  flex-direction: row
 }
 /* .flip-list-move {
   transition: transform 1s;
