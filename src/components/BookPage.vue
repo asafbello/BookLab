@@ -35,7 +35,6 @@
       <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="review-modal" @addUserReview="addRateToBook"></review-modal>
       </div>
     </main>
-    <book-preview></book-preview>
   </section>
 </template>
 
@@ -47,19 +46,18 @@ import BookService from "../services/BookService.js";
 import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
 import { UPDATE_USER } from "../store/modules/UserModule.js";
 import { UPDATE_BOOK_AND_USER } from "../store/modules/ReviewModule.js";
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 export default {
   name: "BookPage",
   components: {
-    ReviewModal, 
-    BookPreview
+    ReviewModal
   },
   data() {
     return {
       ratingVal: null,
       showModal: false,
-      readState:'read',
+      readState: "Read",
       isReadMore: false
     };
   },
@@ -84,17 +82,7 @@ export default {
     });
   },
   computed: {
-    ...mapGetters([
-      'currBook'
-    ]),
-    // currBook() {
-    //   return this.$store.state.book.currBook;
-    // },
-    //     ...mapGetters([
-    //   'doneTodosCount',
-    //   'anotherGetter',
-    //   // ...
-    // ])
+    ...mapGetters(["currBook"]),
     isUser() {
       return this.$store.getters.isUser;
     },
@@ -103,8 +91,8 @@ export default {
     },
     styleReadMore() {
       return {
-        height: this.isReadMore ? '' : '300px'
-      }
+        height: this.isReadMore ? "" : "300px"
+      };
     }
   },
   methods: {
@@ -112,20 +100,13 @@ export default {
       if (!this.$store.getters.isUser) {
         this.$message.error("Oops, Please log in to add a review");
       } else {
-      this.showModal = true;
-      document.addEventListener("keyup", evt => {
-        if (evt.keyCode === 27) {
-          this.showModal = false;
-        }
-      });
-
-      // TODO: close modal from outside the box
-      // window.onclick = function(event) {
-      //   if (event.target == modal) {
-      //     modal.style.display = "none";
-      //   }
-      // };
-      } 
+        this.showModal = true;
+        document.addEventListener("keyup", evt => {
+          if (evt.keyCode === 27) {
+            this.showModal = false;
+          }
+        });
+      }
     },
     closeFromCancel() {
       this.showModal = !this.showModal;
@@ -152,14 +133,20 @@ export default {
           .catch(err => console.log("err", err));
       }
     },
-    addRateToBook(objToUpdateBook,objToUpdateUser) {
+    addRateToBook(objToUpdateBook, objToUpdateUser) {
       if (!this.$store.getters.isUser) {
         this.$message.error("Oops, Please log in to add a to shelf");
       } else {
         this.showModal = !this.showModal;
         // this.$message.sucsess("adding your review...");
         this.$store
-          .dispatch({type: UPDATE_BOOK_AND_USER, objToUpdateBook,objToUpdateUser})
+          .dispatch({
+            type: UPDATE_BOOK_AND_USER,
+            payload: {
+              objToUpdateBook,
+              objToUpdateUser
+            }
+          })
           .then(_ => console.log("updated"))
           .catch(err => console.log("err", err));
       }
