@@ -1,5 +1,4 @@
 import ReviewService from '../../services/ReviewService.js'
-import {UPDATE_BOOK} from './BookModule.js'
 import { UPDATE_USER } from './UserModule.js'
 import { UPDATE_BOOK } from './BookModule.js'
 
