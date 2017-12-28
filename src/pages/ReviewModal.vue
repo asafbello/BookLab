@@ -1,7 +1,7 @@
 <template>
     <form class="modal-header" @keypress.native="closeOnEsc">
-      {{currentBook}}
-        <h1 class="book-details">{{currentBook.title}} <span class="review-author">/ {{currentBook.author}}</span></h1>
+      <!-- {{currentBook}} -->
+        <h1 class="book-details">{{currBook.title}} <span class="review-author">/ {{currBook.author}}</span></h1>
       <div><el-rate class="rating"
             v-model="ratingVal"
             :texts="['Nah', 'Disappointed', 'Nice', 'Great', 'Masterpiece!']">
@@ -33,14 +33,11 @@ import { GET_BOOK } from "../store/modules/BookModule.js";
 import state from "../store/modules/UserModule.js";
 
 export default {
+  props: ["currBook"],
   //NEDD TO FIXXXXXXXXXXXXXXXXXXXXXXXXXXXX!!!
-        //!!!!!!!!!!!!!
-        //MOVE TO PROPSSSSSSSS
-  computed: {
-    currentBook() {
-      return this.$store.state.book.currBook;
-    }
-  },
+  //!!!!!!!!!!!!!
+  //MOVE TO PROPSSSSSSSS
+  computed: {},
   data() {
     return {
       ratingVal: null,
@@ -86,41 +83,38 @@ export default {
     },
     addUserReview() {
       this.$store.state.user.loggedInUser;
-      var userReviewObj = {
+      var objToUpdateUser = {
         createdAt: Date.now(),
-        byUserId: this.$store.state.user.loggedinUser._id,
-        //NEDD TO FIXXXXXXXXXXXXXXXXXXXXXXXXXXXX!!!
-        //!!!!!!!!!!!!!
-        foreignId: '5a43c55c1ab019062cf9f5fb',
+        foreignId: this.currBook.foreignId,
         review: {
-<<<<<<< HEAD
           book: this.currBook.title,
-          author: this.currBook.author, 
-          pages: this.currBook.pages, 
-          img: this.currBook.img, 
-          id: this.currBook.id,
-          txt:  this.txtRate,
-=======
+          author: this.currBook.author,
+          pages: this.currBook.pages,
+          img: this.currBook.img,
+          id: this.currBook._id,
           txt: this.txtRate,
->>>>>>> master
           rate: this.ratingVal,
           readDates: this.readDates
         }
       };
-      this.$emit("addUserReview", userReviewObj);
-      console.log({ userReviewObj });
+      var objToUpdateBook = {
+        byUserId: this.$store.state.user.loggedinUser._id,
+         createdAt: Date.now(),
+        review: {
+          txt: this.txtRate,
+          rate: this.ratingVal,
+          readDates: this.readDates
+        }
+      };
+      this.$emit("addUserReview", objToUpdateBook, objToUpdateUser);
     },
     closeOnEsc() {
       this.$emit("closeModalOnEsc");
     }
   },
-<<<<<<< HEAD
   created() {
-console.log(this.currBook, 'asaf');
+    console.log(this.currBook, "asaf");
   }
-=======
-  created() {}
->>>>>>> master
 };
 </script>
 

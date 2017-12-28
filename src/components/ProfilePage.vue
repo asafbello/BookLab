@@ -31,11 +31,11 @@
    <div class="jenres" v-if="!isEditing">
      <div class="jenres-wrapper">
      <h1>Favorie jenres</h1>
-     <p v-for="jenre in loggedinUser.favoriteJenre">{{jenre}}</p></div>
+     <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
      </div>
      <div class="reviews">
 
-    <el-card v-for="review in loggedinUser.reviews" :body-style="{ padding: '0px' }" class="review-cards" v-if="!isEditing && loggedinUser.reviews.length > 0">
+    <el-card v-for="(review , idx) in loggedinUser.reviews" :key="idx" :body-style="{ padding: '0px' }" class="review-cards" v-if="!isEditing && loggedinUser.reviews.length > 0">
       <img :src="review.review.img" class="image">
       <div style="padding: 14px;" class="left-panel-content">
         <div class="bottom clearfix">
