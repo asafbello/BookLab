@@ -1,23 +1,30 @@
 <template>
   <section class="book-header">
     <div class="book-aside">
-      <el-button class="add-book" type="primary" @click="addBook(googleBookId)">Add to shelf</el-button>
+      <div class="add-to-shelf">
+          <el-select v-model="readState" placeholder="Wish List">
+            <el-option value="Read"></el-option>
+            <el-option value="Reading"></el-option>
+            <el-option value="WishList"></el-option>
+          </el-select>
+           <el-button class="add-book" type="primary" @click.native="addBook">Add To My Shelf</el-button>
+      </div>
       <img v-if="currBook" class="book-img" :src="currBook.img" />
       <!-- Rating -->
       <div class="block">
         <span class="rating-title">Avg Rating</span>
-        <el-rate @click.native="addRateToBook" v-model="ratingVal"></el-rate>
+          <el-rate  :value="4.5"  disabled  show-score  text-color="#ff9900" score-template="{value} points">
+          </el-rate>
       </div>
     </div>
     <!-- Book content -->
     <main class="book-content" v-if="currBook">
       <h1>{{currBook.title}}/ <span class="pageCount">{{currBook.pages}} pages</span></h1>
       <h5>{{currBook.author}}</h5>
-      <el-button type="success" @click="showReviewModal">Add review</el-button>
+      <el-button type="success" @click="showReviewModal">Add Review</el-button>
         <el-button type="info">Get a copy</el-button>
       <article class="book-review">
-        <p class="book-desc" v-html="currBook.desc"></p>
-        <span class="friends-review"></span>
+        <p @click="isReadMore = !isReadMore" class="book-desc" :style="styleReadMore" v-html="currBook.desc"></p>
       </article>
       <article class="links">
       <el-button class="chat-btn" type="primary">Chat about this book <span class="down-arrow">↓</span></el-button>
@@ -25,32 +32,32 @@
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
       <div class="modal" v-if="showModal" @closeModalOnEsc="showReviewModal">
-      <review-modal @closeFromCancel="closeFromCancel" :curr-book="currBook" class="review-modal" @addUserReview="addRateToBook"></review-modal>
+      <review-modal @closeFromCancel="closeFromCancel"  class="review-modal" @addUserReview="addRateToBook"></review-modal>
       </div>
     </main>
   </section>
 </template>
 
 <script>
-import BookService from "../services/BookService.js";
-import {
-  ADD_BOOK,
-  GET_BOOK,
-  UPDATE_BOOK
-} from "../store/modules/BookModule.js";
 import ReviewModal from "../pages/ReviewModal.vue";
+import BookPreview from "../components/BookPreview.vue";
 import _ from "lodash";
-import {UPDATE_USER} from '../store/modules/UserModule.js'
+import BookService from "../services/BookService.js";
+import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
+import { UPDATE_USER } from "../store/modules/UserModule.js";
+import { UPDATE_BOOK_AND_USER } from "../store/modules/ReviewModule.js";
 
 export default {
   name: "BookPage",
   components: {
-    ReviewModal
+    ReviewModal, 
   },
   data() {
     return {
       ratingVal: null,
-      showModal: false
+      showModal: false,
+      readState:'read',
+      isReadMore: false
     };
   },
   created() {
@@ -64,7 +71,6 @@ export default {
       } else {
         var self = this.$store;
         BookService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
-          console.log(bookToAdd);
           if (bookToAdd._id) return;
           self.dispatch({
             type: ADD_BOOK,
@@ -76,52 +82,80 @@ export default {
   },
   computed: {
     currBook() {
-      return this.$store.getters.currentBook;
+      return this.$store.state.book.currBook;
     },
     isUser() {
       return this.$store.getters.isUser;
     },
     loggedInUser() {
       return this.$store.state.user.loggedinUser;
+    },
+    styleReadMore() {
+      return {
+        height: this.isReadMore ? '' : '300px'
+      }
     }
   },
   methods: {
     showReviewModal() {
+      if (!this.$store.getters.isUser) {
+        this.$message.error("Oops, Please log in to add a review");
+      } else {
       this.showModal = true;
       document.addEventListener("keyup", evt => {
         if (evt.keyCode === 27) {
           this.showModal = false;
         }
       });
+
+      // TODO: close modal from outside the box
+      // window.onclick = function(event) {
+      //   if (event.target == modal) {
+      //     modal.style.display = "none";
+      //   }
+      // };
+      } 
     },
     closeFromCancel() {
       this.showModal = !this.showModal;
     },
-    addBook(googleBookId) {
-      this.$store.then(book => {
-        this.$store.dispatch({
-          type: ADD_BOOK_TO_USER,
-          googleBookId
-        });
-      });
+    addBook() {
+      if (!this.$store.getters.isUser) {
+        this.$message.error("Oops, Please log in to add a to shelf");
+      } else {
+        var objToUpdateBook = {
+          userId: this.loggedInUser._id,
+          readState: this.readState
+        };
+        var objToUpdateUser = {
+          bookForigenId: updatedBook.forigenId,
+          readState: this.readState
+        };
+        this.$store
+          .dispatch({
+            type: UPDATE_BOOK_AND_USER,
+            objToUpdateBook,
+            objToUpdateUser
+          })
+          .then(_ => console.log("updated"))
+          .catch(err => console.log("err", err));
+      }
     },
     addRateToBook(reviewObj) {
-      this.$store
-        .dispatch({
-          type: UPDATE_BOOK,
-          review: reviewObj
-        })
-        .then( () => {
-          var updatedUser = _.cloneDeep(this.loggedInUser);
-          console.log({updatedUser});
-          updatedUser.reviews.push(reviewObj);
-          this.$store.dispatch({
-            type: UPDATE_USER,
-            userId: this.loggedInUser._id,
-            updatedUser
-          });
-        });
-        this.showModal = false;
+      //FIXINT THE OBJET FOR THE USER
+      if (!this.$store.getters.isUser) {
+        this.$message.error("Oops, Please log in to add a to shelf");
+      } else {
+        var objToUpdateBook = reviewObj
+        var objToUpdateUser = reviewObj
+        this.showModal = !this.showModal;
+              console.log('inside book page');
+      
+        this.$store
+          .dispatch({type: UPDATE_BOOK_AND_USER, reviewObj})
+          .then(_ => console.log("updated"))
+          .catch(err => console.log("err", err));
+      }
     }
   }
 };
@@ -197,5 +231,17 @@ export default {
 
 .book-desc {
   padding-right: 10px;
+  overflow: hidden;
+}
+.add-to-shelf {
+  display: flex;
+  flex-direction: row;
+}
+.add-to-shelf * {
+  margin: 0.3vw;
+}
+
+.book-review {
+  cursor: pointer;
 }
 </style>

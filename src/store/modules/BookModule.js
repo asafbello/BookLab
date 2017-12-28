@@ -1,5 +1,6 @@
 import BookService from "../../services/BookService.js";
 import _ from 'lodash'
+import { UPDATE_USER } from "./UserModule.js";
 
 export const LOAD_BOOKS = 'book/loadBooks';
 export const LOAD_BOOK = 'book/loadBook';
@@ -7,6 +8,7 @@ export const DELETE_BOOK = 'book/deletebooks';
 export const ADD_BOOK = 'books/addBook'
 export const GET_BOOK = 'books/getBook'
 export const UPDATE_BOOK = 'books/updateBook'
+
 
 
 const SET_BOOKS = 'books/setBooks';
@@ -19,7 +21,7 @@ export default {
     },
     getters: {
         currentBook({currBook}) {
-            return JSON.parse(JSON.stringify(currBook));
+            return _.cloneDeep(currBook);
      },
         booksToDisplay(context) {
             var { books } = context;
@@ -48,7 +50,7 @@ export default {
                 })
                 .catch(err => {
                     commit(SET_BOOKS, [])
-                    throw err;
+                    this.$message.error(err)
                 })
         },
         [ADD_BOOK] ({commit}, {bookToAdd}) {
@@ -67,13 +69,12 @@ export default {
                         type: SET_BOOK,
                         book
                     })
+                    .catch(err =>  this.$message.error(err))
                 })
 
         },
-        [UPDATE_BOOK]({commit, rootState}, {review}) {
-            var bookToAdd =   _.cloneDeep(rootState.book.currBook);             
-            bookToAdd.reviews.push(review); 
-            return BookService.saveBook(bookToAdd)
+        [UPDATE_BOOK]({commit}, {bookId, objToUpdateBook}) {
+            return BookService.updateBook(bookId, objToUpdateBook)
             .then(res => {
                 commit({
                     type: ADD_BOOK, 

@@ -1,12 +1,11 @@
 <template>
     <form class="modal-header" @keypress.native="closeOnEsc">
-        <h1 class="book-details">{{currBook.title}} <span class="review-author">/ {{currBook.author}}</span></h1>
-        <el-rate class="rating"
+      {{currentBook}}
+        <h1 class="book-details">{{currentBook.title}} <span class="review-author">/ {{currentBook.author}}</span></h1>
+      <div><el-rate class="rating"
             v-model="ratingVal"
-            :texts="['Nah', 'Disappointed', 'Niceee', 'Great', 'Masterpiece!']"
-            show-text>
-            <span>Your rating</span>
-       </el-rate>
+            :texts="['Nah', 'Disappointed', 'Nice', 'Great', 'Masterpiece!']">
+       </el-rate> </div>
             <p>So, what d'you think?</p>
             <textarea rows="10" cols="50" placeholder="Enter review(optional)" v-model="txtRate"></textarea>
             <p>Dates read: </p>
@@ -24,22 +23,28 @@
                 </el-date-picker>
              </div>
              <br>
-               <el-button @click.native="addUserReview" type="success">Save</el-button>
+               <el-button @click.native="addUserReview" type="success">Add Your Review</el-button>
                <el-button @click.native="closeModal" type="info">Cancel</el-button>
     </form>
 </template>
 
 <script>
-
-import { GET_BOOK } from '../store/modules/BookModule.js'
-import state from '../store/modules/UserModule.js'
+import { GET_BOOK } from "../store/modules/BookModule.js";
+import state from "../store/modules/UserModule.js";
 
 export default {
-  props: ['currBook'],
+  //NEDD TO FIXXXXXXXXXXXXXXXXXXXXXXXXXXXX!!!
+        //!!!!!!!!!!!!!
+        //MOVE TO PROPSSSSSSSS
+  computed: {
+    currentBook() {
+      return this.$store.state.book.currBook;
+    }
+  },
   data() {
     return {
       ratingVal: null,
-      txtRate: '',
+      txtRate: "",
       pickerOptions2: {
         shortcuts: [
           {
@@ -75,36 +80,47 @@ export default {
       readDates: ""
     };
   },
-  methods:{
+  methods: {
     closeModal() {
-      this.$emit('closeFromCancel');
+      this.$emit("closeFromCancel");
     },
     addUserReview() {
       this.$store.state.user.loggedInUser;
-        var userReviewObj = {
+      var userReviewObj = {
         createdAt: Date.now(),
         byUserId: this.$store.state.user.loggedinUser._id,
+        //NEDD TO FIXXXXXXXXXXXXXXXXXXXXXXXXXXXX!!!
+        //!!!!!!!!!!!!!
+        foreignId: '5a43c55c1ab019062cf9f5fb',
         review: {
+<<<<<<< HEAD
           book: this.currBook.title,
           author: this.currBook.author, 
           pages: this.currBook.pages, 
           img: this.currBook.img, 
           id: this.currBook.id,
           txt:  this.txtRate,
+=======
+          txt: this.txtRate,
+>>>>>>> master
           rate: this.ratingVal,
-          readDates: this.readDates,
-          }
+          readDates: this.readDates
         }
-        this.$emit('addUserReview', userReviewObj)
-        console.log({userReviewObj});
+      };
+      this.$emit("addUserReview", userReviewObj);
+      console.log({ userReviewObj });
     },
     closeOnEsc() {
-      this.$emit('closeModalOnEsc');
+      this.$emit("closeModalOnEsc");
     }
   },
+<<<<<<< HEAD
   created() {
 console.log(this.currBook, 'asaf');
   }
+=======
+  created() {}
+>>>>>>> master
 };
 </script>
 
