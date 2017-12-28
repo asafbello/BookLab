@@ -56,12 +56,8 @@ export default {
     return {
       ratingVal: null,
       showModal: false,
-<<<<<<< HEAD
       readState:'read',
       isReadMore: false
-=======
-      readState: "read"
->>>>>>> master
     };
   },
   created() {
@@ -75,10 +71,6 @@ export default {
       } else {
         var self = this.$store;
         BookService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
-<<<<<<< HEAD
-=======
-          console.log(bookToAdd, "----------");
->>>>>>> master
           if (bookToAdd._id) return;
           self.dispatch({
             type: ADD_BOOK,
@@ -109,7 +101,6 @@ export default {
       if (!this.$store.getters.isUser) {
         this.$message.error("Oops, Please log in to add a review");
       } else {
-<<<<<<< HEAD
       this.showModal = true;
       document.addEventListener("keyup", evt => {
         if (evt.keyCode === 27) {
@@ -124,15 +115,6 @@ export default {
       //   }
       // };
       } 
-=======
-        this.showModal = true;
-        document.addEventListener("keyup", evt => {
-          if (evt.keyCode === 27) {
-            this.showModal = false;
-          }
-        });
-      }
->>>>>>> master
     },
     closeFromCancel() {
       this.showModal = !this.showModal;
@@ -141,25 +123,6 @@ export default {
       if (!this.$store.getters.isUser) {
         this.$message.error("Oops, Please log in to add a to shelf");
       } else {
-<<<<<<< HEAD
-      var userThatRead = {userId : this.loggedInUser._id , readState: this.readState }
-      var updatedBook = _.cloneDeep(this.currBook);
-      updatedBook.bookReaders.push(userThatRead);
-      var bookInUser = {bookForigenId:updatedBook.forigenId,readState: this.readState}
-      var updatedUser = _.cloneDeep(this.loggedInUser);
-      updatedUser.uBooks.push(bookInUser);
-       this.$store
-        .dispatch({ type: UPDATE_BOOK_AND_USER, updatedBook, updatedUser })
-        .then(_ => console.log("updated"))
-        .catch(err => console.log("err", err));
-      }
-    },
-    addRateToBook(reviewObj) {
-      var updatedBook = _.cloneDeep(this.currBook);
-      updatedBook.reviews.push(reviewObj);
-      var updatedUser = _.cloneDeep(this.loggedInUser);
-      updatedUser.uBooks.push(reviewObj);
-=======
         var objToUpdateBook = {
           userId: this.loggedInUser._id,
           readState: this.readState
@@ -179,7 +142,6 @@ export default {
       }
     },
     addRateToBook(reviewObj) {
->>>>>>> master
       //FIXINT THE OBJET FOR THE USER
       if (!this.$store.getters.isUser) {
         this.$message.error("Oops, Please log in to add a to shelf");

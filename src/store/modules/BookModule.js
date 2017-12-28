@@ -73,27 +73,8 @@ export default {
                 })
 
         },
-<<<<<<< HEAD
-        [UPDATE_BOOK_AND_USER](context, {updatedBook, updatedUser}) {
-           return context
-            .dispatch({
-              type: UPDATE_BOOK,
-              updatedBook
-            })
-            .then(() => {
-                context.dispatch({
-                type: UPDATE_USER,
-                userId: updatedUser._id,
-                updatedUser
-              });
-            });
-        },
-        [UPDATE_BOOK]({commit}, {updatedBook}) {
-            return BookService.saveBook(updatedBook)
-=======
         [UPDATE_BOOK]({commit}, {bookId, objToUpdateBook}) {
             return BookService.updateBook(bookId, objToUpdateBook)
->>>>>>> master
             .then(res => {
                 commit({
                     type: ADD_BOOK, 
