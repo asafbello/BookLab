@@ -5,8 +5,6 @@
             <el-menu-item class="logo-container" index="0">
             <img class="logo" src="../assets/img/logo.png" width="125" height="125"/>
             </el-menu-item>
-            <router-link to="/"> 
-            </router-link>
             <el-menu-item index="2">Readers</el-menu-item>
             <el-menu-item index="3">Browse</el-menu-item>
             <div class="user-area">
