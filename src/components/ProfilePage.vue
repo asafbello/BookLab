@@ -1,5 +1,5 @@
 <template>
-    <div class="main-container">
+    <div class="main-container" v-if="loggedinUser">
   
     <el-card :body-style="{ padding: '0px' }" class="left-panel" v-if="!isEditing">
       <img :src="loggedinUser.avatar" class="image">
@@ -35,7 +35,7 @@
      </div>
      <div class="reviews">
 
-    <el-card v-for="review in loggedinUser.reviews" :body-style="{ padding: '0px' }" class="review-cards" v-if="!isEditing">
+    <el-card v-for="review in loggedinUser.reviews" :body-style="{ padding: '0px' }" class="review-cards" v-if="!isEditing && loggedinUser.reviews.length > 0">
       <img :src="review.review.img" class="image">
       <div style="padding: 14px;" class="left-panel-content">
         <div class="bottom clearfix">
@@ -43,14 +43,14 @@
           <el-button type="text" class="button"  @click="showReview(review.review.id)" v-if="!isEditing">
             Expand
           </el-button>
-
+          <el-button type="text" class="button"  @click="deleteReview(loggedinUser.reviews[0].review.id)">
+            Delete
+          </el-button>
         </div>
       </div>
     </el-card>
-
-
-     </div>
-  </section>      
+  </div>
+</section>      
 
         <form class="signin-form "  v-if="isEditing">
 
@@ -115,8 +115,8 @@ export default {
   },
   created() {
     var id = this.$route.params.id;
+    // if(!this.loggedinUser) return;
     var pagesCount = this.loggedinUser.reviews.reduce((acu, curr) => {
-      // console.log('pages', curr.review.pages);
       return acu + curr.review.pages
     }, 0)
    this.pagesRead = pagesCount
@@ -124,6 +124,19 @@ export default {
   methods: {
     showReview(id) {
       this.$router.push( `/book/${id}/BookReviewPage`)
+    },
+
+    deleteReview(bookId) {
+      console.log('bookid ',bookId)
+      console.log(' this.updatedUser.reviews ', this.updatedUser)
+      // this.updatedUser.reviews = this.updatedUser.reviews.filter(review => review.id != bookId)
+      // var userId = this.$store.state.user.loggedinUser._id;
+      // this.$store.dispatch({
+      //   type: UPDATE_USER,
+      //   userId,
+      //   user
+      // });
+    
     },
 
     editProfile(userId, updatedUser) {
