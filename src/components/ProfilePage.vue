@@ -34,7 +34,8 @@
 
   <div class="curr-book-reading">
       <h3>Reading right now</h3>
-      <book-preview :img-url="loggedinUser.reviews[1].review.img" ></book-preview>
+      <div  v-if="loggedinUser.reviews.length != 0">
+      <book-preview :img-url="loggedinUser.reviews[0].review.img" ></book-preview></div>
       <div class="jenres" v-if="!isEditing">
         <div class="jenres-wrapper">
         <h1>Favorite jenres</h1>
