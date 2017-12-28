@@ -69,7 +69,8 @@ export default {
     }
   },
   created() {
-    var shelf = ["U9V8JYt7WwoC"];
+    var shelf = ["c_KYSDoCYQ4C","DKcWE3WXoj8C","kUeDc_wYSnoC"];
+    
     this.$store
       .dispatch({ type: LOAD_BOOKS, shelf })
       .then(books => {

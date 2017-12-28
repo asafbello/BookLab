@@ -1,39 +1,52 @@
 const GOODREADS_KEY = 'FELO3TUoq67L0ebw62ErQ'
 const GOOGLE_KEY = 'AIzaSyBZD7e18qKjBq3N_we3BoHEoYmMHlTAYtM'
-const BOOK_URL = 'http://localhost:3003/data/book';
-const GOOGLE_AUTH = '1004785258315-k04uc3m0oct08c9hevhconv1ptiafulc.apps.googleusercontent.com';
+const GOOGLE_URL = 'http://localhost:3003/googleBook';
+
 import axios from 'axios'
+import BookService from './BookService.js'
 
 
-// var GoogleAuth; // Google Auth object.
-// function initClient() {
-//   gapi.client.init({
-//       'apiKey': GOOGLE_KEY,
-//       'clientId': GOOGLE_AUTH,
-//       'scope': 'https://www.googleapis.com/auth/drive.metadata.readonly',
-//       'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
-//   }).then(function () {
-//       GoogleAuth = gapi.auth2.getAuthInstance();
-
-//       // Listen for sign-in state changes.
-//       GoogleAuth.isSignedIn.listen(updateSigninStatus);
-//   });
-// }
-
+//REAL FUNCTION FROM GOOGLE
 // function searchBook(query, type) {
 //         return axios.get(`https://www.googleapis.com/books/v1/volumes?printType=books&q=${query}`)
 //         .then(res => res.data.items)
 //         .catch(err => console.log(err))
 // }
 
-function searchBook(query, type) {
-        return axios.get(`https://www.googleapis.com/books/v1/volumes?q=${query}`)
-        .then(res => res.data.items)
+function getBookFromGoogle(foreingId) {
+    return axios
+    .get(`${GOOGLE_URL}/${foreingId}`)
+        .then(res => res.data)
         .catch(err => err)
 }
 
-// initClient();
+function searchBook(query, type) {
+    var txt = {txt : query}
+    return axios
+    .post(`${GOOGLE_URL}`, txt)
+        .then(res => res.data)
+        .catch(err => err)
+}
+
+function getBooksShelf(shelf) {
+        console.log(shelf,'---------------')
+        var prmBooks = shelf.map(id => {
+            return getBookFromGoogle(id)
+        });
+        return Promise.all(prmBooks)
+            .then(booksFromGoogle => {
+                var books = booksFromGoogle.map(book => { return BookService.createBookObj(book)})
+                return books
+            })
+            .catch(err => {
+                console.log(err,'err');
+                return ('cant find shelf')
+            })
+    }
+
 
 export default {
-    searchBook
+    getBookFromGoogle,
+    searchBook,
+    getBooksShelf
 }
