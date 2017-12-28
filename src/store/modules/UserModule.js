@@ -39,6 +39,7 @@ export default {
     },
     actions: {
         [UPDATE_USER]({commit}, {userId, updatedUser} )  {
+            console.log(userId, updatedUser);
             return UserService.editUser(userId, updatedUser)
                 .then(user => {
                         commit({type: UPDATE_USER, user})

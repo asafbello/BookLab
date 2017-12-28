@@ -1,7 +1,7 @@
 <template>
     <div class="main-container">
   
-    <el-card :body-style="{ padding: '0px' }" class="left-panel">
+    <el-card :body-style="{ padding: '0px' }" class="left-panel" v-if="!isEditing">
       <img :src="loggedinUser.avatar" class="image">
       <div style="padding: 14px;" class="left-panel-content">
         <span>{{loggedinUser.username}}</span>
@@ -13,26 +13,55 @@
       </div>
     </el-card>
 
-
-      <div class="statistics">
-          <div class="statistics-item"><p>Pages read </p><i class="fa fa-book" aria-hidden="true"></i></div>
-          <div class="statistics-item"><p>Books read </p><i class="fa fa-check" aria-hidden="true"></i></div>
+<section class="content-wrapper">
+      <div class="statistics" v-if="!isEditing">
+          <div class="statistics-item">
+            <div class="icon-count">
+              <!-- <p>{{loggedinUser.readList.length}}</p> -->
+            <p>Pages read </p></div><i class="fa fa-book" aria-hidden="true"></i></div>
+          <div class="statistics-item">
+          <div class="icon-count">
+            <p>{{loggedinUser.reviews.length}}</p>
+            <p>Books read </p> </div><i class="fa fa-check" aria-hidden="true"></i></div>
           <div class="statistics-item"><p>Books in read list</p> <i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
-          <!-- <div class="shelf"><shelf-cmp></shelf-cmp></div> -->
+   <div class="jenres">
+     <div class="jenres-wrapper">
+     <h1>Favorie jenres</h1>
+     <p v-for="jenre in loggedinUser.favoriteJenre">{{jenre}}</p></div>
+     </div>
+  </section>      
 
+        <form class="signin-form "  v-if="isEditing">
 
-        <form class="signin-form left-panel"  v-if="isEditing">
+    <el-card :body-style="{ padding: '0px' }" class="profile-pic-edit" v-if="isEditing">
+      <img :src="loggedinUser.avatar" class="image">
+      <div style="padding: 14px;" class="left-panel-content">
+        <span>{{loggedinUser.username}}</span>
+        <div class="bottom clearfix">
+          <time class="time">Joind at: {{ loggedinUser.joinedAt }}</time> <br>
+        </div>
+      </div>
+    </el-card>
+
+          <h4>Name</h4>
              <el-input type="text" placeholder="name" v-model="updatedUser.name"></el-input>
+          
+          <h4>Last Name</h4>
              <el-input type="text" placeholder="last name" v-model="updatedUser.lastName"></el-input>
-             <el-input type="text" placeholder="username" v-model="updatedUser.username"></el-input>
-             <el-input type="password" placeholder="password" v-model="updatedUser.pass"></el-input>
-             <el-input type="text" placeholder="Copy image URL" v-model="updatedUser.avatar"></el-input>
-            <button v-if="isEditing" @click="saveUpdatedPrifile">Save</button>
-            <button  v-if="isEditing" @click="isEditing = false">Cancel</button>
-        </form>
 
-        
+          <h4>User Name</h4>
+             <el-input type="text" placeholder="username" v-model="updatedUser.username"></el-input>
+
+          <h4>Password</h4>
+             <el-input type="password" placeholder="password" v-model="updatedUser.pass"></el-input>
+
+          <h4>Profile Image</h4>
+             <el-input type="text" placeholder="Copy image URL" v-model="updatedUser.avatar"></el-input>
+
+            <el-button type="default" v-if="isEditing" @click="isEditing = false">Cancel</el-button>
+            <el-button type="default" v-if="isEditing" @click="saveUpdatedPrifile">Save</el-button>
+        </form>
     </div>
 
 </template>
@@ -40,6 +69,7 @@
 <script>
 import ShelfCmp from "./ShelfCmp";
 import store from "../store/store.js";
+
 import {
   DELETE_USER,
   SIGNOUT,
@@ -48,9 +78,6 @@ import {
 
 export default {
   name: "ProfilePage",
-    components: {
-    ShelfCmp
-  },
   computed: {
     loggedinUser() {
       return this.$store.state.user.loggedinUser;
@@ -84,6 +111,10 @@ export default {
     },
 
     saveUpdatedPrifile() {
+      if (this.updatedUser.avatar === "" || null) {
+        this.updatedUser.avatar =
+          "http://www.nanigans.com/wp-content/uploads/2014/07/Generic-Avatar.png";
+      }
       var userId = this.$store.state.user.loggedinUser._id;
       this.$store.dispatch({
         type: UPDATE_USER,
@@ -97,13 +128,44 @@ export default {
       this.$router.push("/");
       this.$store.dispatch({ type: DELETE_USER, userId });
       this.$store.dispatch({ type: SIGNOUT, userId });
-      console.log("delete");
     }
   }
 };
 </script>
 
 <style scoped>
+.jenres {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex-wrap: wrap;
+  color: #999;
+}
+
+.content-wrapper {
+  display: flex;
+  width: 70%;
+  flex-flow: row wrap;
+}
+
+.profile-pic-edit {
+  width: 45%;
+}
+
+.signin-form {
+  margin-left: 5%;
+  margin-top: 3%;
+}
+
+.signin-form > * {
+  margin-bottom: 5px;
+}
+
+h4 {
+  color: #999;
+  text-align: left;
+}
 
 .wrapper {
   display: flex;
@@ -133,7 +195,6 @@ export default {
   width: 50%;
   align-self: flex-start;
   margin-top: 6%;
-  margin-right: 15%;
 }
 
 .fa {

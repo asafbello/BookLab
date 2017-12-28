@@ -2,8 +2,8 @@
 <section class="shelf-cmp">
   <div>
   <div class="books">
-         <el-card :body-style="{ padding: '0px' }" v-for="book in shelf" :key="book.id">
-            <router-link :to="'/book/' + book.googleBookId">
+         <el-card v-for="book in shelf" :key="book.forigenId">
+            <router-link :to="'/book/' + book.forigenId">
         <div class="a-book">
           <img :src="book.img"  class="image" >
      <h2>{{book.title}}</h2>

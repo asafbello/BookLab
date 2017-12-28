@@ -1,9 +1,55 @@
 <template>
       <div class="signup">
-        <h3>New User? Signup</h3>
+        <!-- <h3>New User? Signup</h3> -->
+        <!-- <h2>{{signupDetails.favoriteJenre}}</h2> -->
+    <section class="fav-jenres">
+      <h2>Choose your fav<span><i class="fa fa-star" aria-hidden="true"></i></span>rite jenres</h2>
+  <div class="lables">
+      <div class="jenre">
+        <input type="checkbox" value="Drama" v-model="signupDetails.favoriteJenre">
+        <label for="checkbox">Drama</label>
+      </div>
+      <div class="jenre">
+        <input type="checkbox" value="Biogrphy" v-model="signupDetails.favoriteJenre">
+        <label for="checkbox">Biogrphy</label>
+      </div>
+      <div class="jenre">
+        <input type="checkbox" value="Novel" v-model="signupDetails.favoriteJenre">
+        <label for="checkbox">Novel</label>
+      </div>
+      <div class="jenre">
+        <input type="checkbox" value="Cooking" v-model="signupDetails.favoriteJenre">
+        <label for="checkbox">Cooking</label>
+      </div>
+      <div class="jenre">
+        <input type="checkbox" value="Classics" v-model="signupDetails.favoriteJenre">
+        <label for="checkbox">Classics</label>
+      </div>
+      <div class="jenre">
+        <input type="checkbox" value="Thriller" v-model="signupDetails.favoriteJenre">
+        <label for="checkbox">Thriller</label>
+      </div>
+      <div class="jenre">
+        <input type="checkbox" value="Fiction" v-model="signupDetails.favoriteJenre">
+        <label for="checkbox">Fiction</label>
+      </div>
+      <div class="jenre">
+        <input type="checkbox" value="Sci-fi" v-model="signupDetails.favoriteJenre">
+        <label for="checkbox">Sci-fi</label>
+      </div>
+      <div class="jenre">
+        <input type="checkbox" value="Science" v-model="signupDetails.favoriteJenre">
+        <label for="checkbox">Science</label>
+      </div>
+    </div>
+    </section>
+
         <el-form ref="form" :model="signupDetails" :rules="rules" @keyup.native.enter="signup" class="signin-form">
                 <el-form-item label="Name" prop="name">
                     <el-input type="text" placeholder="name" v-model="signupDetails.name"></el-input>
+                </el-form-item>
+                <el-form-item label="last Name" prop="lastName">
+                    <el-input type="text" placeholder="last Name" v-model="signupDetails.lastName"></el-input>
                 </el-form-item>
                 <el-form-item label="User Name" prop="username">
                     <el-input type="text" placeholder="username" v-model="signupDetails.username"></el-input>
@@ -43,14 +89,14 @@ export default {
       signupDetails: {
         joinedAt: moment().format("ll"),
         name: "",
+        lastName: "",
         username: "",
         pass: "",
         avatar: null,
         isAdmin: false,
         uBooks: [],
-        friends: [],
-        readList: [],
-        reviews: []
+        reviews: [],
+        favoriteJenre: []
       },
       rules: {
         name: [
@@ -73,29 +119,29 @@ export default {
   },
   methods: {
     signup(formName) {
-        let valid = true;
-        if (formName.name === '' || formName.pass <= 2) valid = false
+      let valid = true;
+      if (formName.name === "" || formName.pass <= 2) valid = false;
       if (!this.signupDetails.avatar)
         this.signupDetails.avatar =
           "http://www.nanigans.com/wp-content/uploads/2014/07/Generic-Avatar.png";
-        if (valid) {
-          this.$store
-            .dispatch({ type: SIGNUP, signupDetails: this.signupDetails })
-            .then(_ => {
-              this.$router.push("/")
-                this.$message({
-          message: 'WELLCOME, to BookLab',
-          type: 'success'
+      if (valid) {
+        this.$store
+          .dispatch({ type: SIGNUP, signupDetails: this.signupDetails })
+          .then(_ => {
+            this.$router.push("/");
+            this.$message({
+              message: "WELLCOME, to BookLab",
+              type: "success"
+            });
+          })
+          .catch(err => console.log(err));
+      } else {
+        this.$message({
+          message: "please fill the form",
+          type: "warning"
         });
-            })
-            .catch(err => console.log(err));
-        } else {
-          this.$message({
-          message: 'please fill the form',
-          type: 'warning'
-        });
-          return false;
-        }
+        return false;
+      }
     },
     login() {
       this.$store
@@ -105,27 +151,65 @@ export default {
         })
         .catch(err => console.log(err));
     },
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePictureCardPreview(file) {
-        this.loginDetails.avatar = file.url
-        this.dialogImageUrl = file.url;
-        this.dialogVisible = true;
-      },
-        handlePreview(file) {
-        console.log(file);
-      },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview(file) {
+      this.loginDetails.avatar = file.url;
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    handlePreview(file) {
+      console.log(file);
+    }
   }
 };
 </script>
 
 <style scoped>
+.lables {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.jenre {
+  margin: 5px;
+}
+.signup {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-around;
+}
+
 .signin-form {
   display: flex;
   flex-flow: column wrap;
-  margin: auto;
+  margin-left: 5%;
   margin-top: 5%;
   width: 35%;
+}
+
+h3 {
+  margin-top: 20px;
+}
+
+.fav-jenres {
+  margin-top: 5%;
+  width: 35%;
+  height: 10%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  border: 2px solid lightyellow;
+  border-radius: 15px;
+}
+
+.fav-jenres > * {
+  margin: 5px;
+}
+
+.fa-star {
+  color: lightyellow;
 }
 </style>
