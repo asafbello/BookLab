@@ -20,16 +20,9 @@ export default {
             var bookId = rootState.book.currBook._id
             ReviewService.updateBookAndUser(objToUpdateBook, objToUpdateUser, userId, bookId)
                 .then(res => {
-<<<<<<< HEAD
-                    this.commit({ type: UPDATE_USER, user: res[1] })
-                    console.log(res[1],'reesss');
-                    // this.commit({ type: UPDATE_BOOK, book: res[1] })
-                    saveToLocalStorage(res[1])
-=======
                     commit({ type: UPDATE_USER, user: res[1] })
                     commit({ type: UPDATE_BOOK, book: res[0] })
                     saveToLocalStorage(res[0])
->>>>>>> master
                     return res
                 })
                 .catch(err => { throw err })

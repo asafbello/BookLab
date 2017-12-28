@@ -52,11 +52,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "BookPage",
   components: {
-<<<<<<< HEAD
-    ReviewModal, 
-=======
     ReviewModal
->>>>>>> master
   },
   data() {
     return {
