@@ -1,13 +1,19 @@
 <template>
     <div class="login">
         <h2> Please Sign In</h2>
-        <form @submit.prevent="login" class="login-form">
-            <el-input type="text" v-model="loginDetails.username" placeholder="User Name"></el-input>
-            <el-input  type="password" v-model="loginDetails.pass" placeholder="password"></el-input>
-            <!-- <el-button type="primary">Sign In</el-button> -->
-            <button type="submit">Login!!!!</button>
-            
-        </form>
+
+        <el-form ref="form"  @keyup.native.enter="login">
+                    <el-form-item label="User Name">
+                           <el-input type="text" placeholder="User Name" v-model="loginDetails.username"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Password">
+                            <el-input type="password" placeholder="Password" v-model="loginDetails.pass"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button  class="btn" type="primary"  @click.native="login">Sign In</el-button>
+                            <router-link to="/"><el-button type="secondary">Cancel</el-button></router-link>
+                    </el-form-item>   
+        </el-form>
     </div>
 </template>
 
@@ -54,5 +60,23 @@ export default {
   justify-content: space-between;
   width: 100%;
   height: 100%;
+}
+
+.btn {
+  margin-right: 30px;
+}
+
+@media screen and (max-width: 850px) {
+ .login {
+  display: flex;
+  flex-flow: column wrap;
+  margin: auto;
+  margin-top: 10%;
+  width: 95%;
+}
+
+.btn {
+  margin-right: 45px;
+}
 }
 </style>

@@ -21,8 +21,9 @@ export default {
                 .then(res => {
                     console.log("yeaaaaaaaa", rootState)
                     commit({ type: UPDATE_USER, user: res[1] })
-                    commit({ type: UPDATE_BOOK, book: res[0] })
-                    saveToLocalStorage(res[0])
+                    // commit({ type: UPDATE_BOOK, book: res[0] })
+                    saveToLocalStorage(res[1])
+                    console.log(payload.objToUpdateUser, ' res updated')
                     return res
                 })
                 .catch(err => { throw err })

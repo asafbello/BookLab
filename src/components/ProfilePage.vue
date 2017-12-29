@@ -178,9 +178,25 @@ export default {
     },
 
     deleteUser(userId) {
-      this.$router.push("/");
-      this.$store.dispatch({ type: DELETE_USER, userId });
-      this.$store.dispatch({ type: SIGNOUT, userId });
+
+       this.$confirm('This will permanently delete the Profile. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.$router.push("/");
+          this.$store.dispatch({ type: DELETE_USER, userId });
+          this.$store.dispatch({ type: SIGNOUT, userId });
+          this.$message({
+            type: 'success',
+            message: 'Delete completed'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Delete canceled'
+          });          
+        });
     }
   }
 };

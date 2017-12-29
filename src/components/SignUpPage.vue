@@ -53,6 +53,9 @@
                 <el-form-item label="User Name" prop="username">
                     <el-input type="text" placeholder="username" v-model="signupDetails.username"></el-input>
                  </el-form-item>
+                <el-form-item label="password" prop="pass">
+                    <el-input type="password" placeholder="password" v-model="signupDetails.pass"></el-input>
+                </el-form-item> 
                             <el-upload class="upload-demo"  :limit="1"     
                              :auto-upload="false"   
                             @change="submitUpload"
@@ -66,9 +69,6 @@
                 <el-form-item label="Upload Your Picture" prop="avatar">
                     <el-input type="text" placeholder="Copy image URL" v-model="signupDetails.avatar"></el-input>
                 </el-form-item>    
-                <el-form-item label="password" prop="pass">
-                    <el-input type="password" placeholder="password" v-model="signupDetails.pass"></el-input>
-                </el-form-item> 
                 <el-form-item>
                         <el-button type="primary"  @click.native="signup(signupDetails)">Sign Up</el-button>
                  </el-form-item>    
@@ -125,7 +125,7 @@ export default {
       if (formName.name === "" || formName.pass <= 2) valid = false;
       if (!this.signupDetails.avatar)
         this.signupDetails.avatar =
-          "http://www.nanigans.com/wp-content/uploads/2014/07/Generic-Avatar.png";
+          "http://bbo.co.nz/wp-content/uploads/Generic-Avatar-Male.jpg";
       if (valid) {
         this.$store
           .dispatch({ type: SIGNUP, signupDetails: this.signupDetails })
