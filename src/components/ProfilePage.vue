@@ -2,13 +2,15 @@
     <div class="main-container" v-if="loggedinUser">
   
     <el-card :body-style="{ padding: '0px' }" class="left-panel" v-if="!isEditing">
-      <img :src="loggedinUser.avatar" class="image">
+      <img :src="loggedinUser.avatar" class="profile-img">
       <div style="padding: 14px;" class="left-panel-content">
         <span>{{loggedinUser.username}}</span>
         <div class="bottom clearfix">
           <time class="time">Joind at: {{ loggedinUser.joinedAt }}</time> <br>
+          <div class="profile-btns">
           <el-button type="text" class="button" @click="deleteUser(loggedinUser._id)">Delete Profile</el-button><br>
           <el-button type="text" class="button"  @click="editProfile" v-if="!isEditing">Edit Profile</el-button>
+          </div>
         </div>
       </div>
     </el-card>
@@ -25,7 +27,7 @@
             <p>Books read </p> </div><i class="fa fa-check" aria-hidden="true"></i></div>
           <div class="statistics-item">
             <div class="icon-count">
-              <!-- <p>{{loggedinUser.readList.length}}</p> -->
+              <!-- <p>{{loggedinUser.readList.length}}</p> --> <p>0</p>
             <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
 <div class="right-panel jenres">
@@ -33,9 +35,10 @@
   
 
   <div class="curr-book-reading">
+      <div class="book-align" v-if="loggedinUser.reviews.length != 0">
       <h3>Reading right now</h3>
-      <div  v-if="loggedinUser.reviews.length != 0">
-      <book-preview :img-url="loggedinUser.reviews[0].review.img" ></book-preview></div>
+      <book-preview :img-url="loggedinUser.reviews[0].review.img" ></book-preview>
+      </div>
       <div class="jenres" v-if="!isEditing">
         <div class="jenres-wrapper">
         <h1>Favorite jenres</h1>
@@ -259,9 +262,18 @@ export default {
   margin-bottom: 5px;
 }
 
+.profile-btns {
+  display: flex;
+  flex-direction: column;
+}
+
 h4 {
   color: #999;
   text-align: left;
+}
+
+h3 {
+  margin-bottom: 4%;
 }
 
 .wrapper {
@@ -366,6 +378,8 @@ h1 {
   clear: both;
 }
 
+/* ////////////  mobile query  //////////////// */
+
 @media screen and (max-width: 768px) {
 .main-container {
   display: flex;
@@ -378,7 +392,10 @@ h1 {
   width: 95%;
   height: 25%;
   margin-top: 6%;
-  margin-left: 3%;
+}
+
+.el-card {
+  margin: 0;
 }
 
 .content-wrapper {
@@ -390,8 +407,36 @@ h1 {
 }
 
 .statistics {
-  width: 95%;
+  width: 100%;
   justify-content: space-around;
+  margin-top: 1%;
+}
+
+.profile-img {
+  margin-top: 2%;
+  width: 40%;
+}
+
+.profile-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.curr-book-reading {
+  flex-direction: row;
+}
+
+.right-panel {
+  flex-flow: row wrap
+}
+
+.right-panel  {
+  width: 100%;
+}
+
+.book-align {
+  align-self: flex-start;
 }
 }
 </style>
