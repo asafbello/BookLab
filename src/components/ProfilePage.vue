@@ -25,7 +25,7 @@
             <p>Books read </p> </div><i class="fa fa-check" aria-hidden="true"></i></div>
           <div class="statistics-item">
             <div class="icon-count">
-              <!-- <p>{{loggedinUser.uBooks.length}}</p> -->
+              <!-- <p>{{loggedinUser.readList.length}}</p> -->
             <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
 <div class="right-panel jenres">
@@ -128,7 +128,7 @@ export default {
         isAdmin: "",
         reviews: this.$store.state.user.loggedinUser.bookReviews,
         friends: this.$store.state.user.loggedinUser.friends,
-        readList: this.$store.state.user.loggedinUser.readList,
+        readList: this.$store.state.user.loggedinUser.uBooks,
         joinedAt: this.$store.state.user.loggedinUser.joinedAt
       }
     };
@@ -364,5 +364,34 @@ h1 {
 
 .clearfix:after {
   clear: both;
+}
+
+@media screen and (max-width: 768px) {
+.main-container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left-panel {
+  width: 95%;
+  height: 25%;
+  margin-top: 6%;
+  margin-left: 3%;
+}
+
+.content-wrapper {
+  display: flex;
+  width: 95%;
+  flex-flow: column wrap;
+  /* margin-right: 2%; */
+  margin-top: 2%;
+}
+
+.statistics {
+  width: 95%;
+  justify-content: space-around;
+}
 }
 </style>

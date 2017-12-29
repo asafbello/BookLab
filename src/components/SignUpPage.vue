@@ -132,7 +132,7 @@ export default {
           .then(_ => {
             this.$router.push("/");
             this.$message({
-              message: "WELLCOME, to BookLab",
+              message: "WELLCOME to BookLab",
               type: "success"
             });
           })

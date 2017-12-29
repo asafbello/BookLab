@@ -18,6 +18,7 @@ function login(userCreds) {
         .then((data) => {
             return data
         })
+        .catch(err => err)
 }
 
 function logout() {
