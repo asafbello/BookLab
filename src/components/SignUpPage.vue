@@ -41,6 +41,7 @@
         <label for="checkbox">Science</label>
       </div>
     </div>
+           <el-button class="sign-up-btn-mobie" type="primary"  @click.native="signup(signupDetails)">Sign Up</el-button>
     </section>
 
         <el-form ref="form" :model="signupDetails" :rules="rules" @keyup.native.enter="signup" class="signin-form">
@@ -69,7 +70,7 @@
                 <el-form-item label="Upload Your Picture" prop="avatar">
                     <el-input type="text" placeholder="Copy image URL" v-model="signupDetails.avatar"></el-input>
                 </el-form-item>    
-                <el-form-item>
+                <el-form-item class="sign-up-btn-desktop">
                         <el-button type="primary"  @click.native="signup(signupDetails)">Sign Up</el-button>
                  </el-form-item>    
                 </el-form>
@@ -164,8 +165,8 @@ export default {
     handlePreview(file) {
       console.log(file);
     },
-    submitUpload({target}) {
-      var file = target.files
+    submitUpload({ target }) {
+      var file = target.files;
       UserService.uploadImage(file)
         .then(imgUrl => {
           // console.log('photo uploaded')
@@ -183,7 +184,7 @@ export default {
 <style scoped>
 .lables {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
   justify-content: flex-start;
 }
 
@@ -224,6 +225,55 @@ h3 {
 }
 
 .fa-star {
-  color: lightyellow;
+  color: gold;
 }
+
+.sign-up-btn-mobie {
+  display: none;
+}
+
+/* ////////////  mobile query  //////////////// */
+
+@media screen and (max-width: 768px) {
+  .signup {
+    flex-flow: column-reverse wrap;
+    margin-right: unset !important;
+    /* margin-top: 2%; */
+    width: 100%;
+  }
+
+  .signin-form {
+  width: 95%;
+  margin: auto;
+  
+}
+
+.fav-jenres {
+  flex-direction: row;
+  width: 100%;
+}
+
+.fav-jenres > * {
+  margin: 15px;
+}
+
+.sign-up-btn-desktop {
+  display: none;
+}
+
+.sign-up-btn-mobie {
+  display: block;
+}
+
+.lables {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.lables > * {
+  margin: 15px;
+}
+}
+
 </style>
