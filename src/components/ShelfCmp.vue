@@ -1,23 +1,21 @@
 <template>
 <section class="shelf-cmp">
-  <div>
   <div class="books">
-         <el-card v-for="book in shelf" :key="book.forigenId">
-            <router-link :to="'/book/' + book.forigenId">
-        <div class="a-book">
-          <img :src="book.img"  class="image" >
-     <h2>{{book.title}}</h2>
-        </div>
-             </router-link>
-        </el-card>
+      <el-carousel :interval="6000" type="card">
+            <el-carousel-item v-for="book in shelf" :key="book.forigenId">
+              <router-link :to="'/book/' + book.forigenId">
+                   <h3>
+                     <i class="fa fa-book" aria-hidden="true"></i> {{ book.title }}
+                    </h3>
+                  <p v-loading="loading"><img :src="book.img"  class="image" v-on:load="isLoading"></p>
+               </router-link>
+            </el-carousel-item>
+      </el-carousel>
   </div>
-  </div>
-   <transition name="fade" mode="out-in" >
-          <div class="shelf" v-if="show" >
+          <div class="shelf animated  swing" v-if="show">
               <div class="bottom-shelf"></div>
               <div class="bottom-shelf-edge"></div>
           </div>
-            </transition>
 </section>
 </template>
 
@@ -25,45 +23,53 @@
 export default {
   name: "ShelfCmp",
   props: ["shelf"],
-  methods: {},
+  methods: {
+    isLoading() {
+      this.loading = false;
+    }
+  },
   data() {
     return {
-      show: false
+      show: false,
+      loading: true
     };
   },
   created() {
     setTimeout(() => {
       this.show = true;
-    }, 0);
+    }, 0.5);
   }
 };
 </script>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
+.el-carousel__item h3 {
+  color: var(--special-btn);
+  font-size: 1.3em;
+  opacity: 0.75;
+  /* line-height: 200px; */
+  margin: 0;
+  padding: 1vw;
 }
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-  height: 0;
-  padding: 0 10px;
-  opacity: 0;
+.el-carousel__item a {
+  text-decoration: none;
+  color: var(--special-btn);
 }
-.a-book {
-  display: flex;
-  flex-direction: column;
-  height: 15vw;
-  margin: 3vw;
+.el-carousel__item a:hover {
+  text-decoration: underline;
 }
-.a-book img {
-  height: 100%;
-  width: 10vw;
-  transform: rotateY(30deg), rotateZ(30deg);
+img {
+  /* width: 95%; */
+  height: 150%;
 }
-.a-book span {
-  width: 10vw;
+.el-carousel__item:nth-child(2n) {
+  background-color: var(--seconed-color);
+  opacity: 0.95;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: var(--main-color);
+  opacity: 0.95;
 }
 .shelf-cmp {
   display: flex;
@@ -72,24 +78,9 @@ export default {
   align-items: center;
 }
 .books {
-  display: flex;
-  flex-direction: row;
-}
-.shelf {
-  display: block;
-  z-index: -1;
-}
-.bottom-shelf {
-  width: 80vw;
-  border-bottom: 25px solid #a1a194;
-  border-left: 25px solid transparent;
-  border-right: 25px solid transparent;
-}
-
-.bottom-shelf-edge {
+  margin-top: 2vh;
   width: 100%;
-  height: 25px;
-  background: #5b605f;
+  max-width: 800px;
 }
 </style>
 

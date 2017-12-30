@@ -1,0 +1,16 @@
+.shelf {
+    display: block;
+    z-index: -1;
+  }
+  .bottom-shelf {
+    width: 80vw;
+    border-bottom: 3.6vw solid var(--main-color);;
+    border-left:  3.6vw solid transparent;
+    border-right:  3.6vw solid transparent;
+  }
+  
+  .bottom-shelf-edge {
+    width: 100%;
+    height: 4.8vw;
+    background: var(--seconed-color);
+  }

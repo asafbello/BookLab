@@ -9,7 +9,8 @@
           </el-select>
           </el-input>
         </div>
-          <el-button @click.native="searchForBook()" type="primary" icon="el-icon-search">Search</el-button>
+          <!-- <el-button  v-if="input5"  @click.native="searchForBook()" type="primary" icon="el-icon-search">{{searchMode}}</el-button> -->
+          <el-button  @click.native="clearSearch()" type="primary" icon="el-icon-search">{{searchMode}}</el-button>
         </section>
         <section class="answers" v-loading="searching"
         element-loading-text="Getting Your Books..."
@@ -44,7 +45,8 @@ export default {
       books: [],
       bookSearchRes: [],
       loading: true,
-      searching: false
+      searching: false,
+      searchMode:'Clear'
     };
   },
   methods: {
@@ -56,6 +58,7 @@ export default {
         .then(function(books) {
           self.bookSearchRes = books;
            this.searching = false
+          //  self.searchMode = 'Clear'
         })
         .catch(err => this.searching = false);
     }, 300),
@@ -66,10 +69,15 @@ export default {
       //   .dispatch({ type: UPDATE_USER , user})
       //       .then(user =>console.log(user))
       //       .catch(user => console.log(user))
+    },
+    clearSearch(){
+      this.input5 = ''
+      this.bookSearchRes = []
+      // this.searchMode = 'Search'
     }
   },
   created() {
-    var shelf = ["c_KYSDoCYQ4C","DKcWE3WXoj8C","kUeDc_wYSnoC"];
+    var shelf = ["c_KYSDoCYQ4C","DKcWE3WXoj8C","kUeDc_wYSnoC","pj16s_fnr08C","twHgJGtm3o4C"];
     
     this.$store
       .dispatch({ type: LOAD_BOOKS, shelf })
