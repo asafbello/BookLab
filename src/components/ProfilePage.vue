@@ -273,7 +273,8 @@ h4 {
 }
 
 h3 {
-  margin-bottom: 4%;
+  margin-bottom: 7%;
+  font-size: 1em;
 }
 
 .wrapper {
@@ -437,6 +438,11 @@ h1 {
 
 .book-align {
   align-self: flex-start;
+}
+
+.signin-form  {
+  margin-left: 0;
+  width: 95%;
 }
 }
 </style>

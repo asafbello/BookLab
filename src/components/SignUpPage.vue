@@ -6,39 +6,39 @@
   <div class="lables">
       <div class="jenre">
         <input type="checkbox" value="Drama" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Drama</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/rupaul-filled.png"> Drama</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Biogrphy" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Biogrphy</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/person-in-a-mirror-filled.png"> Biogrphy</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Novel" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Novel</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/two-hearts-filled.png"> Novel</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Cooking" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Cooking</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/chef-hat.png"> Cooking</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Classics" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Classics</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/mark-twain-filled.png"> Classics</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Thriller" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Thriller</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/film-noir-filled.png"> Thriller</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Fiction" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Fiction</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/walter-white.png"> Fiction</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Sci-fi" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Sci-fi</label>
+        <label for="checkbox"> <img src="https://png.icons8.com/cotton/20/000000/martian.png"> Sci-fi</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Science" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Science</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/microscope.png"> Science</label>
       </div>
     </div>
            <el-button class="sign-up-btn-mobie" type="primary"  @click.native="signup(signupDetails)">Sign Up</el-button>
