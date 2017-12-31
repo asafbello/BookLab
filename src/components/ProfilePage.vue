@@ -20,15 +20,17 @@
           <div class="statistics-item">
             <div class="icon-count">
               <p>{{pagesRead}}</p>
-            <p>Pages read </p></div><i class="fa fa-book" aria-hidden="true"></i></div>
+            <p>Pages read </p></div><img class="icon" src="https://png.icons8.com/dusk/64/open-book.png" title="Open Book" width="64" height="64"></div>
           <div class="statistics-item">
           <div class="icon-count">
             <p>{{loggedinUser.reviews.length}}</p>
-            <p>Books read </p> </div><i class="fa fa-check" aria-hidden="true"></i></div>
+            <p>Books read </p> </div><img class="icon" src="https://png.icons8.com/nolan/64/checkmark.png" title="Checkmark" width="64" height="64"></div>
           <div class="statistics-item">
             <div class="icon-count">
               <!-- <p>{{loggedinUser.readList.length}}</p> --> <p>0</p>
-            <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
+            <p>Books in read list</p> </div><img class="icon" src="https://png.icons8.com/dusk/64/book-shelf.png" title="Book Shelf" width="64" height="64">
+            </div> 
+            <!-- <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div>  -->
       </div>
 <div class="right-panel jenres">
 
@@ -44,6 +46,9 @@
         <h1>Favorite jenres</h1>
         <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
     </div>
+  <div class="read-list">
+      <book-preview class="book-preview" v-for="book in loggedinUser.readList" :img-url="book.img" :key="book.id"></book-preview>
+  </div>
   </div>
 
 </div>
@@ -206,6 +211,17 @@ export default {
 </script>
 
 <style scoped>
+
+.read-list {
+  display: flex;
+}
+
+.book-preview {
+  width: 100px;
+}
+.icon {
+  margin: auto;
+}
 
 .right-panel jenres {
   display: flex;

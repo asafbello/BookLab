@@ -15,9 +15,12 @@ function signup(userDetails) {
 function login(userCreds) {
     return axios.post(`${URL}/login`, userCreds)
         .then((data) => {
+            console.log(data, 'resolve')
             return data
         })
-        .catch(err => err)
+        .catch(err => {
+            console.log({err})
+        })
 }
 
 function logout() {
@@ -40,10 +43,10 @@ function uploadImage(file) {
     const CLOUDINARY_PRESET = 'qvpbsmfe';
 
     // fileUpload.addEventListener('change', function (event) {
-        var file = event.target.files[0]
-        var formData = new FormData()
-        formData.append('file', file)
-        formData.append('upload_preset', CLOUDINARY_PRESET)
+    var file = event.target.files[0]
+    var formData = new FormData()
+    formData.append('file', file)
+    formData.append('upload_preset', CLOUDINARY_PRESET)
     // })
     return axios({
         url: CLOUDINARY_URL,

@@ -22,19 +22,8 @@ import store from "../store/store.js";
 
 
 export default {
-    props: ["imgUrl"],
-// computed: {
-//     loggedinUser() {
-//       return this.$store.state.user.loggedinUser;
-//     }
-//   },
-// methods: {
-//     showReview() {
-//         console.log('asaf',this.loggedinUser )
-        
-//     },
+    props: ["imgUrl", "book.img"],
 
-// }
 }
 
 
