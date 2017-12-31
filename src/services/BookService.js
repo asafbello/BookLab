@@ -32,7 +32,7 @@ function getBooks() {
         .get(BOOK_URL, shelf)
         .then(res => res.data)
         .catch(e => {
-            console.log('No Books', e);
+            // console.log('No Books', e);
             throw e;
         });
 }
@@ -64,7 +64,7 @@ function getBookByForeignId(foreignId) {
             return res.data
         })
         .catch(err => {
-            console.log(err);
+            // console.log(err);
             return 'cant find book'
         })
 }

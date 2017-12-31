@@ -5,11 +5,12 @@ import axios from 'axios'
 const URL = 'http://localhost:3003'
 
 function signup(userDetails) {
+    console.log(userDetails,'in user service first')
     return axios.post(`${URL}/data/user`, userDetails)
-        .then(_ => {
-            return login(userDetails)
+        .then(res => {
+            return res.data
         })
-        .catch(err => { return err })
+        .catch(err => { throw err })
 }
 
 function login(userCreds) {
@@ -19,6 +20,7 @@ function login(userCreds) {
             console.log('elad', res)
             return res.data
         })
+        .catch(err => {throw err})
 }
 
 function logout() {

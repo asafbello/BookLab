@@ -53,11 +53,12 @@ export default {
                 })
         },
         [SIGNUP]({ commit }, { signupDetails }) {
-            UserService
+            return UserService
                 .signup(signupDetails)
                 .then(res => {
-                    commit({ type: SET_USER, user: res.data.user })
-                    saveToLocalStorage(res.data.user)
+                    console.log('ressss',res);
+                    commit({ type: SET_USER, user: res })
+                    saveToLocalStorage(res)
                 })
                 .catch(err => {
                     console.log(err)
@@ -79,9 +80,9 @@ export default {
                     commit({ type: SET_USER, user: res.user });
                     saveToLocalStorage(res.user)
                 })
-                // .catch(err => {
-                //     throw 'error'
-                // })
+                .catch(err => {
+                    throw 'error'
+                })
         },
         [SIGNOUT]({ commit }) {
             UserService

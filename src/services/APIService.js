@@ -40,7 +40,7 @@ function getBooksShelf(shelf) {
                 return books
             })
             .catch(err => {
-                console.log(err,'err');
+                // console.log(err,'err');
                 return ('cant find shelf')
             })
     }

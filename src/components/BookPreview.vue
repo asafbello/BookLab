@@ -53,9 +53,9 @@ export default {
 	}
 
 .flip-container, .front, .back {
-	width: 320px;
+	width: auto;
 	height: 200px;
-    
+    /* //////////// Changed to auto instead 320 px, in case of problems revert!////////// */
 }
 .flip-container img {
     height: 200px;

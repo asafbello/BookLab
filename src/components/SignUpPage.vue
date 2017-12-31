@@ -6,41 +6,42 @@
   <div class="lables">
       <div class="jenre">
         <input type="checkbox" value="Drama" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Drama</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/rupaul-filled.png"> Drama</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Biogrphy" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Biogrphy</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/person-in-a-mirror-filled.png"> Biogrphy</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Novel" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Novel</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/two-hearts-filled.png"> Novel</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Cooking" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Cooking</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/chef-hat.png"> Cooking</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Classics" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Classics</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/mark-twain-filled.png"> Classics</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Thriller" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Thriller</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/film-noir-filled.png"> Thriller</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Fiction" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Fiction</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/walter-white.png"> Fiction</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Sci-fi" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Sci-fi</label>
+        <label for="checkbox"> <img src="https://png.icons8.com/cotton/20/000000/martian.png"> Sci-fi</label>
       </div>
       <div class="jenre">
         <input type="checkbox" value="Science" v-model="signupDetails.favoriteJenre">
-        <label for="checkbox">Science</label>
+        <label for="checkbox"><img src="https://png.icons8.com/ios/20/000000/microscope.png"> Science</label>
       </div>
     </div>
+           <el-button class="sign-up-btn-mobie" type="primary"  @click.native="signup(signupDetails)">Sign Up</el-button>
     </section>
         <el-form ref="form" :model="signupDetails" :rules="rules" @keyup.native.enter="signup" class="signin-form">
                 <el-form-item label="Name" prop="name">
@@ -52,7 +53,10 @@
                 <el-form-item label="User Name" prop="username">
                     <el-input type="text" placeholder="username" v-model="signupDetails.username"></el-input>
                  </el-form-item>
-                            <el-upload :limit="1"     
+                <el-form-item label="password" prop="pass">
+                    <el-input type="password" placeholder="password" v-model="signupDetails.pass"></el-input>
+                </el-form-item> 
+                            <el-upload class="upload-demo"  :limit="1"     
                              :auto-upload="false"   
                             @change.native="submitUpload"
                                            drag
@@ -65,11 +69,8 @@
                 <el-form-item label="Choose For Me" prop="avatar" v-if="avatar"> 
                         <el-button type="primary"  @click.native="setRandomAvatar"> <img  :src="randomAvatar" class="image mini-img" /> </el-button>                   
                 </el-form-item>    
-                <el-form-item label="password" prop="pass">
-                    <el-input type="password" placeholder="password" v-model="signupDetails.pass"></el-input>
-                </el-form-item> 
-                <el-form-item>
-                        <el-button type="primary"  @click.native="signup(signupDetails)">Sign Up</el-button>
+                <el-form-item class="sign-up-btn-desktop">
+                        <el-button type="primary"  @click.native="signup">Sign Up</el-button>
                  </el-form-item>    
                 </el-form>
     </div>
@@ -87,12 +88,12 @@ export default {
     return {
       loginDetails: { username: "", pass: "" },
       signupDetails: {
-        joinedAt: moment().format("ll"),
+        joinedAt: Date.now(),
         name: "",
         lastName: "",
         username: "",
         pass: "",
-        avatar: null,
+        avatar: 'http://bbo.co.nz/wp-content/uploads/Generic-Avatar-Male.jpg',
         isAdmin: false,
         uBooks: [],
         reviews: [],
@@ -119,23 +120,20 @@ export default {
     };
   },
   methods: {
-    signup(formName) {
+    signup() {
       let valid = true;
-      if (formName.name === "" || formName.pass <= 2) valid = false;
-      if (!this.signupDetails.avatar)
-        this.signupDetails.avatar =
-          "http://www.nanigans.com/wp-content/uploads/2014/07/Generic-Avatar.png";
+      if (this.signupDetails.name === "" || this.signupDetails.pass <= 2) valid = false;
       if (valid) {
         this.$store
           .dispatch({ type: SIGNUP, signupDetails: this.signupDetails })
           .then(_ => {
             this.$router.push("/");
             this.$message({
-              message: "WELLCOME, to BookLab",
+              message: "WELLCOME to BookLab",
               type: "success"
             });
           })
-          .catch(err => console.log(err));
+          .catch(err =>  this.$message.error("Sorry, cant sign you in"));
       } else {
         this.$message({
           message: "please fill the form",
@@ -143,14 +141,6 @@ export default {
         });
         return false;
       }
-    },
-    login() {
-      this.$store
-        .dispatch({ type: SIGNIN, signinDetails: this.loginDetails })
-        .then(_ => {
-          this.$router.push("/");
-        })
-        .catch(err => console.log(err));
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);
@@ -163,10 +153,8 @@ export default {
     handlePreview(file) {
       console.log(file);
     },
-    submitUpload({target}) {
-      console.log('hi');
-      
-      var file = target.files
+    submitUpload({ target }) {
+      var file = target.files;
       UserService.uploadImage(file)
         .then(imgUrl => {
           console.log('photo uploaded')
@@ -193,7 +181,7 @@ export default {
 <style scoped>
 .lables {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
   justify-content: flex-start;
 }
 
@@ -234,10 +222,59 @@ h3 {
 }
 
 .fa-star {
-  color: lightyellow;
+  color: gold;
+}
+
+.sign-up-btn-mobie {
+  display: none;
+}
+
+/* ////////////  mobile query  //////////////// */
+
+@media screen and (max-width: 768px) {
+  .signup {
+    flex-flow: column-reverse wrap;
+    margin-right: unset !important;
+    /* margin-top: 2%; */
+    width: 100%;
+  }
+
+  .signin-form {
+  width: 95%;
+  margin: auto;
+  
+}
+
+.fav-jenres {
+  flex-direction: row;
+  width: 100%;
 }
 .mini-img{
   width: 30%; 
   height: 30%
 }
+
+.fav-jenres > * {
+  margin: 15px;
+}
+
+.sign-up-btn-desktop {
+  display: none;
+}
+
+.sign-up-btn-mobie {
+  display: block;
+}
+
+.lables {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
+.lables > * {
+  margin: 15px;
+}
+}
+
 </style>

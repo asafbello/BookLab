@@ -17,7 +17,6 @@
 
 <script>
 import { SIGNIN } from "../store/modules/UserModule.js";
-
 export default {
   name: "SignInPage",
   data() {
@@ -33,9 +32,10 @@ export default {
         pass: [
           {
             required: true,
-            message: "Please Enter Your Password",
-            trigger: "change"
-          }
+            message: "Please enter your password",
+            trigger: "blur"
+          },
+          { min: 2, message: "Your password need to be at least 2" }
         ]
       }
     };
@@ -86,5 +86,19 @@ h2 {
 .login-form * {
   /* margin: 1vw; */
   width: 100%;
+}
+
+@media screen and (max-width: 850px) {
+ .login {
+  display: flex;
+  flex-flow: column wrap;
+  margin: auto;
+  margin-top: 10%;
+  width: 95%;
+}
+
+.btn {
+  margin-right: 45px;
+}
 }
 </style>

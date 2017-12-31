@@ -2,13 +2,15 @@
     <div class="main-container" v-if="loggedinUser">
   
     <el-card :body-style="{ padding: '0px' }" class="left-panel" v-if="!isEditing">
-      <img :src="loggedinUser.avatar" class="image">
+      <img :src="loggedinUser.avatar" class="profile-img">
       <div style="padding: 14px;" class="left-panel-content">
         <span>{{loggedinUser.username}}</span>
         <div class="bottom clearfix">
           <time class="time">Joind at: {{ loggedinUser.joinedAt }}</time> <br>
+          <div class="profile-btns">
           <el-button type="text" class="button" @click="deleteUser(loggedinUser._id)">Delete Profile</el-button><br>
           <el-button type="text" class="button"  @click="editProfile" v-if="!isEditing">Edit Profile</el-button>
+          </div>
         </div>
       </div>
     </el-card>
@@ -25,7 +27,7 @@
             <p>Books read </p> </div><i class="fa fa-check" aria-hidden="true"></i></div>
           <div class="statistics-item">
             <div class="icon-count">
-              <!-- <p>{{loggedinUser.uBooks.length}}</p> -->
+              <!-- <p>{{loggedinUser.readList.length}}</p> --> <p>0</p>
             <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
       </div>
 <div class="right-panel jenres">
@@ -33,8 +35,10 @@
   
 
   <div class="curr-book-reading">
+      <div class="book-align" v-if="loggedinUser.reviews.length != 0">
       <h3>Reading right now</h3>
-      <book-preview :img-url="loggedinUser.reviews[1].review.img" ></book-preview>
+      <book-preview :img-url="loggedinUser.reviews[0].review.img" ></book-preview>
+      </div>
       <div class="jenres" v-if="!isEditing">
         <div class="jenres-wrapper">
         <h1>Favorite jenres</h1>
@@ -127,7 +131,7 @@ export default {
         isAdmin: "",
         reviews: this.$store.state.user.loggedinUser.bookReviews,
         friends: this.$store.state.user.loggedinUser.friends,
-        readList: this.$store.state.user.loggedinUser.readList,
+        readList: this.$store.state.user.loggedinUser.uBooks,
         joinedAt: this.$store.state.user.loggedinUser.joinedAt
       }
     };
@@ -177,9 +181,25 @@ export default {
     },
 
     deleteUser(userId) {
-      this.$router.push("/");
-      this.$store.dispatch({ type: DELETE_USER, userId });
-      this.$store.dispatch({ type: SIGNOUT, userId });
+
+       this.$confirm('This will permanently delete the Profile. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.$router.push("/");
+          this.$store.dispatch({ type: DELETE_USER, userId });
+          this.$store.dispatch({ type: SIGNOUT, userId });
+          this.$message({
+            type: 'success',
+            message: 'Delete completed'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Delete canceled'
+          });          
+        });
     }
   }
 };
@@ -242,9 +262,19 @@ export default {
   margin-bottom: 5px;
 }
 
+.profile-btns {
+  display: flex;
+  flex-direction: column;
+}
+
 h4 {
   color: #999;
   text-align: left;
+}
+
+h3 {
+  margin-bottom: 7%;
+  font-size: 1em;
 }
 
 .wrapper {
@@ -347,5 +377,72 @@ h1 {
 
 .clearfix:after {
   clear: both;
+}
+
+/* ////////////  mobile query  //////////////// */
+
+@media screen and (max-width: 768px) {
+.main-container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left-panel {
+  width: 95%;
+  height: 25%;
+  margin-top: 6%;
+}
+
+.el-card {
+  margin: 0;
+}
+
+.content-wrapper {
+  display: flex;
+  width: 95%;
+  flex-flow: column wrap;
+  /* margin-right: 2%; */
+  margin-top: 2%;
+}
+
+.statistics {
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 1%;
+}
+
+.profile-img {
+  margin-top: 2%;
+  width: 40%;
+}
+
+.profile-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.curr-book-reading {
+  flex-direction: row;
+}
+
+.right-panel {
+  flex-flow: row wrap
+}
+
+.right-panel  {
+  width: 100%;
+}
+
+.book-align {
+  align-self: flex-start;
+}
+
+.signin-form  {
+  margin-left: 0;
+  width: 95%;
+}
 }
 </style>
