@@ -61,10 +61,6 @@ function getBookByForeignId(foreignId) {
     return axios
         .get(`${GET_BOOK_URL}/${foreignId}`)
         .then(res => {
-<<<<<<< HEAD
-            // console.log(res);
-=======
->>>>>>> master
             return res.data
         })
         .catch(err => {

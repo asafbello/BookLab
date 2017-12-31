@@ -47,10 +47,6 @@ export default {
     actions: {
         [LOAD_BOOKS]({ commit, rootState }, { shelf }) {
             // if (rootState.user.loggedinUser) shelf = rootState.user.loggedinUser.uBooks
-<<<<<<< HEAD
-            // console.log(shelf,'---------------')
-=======
->>>>>>> master
             return APIService.getBooksShelf(shelf)
                 .then(books => {
                     commit({ type: SET_BOOKS, books })
