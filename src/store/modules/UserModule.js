@@ -5,17 +5,20 @@ import UserService from "../../services/UserService.js";
 export const SIGNUP = 'user/signup';
 export const SIGNIN = 'user/signin';
 export const SET_USER = 'user/setUser';
+export const SET_PROFILE = 'user/setProfile';
 export const SIGNOUT = 'user/signout';
 export const DELETE_USER = 'user/deleteUser';
 export const UPDATE_USER = 'user/editUser';
 export const ADD_BOOK_SHELF = 'user/addBookShelf';
 export const ADD_REVIEW_USER = 'user/addReviewUser'
+export const GET_USER = 'user/getUser'
 
 const STORAGE_KEY = 'loggedinUser';
 
 export default {
     state: {
-        loggedinUser: getUserFromStorage()
+        loggedinUser: getUserFromStorage(),
+        currProfile: null
     },
     getters: {
         isUser(state) {
@@ -36,12 +39,10 @@ export default {
             state.loggedinUser = user;
         },
         [ADD_REVIEW_USER](state, { reviewUser }) {
-            console.log('==================')
-            console.log('INSIDE: ' + ADD_REVIEW_USER)
-            console.log({ reviewUser, user: state.loggedinUser })
-            console.log({ reviews: state.loggedinUser.reviews })
-            console.log('==================')
             state.loggedinUser.reviews.push(reviewUser)
+        },
+        [SET_PROFILE](state, { profile }) {
+            state.currProfile = profile;
         }
     },
     actions: {
@@ -56,7 +57,7 @@ export default {
             return UserService
                 .signup(signupDetails)
                 .then(res => {
-                    console.log('ressss',res);
+                    console.log('ressss', res);
                     commit({ type: SET_USER, user: res })
                     saveToLocalStorage(res)
                 })
@@ -73,7 +74,7 @@ export default {
                 })
         },
         [SIGNIN]({ commit }, { signinDetails }) {
-           return  UserService
+            return UserService
                 .login(signinDetails)
                 .then(res => {
                     console.log('secseus', res)
@@ -92,6 +93,16 @@ export default {
                     saveToLocalStorage(null);
                 })
         },
+        [GET_USER]({ commit }, id) {
+            return UserService
+                .getUserById(id)
+                .then(profile => {
+                    commit({
+                        type: SET_PROFILE,
+                        profile
+                    })
+                })
+        }
     }
 }
 

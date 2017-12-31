@@ -70,14 +70,11 @@
   </div>
 </section>      
 
-        <form class="signin-form "  v-if="isEditing">
-
-          <h4>Name</h4>
-             <el-input type="text" placeholder="name" v-model="updatedUser.name"></el-input>
-          <h4>User Name</h4>
-             <el-input type="text" placeholder="username" v-model="updatedUser.username"></el-input>
+        <form class="signin-form " v-if="isEditing">
           <h4>Password</h4>
              <el-input type="password" placeholder="password" v-model="updatedUser.pass"></el-input>
+          <h4>User Name</h4>
+             <el-input type="text" placeholder="username" v-model="updatedUser.username"></el-input>
           <h4>Profile Image</h4>
              <el-input type="text" placeholder="Copy image URL" v-model="updatedUser.avatar"></el-input>
 
@@ -96,7 +93,8 @@ import bookPreview from "./BookPreview";
 import {
   DELETE_USER,
   SIGNOUT,
-  UPDATE_USER
+  UPDATE_USER,
+  GET_USER
 } from "../store/modules/UserModule.js";
 
 export default {
@@ -107,7 +105,8 @@ export default {
 
   computed: {
     loggedinUser() {
-      return this.$store.state.user.loggedinUser;
+      // return this.$store.state.user.loggedinUser;
+      return this.$store.state.user.currProfile;
     }
   },
   data() {
@@ -132,21 +131,20 @@ export default {
   },
   created() {
     var id = this.$route.params.id;
-    // if(!this.loggedinUser) return;
-    var pagesCount = this.loggedinUser.reviews.reduce((acu, curr) => {
-      return acu + curr.review.pages;
-    }, 0);
-    this.pagesRead = pagesCount;
-  },
+    this.$store.dispatch({
+      type: GET_USER,
+      id: id
+    })
+    .then( x => {
+      var pagesCount = this.$store.state.user.currProfile.reviews.reduce((acu, curr) => {
+        return acu + curr.review.pages;
+      }, 0);
+      this.pagesRead = pagesCount;
+      console.log(this.$store.state.user.currProfile)
+    })
+   },
   methods: {
-    showReview(id) {
-      console.log("id: ", id);
-      this.$router.push(`/book/${id}/BookReviewPage`);
-    },
-
     deleteReview(bookId) {
-      console.log("bookid ", bookId);
-      console.log(" this.updatedUser.reviews ", this.updatedUser);
       // this.updatedUser.reviews = this.updatedUser.reviews.filter(review => review.id != bookId)
       // var userId = this.$store.state.user.loggedinUser._id;
       // this.$store.dispatch({

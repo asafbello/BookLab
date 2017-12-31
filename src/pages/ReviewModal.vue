@@ -34,9 +34,6 @@ import state from "../store/modules/UserModule.js";
 
 export default {
   props: ["currBook"],
-  //NEDD TO FIXXXXXXXXXXXXXXXXXXXXXXXXXXXX!!!
-  //!!!!!!!!!!!!!
-  //MOVE TO PROPSSSSSSSS
   computed: {},
   data() {
     return {
