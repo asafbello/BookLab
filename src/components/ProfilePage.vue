@@ -16,6 +16,7 @@
     </el-card>
 
 <section class="content-wrapper" v-if="!isEditing">
+  <div class="statistics-wrapper">
       <div class="statistics">
           <div class="statistics-item">
             <div class="icon-count">
@@ -31,10 +32,19 @@
             <p>Books in read list</p> </div><img class="icon" src="https://png.icons8.com/dusk/64/book-shelf.png" title="Book Shelf" width="64" height="64">
             </div> 
             <!-- <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div>  -->
+  </div>
+        <h2>Read List</h2>
+        <hr>
+      <div class="read-list">
+          <book-preview class="book-preview" v-for="book in loggedinUser.readList" :img-url="book.img" :key="book.id"></book-preview>
       </div>
+        <h2>Books read</h2>
+        <hr>
+      <div class="read-list">
+          <book-preview class="book-preview" v-for="book in loggedinUser.readList" :img-url="book.img" :key="book.id"></book-preview>
+      </div>
+  </div>
 <div class="right-panel jenres">
-
-  
 
   <div class="curr-book-reading">
       <div class="book-align" v-if="loggedinUser.reviews.length != 0">
@@ -46,9 +56,7 @@
         <h1>Favorite jenres</h1>
         <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
     </div>
-  <div class="read-list">
-      <book-preview class="book-preview" v-for="book in loggedinUser.readList" :img-url="book.img" :key="book.id"></book-preview>
-  </div>
+
   </div>
 
 </div>
@@ -214,6 +222,7 @@ export default {
 
 .read-list {
   display: flex;
+  margin-top: 5%; 
 }
 
 .book-preview {
@@ -249,7 +258,7 @@ export default {
   /* height: 200px; */
 }
 .jenres {
-  width: 50%;
+  /* width: 50%; */
   display: flex;
   justify-content: space-evenly;
   flex-direction: column-reverse;
@@ -263,6 +272,7 @@ export default {
   flex-flow: row wrap;
   margin-right: 2%;
   margin-top: 2%;
+  justify-content: space-between;
 }
 
 .profile-pic-edit {
@@ -308,6 +318,11 @@ h3 {
   color: #999;
 }
 
+.statistics-wrapper {
+  width: 60%;
+  color: #999;  
+}
+
 .main-container {
   display: flex;
   flex-flow: row wrap;
@@ -318,7 +333,7 @@ h3 {
 .statistics {
   display: flex;
   justify-content: space-between;
-  width: 50%;
+  width: 100%;
   align-self: flex-start;
 }
 
@@ -351,6 +366,10 @@ input {
 
 h1 {
   font-size: 2em;
+}
+
+h2 {
+  margin-top: 5%;
 }
 
 .profile-img {
@@ -405,6 +424,10 @@ h1 {
   justify-content: space-between;
 }
 
+.statistics-wrapper {
+  width: 100%;
+}
+
 .left-panel {
   width: 95%;
   height: 25%;
@@ -419,7 +442,7 @@ h1 {
   display: flex;
   width: 95%;
   flex-flow: column wrap;
-  /* margin-right: 2%; */
+  justify-content: space-between;
   margin-top: 2%;
 }
 
@@ -450,6 +473,10 @@ h1 {
 
 .right-panel  {
   width: 100%;
+}
+
+.right-panel.jenres {
+  width: unset;
 }
 
 .book-align {
