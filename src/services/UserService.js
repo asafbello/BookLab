@@ -9,13 +9,15 @@ function signup(userDetails) {
         .then(_ => {
             return login(userDetails)
         })
-        .catch(err => err)
+        .catch(err => { return err })
 }
 
 function login(userCreds) {
+    console.log({login})
     return axios.post(`${URL}/login`, userCreds)
-        .then((data) => {
-            return data
+        .then((res) => {
+            console.log('elad', res)
+            return res.data
         })
 }
 
@@ -39,10 +41,10 @@ function uploadImage(file) {
     const CLOUDINARY_PRESET = 'qvpbsmfe';
 
     // fileUpload.addEventListener('change', function (event) {
-        var file = event.target.files[0]
-        var formData = new FormData()
-        formData.append('file', file)
-        formData.append('upload_preset', CLOUDINARY_PRESET)
+    var file = event.target.files[0]
+    var formData = new FormData()
+    formData.append('file', file)
+    formData.append('upload_preset', CLOUDINARY_PRESET)
     // })
     return axios({
         url: CLOUDINARY_URL,
@@ -52,10 +54,6 @@ function uploadImage(file) {
         },
         data: formData
     }).then(res => res.data.url)
-        .catch(err => {
-            this.$message.error("Oops, Cant get your Avatar");
-            console.log(err)
-        })
 }
 export default {
     signup,

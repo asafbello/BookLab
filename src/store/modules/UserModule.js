@@ -21,35 +21,35 @@ export default {
         isUser(state) {
             return !!state.loggedinUser
         },
-    //     isAdmin(state) {
-    //         return state.loggedinUser && state.loggedinUser.isAdmin
-    //     }
+        //     isAdmin(state) {
+        //         return state.loggedinUser && state.loggedinUser.isAdmin
+        //     }
     },
     mutations: {
-        [SET_USER](state,  {user} ) {
+        [SET_USER](state, { user }) {
             state.loggedinUser = user;
         },
         [SIGNOUT](state) {
             state.loggedinUser = null;
         },
-        [UPDATE_USER](state, {user}) {
+        [UPDATE_USER](state, { user }) {
             state.loggedinUser = user;
         },
-        [ADD_REVIEW_USER](state, {reviewUser}){
+        [ADD_REVIEW_USER](state, { reviewUser }) {
             console.log('==================')
-            console.log('INSIDE: ' +ADD_REVIEW_USER)
-            console.log({reviewUser, user: state.loggedinUser})
-            console.log({reviews : state.loggedinUser.reviews})
+            console.log('INSIDE: ' + ADD_REVIEW_USER)
+            console.log({ reviewUser, user: state.loggedinUser })
+            console.log({ reviews: state.loggedinUser.reviews })
             console.log('==================')
-            state.loggedinUser.reviews.push(reviewUser  )
+            state.loggedinUser.reviews.push(reviewUser)
         }
     },
     actions: {
-        [UPDATE_USER]({commit ,state}, {userId, updatedUser} )  {
+        [UPDATE_USER]({ commit, state }, { userId, updatedUser }) {
             return UserService.editUser(userId, updatedUser)
                 .then(user => {
-                        commit({type: UPDATE_USER, user})
-                        saveToLocalStorage(this.state.loggedinUser)
+                    commit({ type: UPDATE_USER, user })
+                    saveToLocalStorage(this.state.loggedinUser)
                 })
         },
         [SIGNUP]({ commit }, { signupDetails }) {
@@ -64,24 +64,24 @@ export default {
                     throw err;
                 });
         },
-        [DELETE_USER]({commit}, {userId}) {
+        [DELETE_USER]({ commit }, { userId }) {
             return UserService.deleteUser(userId)
                 .then(_ => {
-                        commit({type: SIGNOUT, userId})
+                    commit({ type: SIGNOUT, userId })
+                    //ADD COMMIT TO REMOVE CURRENT BOOK
                 })
         },
         [SIGNIN]({ commit }, { signinDetails }) {
-            UserService
+           return  UserService
                 .login(signinDetails)
                 .then(res => {
-                    console.log(res)
-                    commit({ type: SET_USER, user: res.data.user });
-                    saveToLocalStorage(res.data.user)
+                    console.log('secseus', res)
+                    commit({ type: SET_USER, user: res.user });
+                    saveToLocalStorage(res.user)
                 })
-                .catch(err => {
-                    console.log(err)
-                    throw err;
-                });
+                // .catch(err => {
+                //     throw 'error'
+                // })
         },
         [SIGNOUT]({ commit }) {
             UserService
@@ -92,13 +92,13 @@ export default {
                 })
         },
     }
-} 
+}
 
 
 function getUserFromStorage() {
     var loggedinUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
     return loggedinUser;
-    return 
+    return
 }
 
 

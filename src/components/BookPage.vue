@@ -64,7 +64,8 @@ export default {
   },
   created() {
     var googleBookId = this.$route.params.googleBookId;
-    BookService.getBookByForeignId(googleBookId).then(book => {
+    BookService.getBookByForeignId(googleBookId)
+    .then(book => {
       if (book) {
         this.$store.commit({
           type: ADD_BOOK,
@@ -72,7 +73,8 @@ export default {
         });
       } else {
         var self = this.$store;
-        APIService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
+        APIService.getBookFromGoogle(googleBookId)
+        .then(function(bookToAdd) {
           if (bookToAdd._id) return;
           self.dispatch({
             type: ADD_BOOK,

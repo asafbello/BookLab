@@ -1,13 +1,17 @@
 <template>
     <div class="login">
-        <h2> Please Sign In</h2>
-        <form @submit.prevent="login" class="login-form">
-            <el-input type="text" v-model="loginDetails.username" placeholder="User Name"></el-input>
-            <el-input  type="password" v-model="loginDetails.pass" placeholder="password"></el-input>
-            <!-- <el-button type="primary">Sign In</el-button> -->
-            <button type="submit">Login!!!!</button>
-            
-        </form>
+          <el-form ref="form" :model="loginDetails"  class="login-form" :rules="rules"> 
+             <h2> Sign In to BookLab</h2>
+            <el-form-item label="Your BookLab User Name" prop="username">
+                <el-input type="text" v-model="loginDetails.username" placeholder="User Name"></el-input>
+            </el-form-item>
+             <el-form-item label="Your Password" prop="pass">
+                <el-input  type="password" v-model="loginDetails.pass" placeholder="Password"></el-input>
+             </el-form-item>
+            <el-form-item>
+                 <el-button type="primary" @click.native="login">Sign In To  BookLab</el-button>
+           </el-form-item>  
+        </el-form>
     </div>
 </template>
 
@@ -18,27 +22,51 @@ export default {
   name: "SignInPage",
   data() {
     return {
-      loginDetails: { username: "", pass: "" }
+      loginDetails: {
+        username: null,
+        pass: null
+      },
+      rules: {
+        username: [
+          { required: true, message: "Please input user name", trigger: "blur" }
+        ],
+        pass: [
+          {
+            required: true,
+            message: "Please Enter Your Password",
+            trigger: "change"
+          }
+        ]
+      }
     };
   },
   methods: {
     login() {
-      this.$store
-        .dispatch({ type: SIGNIN, signinDetails: this.loginDetails })
-        .then(_ => {
-          this.$router.push("/");
-        })
-        .catch(err => {
-          console.log(err);
-          // EventBusService.$emit(SHOW_MSG,
-          //     { type: 'danger', txt: err.response.data.error })
+      if (!this.loginDetails.pass && !this.loginDetails.username) {
+        this.$message({
+          message: "Please fill your username and pssowrd",
+          type: "warning"
         });
+      } else {
+        this.$store
+          .dispatch({ type: SIGNIN, signinDetails: this.loginDetails })
+          .then(res => {
+            this.$router.push("/");
+          })
+          .catch(err => {
+            this.$message.error("Sorry, wrong username or password");
+          });
+      }
     }
   }
 };
 </script>
 
 <style scoped>
+h2 {
+  /* padding: 1vw; */
+  /* margin: 1vw; */
+}
 .login {
   display: flex;
   flex-flow: column wrap;
@@ -54,5 +82,9 @@ export default {
   justify-content: space-between;
   width: 100%;
   height: 100%;
+}
+.login-form * {
+  /* margin: 1vw; */
+  width: 100%;
 }
 </style>

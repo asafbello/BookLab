@@ -66,6 +66,9 @@
                 <el-form-item label="Upload Your Picture" prop="avatar">
                     <el-input type="text" placeholder="Copy image URL" v-model="signupDetails.avatar"></el-input>
                 </el-form-item>    
+                <el-form-item label="Choose For Me" prop="avatar"> 
+                        <el-button type="primary"  @click.native="setRandomAvatar"> <img :src="randomAvatar" /> </el-button>                   
+                </el-form-item>    
                 <el-form-item label="password" prop="pass">
                     <el-input type="password" placeholder="password" v-model="signupDetails.pass"></el-input>
                 </el-form-item> 
@@ -73,7 +76,6 @@
                         <el-button type="primary"  @click.native="signup(signupDetails)">Sign Up</el-button>
                  </el-form-item>    
                 </el-form>
-                <!-- <input type="file" @change="submitUpload" id="file-upload" /> -->
     </div>
 
 </template>
@@ -175,6 +177,14 @@ export default {
           console.error("error adding photo:", err);
           this.$message.error("Oops, Cant get your Avatar");
         });
+    },
+    setRandomAvatar(){
+      this.signinDetails.avatar = this.randomAvatar
+    }
+  },
+  computed:{
+    randomAvatar(){
+      return `https://robohash.org/${this.signupDetails.name}`
     }
   }
 };
