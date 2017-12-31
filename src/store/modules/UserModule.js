@@ -39,7 +39,9 @@ export default {
             state.loggedinUser = user;
         },
         [ADD_REVIEW_USER](state, { reviewUser }) {
+            debugger;
             state.loggedinUser.reviews.push(reviewUser)
+            state.loggedinUser.readList.push(reviewUser)
         },
         [SET_PROFILE](state, { profile }) {
             state.currProfile = profile;
@@ -97,6 +99,7 @@ export default {
             return UserService
                 .getUserById(id)
                 .then(profile => {
+                    console.log({profile})
                     commit({
                         type: SET_PROFILE,
                         profile
@@ -108,8 +111,8 @@ export default {
 
 
 function getUserFromStorage() {
-    var loggedinUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
-    return loggedinUser;
+    var currProfile = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
+    return currProfile;
     return
 }
 

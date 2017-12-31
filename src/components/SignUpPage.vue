@@ -92,7 +92,9 @@ export default {
         pass: "",
         avatar: 'http://bbo.co.nz/wp-content/uploads/Generic-Avatar-Male.jpg',
         isAdmin: false,
-        uBooks: [],
+        wishList: [],
+        readList: [],
+        currentlyReading: [],
         reviews: [],
         favoriteJenre: []
       },
@@ -126,7 +128,7 @@ export default {
           .then(_ => {
             this.$router.push("/");
             this.$message({
-              message: "WELLCOME to BookLab",
+              message: "Wellcome to BookLub",
               type: "success"
             });
           })

@@ -14,7 +14,6 @@
         </div>
       </div>
     </el-card>
-
 <section class="content-wrapper" v-if="!isEditing">
   <div class="statistics-wrapper">
       <div class="statistics">
@@ -24,24 +23,24 @@
             <p>Pages read </p></div><img class="icon" src="https://png.icons8.com/dusk/64/open-book.png" title="Open Book" width="64" height="64"></div>
           <div class="statistics-item">
           <div class="icon-count">
-            <p>{{loggedinUser.reviews.length}}</p>
+            <p>{{loggedinUser.readList.length}}</p>
             <p>Books read </p> </div><img class="icon" src="https://png.icons8.com/nolan/64/checkmark.png" title="Checkmark" width="64" height="64"></div>
           <div class="statistics-item">
             <div class="icon-count">
-              <!-- <p>{{loggedinUser.readList.length}}</p> --> <p>0</p>
-            <p>Books in read list</p> </div><img class="icon" src="https://png.icons8.com/dusk/64/book-shelf.png" title="Book Shelf" width="64" height="64">
+              <p>{{loggedinUser.wishList.length}}</p>
+            <p>Books in wish list</p> </div><img class="icon" src="https://png.icons8.com/dusk/64/book-shelf.png" title="Book Shelf" width="64" height="64">
             </div> 
             <!-- <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div>  -->
   </div>
-        <h2>Read List</h2>
+        <h2>Wish List</h2>
         <hr>
       <div class="read-list">
-          <book-preview class="book-preview" v-for="book1 in loggedinUser.readList" :img-url="book1.img" :key="book1.id" @click.native="bookDetails(book.id)"></book-preview>
+          <book-preview class="book-preview" v-for="(book1, index) in loggedinUser.wishList" :img-url="book1.img" :key="index" @click.native="bookDetails(book.id)"></book-preview>
       </div>
         <h2>Books read</h2>
         <hr>
       <div class="read-list">
-          <book-preview class="book-preview" v-for="book in loggedinUser.readList" :img-url="book.img" :key="book.id" @click.native="bookDetails(book.id)"></book-preview>
+          <book-preview class="book-preview" v-for="(book , index) in loggedinUser.readList" :img-url="book.img" :key="index" @click.native="bookDetails(book.id)"></book-preview>
       </div>
   </div>
 <div class="right-panel jenres">
@@ -49,7 +48,7 @@
   <div class="curr-book-reading">
       <div class="book-align" v-if="loggedinUser.reviews.length != 0">
       <h3>Reading right now</h3>
-      <book-preview :img-url="loggedinUser.reviews[1].review.img" @click.native="bookDetails(loggedinUser.reviews[0].review.id)"></book-preview>
+      <book-preview :img-url="loggedinUser.currentlyReading.img" @click.native="bookDetails(loggedinUser.reviews[0].review.id)"></book-preview>
       </div>
       <div class="jenres" v-if="!isEditing">
         <div class="jenres-wrapper">
@@ -131,10 +130,11 @@ export default {
       id: id
     })
     .then( x => {
-      var pagesCount = this.$store.state.user.currProfile.reviews.reduce((acu, curr) => {
+      var pagesCount = this.$store.state.user.currProfile.readList.reduce((acu, curr) => {
         return acu + curr.review.pages;
       }, 0);
       this.pagesRead = pagesCount;
+
       console.log(this.$store.state.user.currProfile)
     })
    },

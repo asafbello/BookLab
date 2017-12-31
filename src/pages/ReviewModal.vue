@@ -79,7 +79,6 @@ export default {
       this.$emit("closeFromCancel");
     },
     addUserReview() {
-      this.$store.state.user.loggedInUser;
       var reviewUser = {
         createdAt: Date.now(),
         foreignId: this.currBook.foreignId,

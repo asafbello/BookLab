@@ -14,8 +14,9 @@ function signup(userDetails) {
 
 function getUserById(id) { 
     return axios
-    .get((`${URL}/data/user/:${id}`))
+    .get((`${URL}/data/user/${id.id}`))
     .then(res => {
+        console.log({id})
         return res.data
     })
     
