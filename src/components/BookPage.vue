@@ -13,7 +13,7 @@
       <!-- Rating -->
       <div class="block">
         <span class="rating-title">Avg Rating</span>
-          <el-rate :value="4.5"  disabled  show-score  text-color="#ff9900" score-template="{value} points">
+          <el-rate :value="4.5" disabled show-score text-color="#ff9900" score-template="{value} points">
           </el-rate>
       </div>
     </div>
@@ -21,14 +21,14 @@
     <main class="book-content" v-if="currBook">
       <h1>{{currBook.title}}/ <span class="pageCount">{{currBook.pages}} pages</span></h1>
       <h5>{{currBook.author}}</h5>
-      <el-button type="success" @click="showReviewModal">Add Review</el-button>
-        <el-button type="info">Get a copy</el-button>
+      <el-button type="primary" @click="showReviewModal">Add Review</el-button>
+        <el-button class="vid-review" type="primary">Video Review</el-button>
+        <el-button class="copy-btn" type="info">Get a Copy</el-button>
       <article class="book-review">
         <p @click="isReadMore = !isReadMore" class="book-desc" :style="styleReadMore" v-html="currBook.desc"></p>
       </article>
       <article class="links">
-      <el-button class="chat-btn" type="primary">Chat about this book <span class="down-arrow">↓</span></el-button>
-        <el-button class="vid-review" type="primary">Video review</el-button>
+      <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
       <div class="modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
@@ -58,7 +58,7 @@ export default {
     return {
       ratingVal: null,
       showModal: false,
-      readState: "Read",
+      readState: "",
       isReadMore: false
     };
   },
@@ -83,6 +83,7 @@ export default {
         });
       }
     });
+
   },
   computed: {
     ...mapGetters([ 'currBook', 'isUser', 'loggedInUser' ]),
@@ -201,10 +202,6 @@ export default {
   margin-bottom: 5px;
 }
 
-.vid-review {
-  border: none;
-}
-
 .book-img {
   max-width: 280px;
   height: auto;
@@ -221,7 +218,8 @@ export default {
 }
 
 .book-desc {
-  padding-right: 10px;
+  padding-right: 2vw;
+  padding-left: 2vw;
   overflow: hidden;
 }
 .add-to-shelf {
@@ -232,11 +230,31 @@ export default {
   margin: 0.3vw;
 }
 
+.copy-btn {
+  margin-top: 2vw;
+}
+
+.chat-btn {
+  margin-bottom: 2vw;
+}
+
 .book-review {
   cursor: pointer;
 }
 
 .book-content {
   margin-top: 25px;
+}
+
+
+/* ////////////  mobile query  //////////////// */
+
+@media screen and (max-width: 768px) {
+.book-header {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-between;
+  } 
 }
 </style>

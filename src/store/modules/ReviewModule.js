@@ -1,6 +1,6 @@
 import ReviewService from '../../services/ReviewService.js'
 import { UPDATE_USER, ADD_REVIEW_USER } from './UserModule.js'
-import { UPDATE_BOOK } from './BookModule.js'
+import { UPDATE_BOOK, ADD_REVIEW_BOOK } from './BookModule.js'
 
 export const UPDATE_BOOK_AND_USER = 'review/updateBookAndUser'
 export default {
@@ -21,7 +21,7 @@ export default {
                 .updateBookAndUser(reviewBook, reviewUser, userId, bookId)
                     .then(res => {
                         commit({ type: ADD_REVIEW_USER, reviewUser })
-                        commit({ type: UPDATE_BOOK, book: res[0] })
+                        commit({ type: ADD_REVIEW_BOOK, reviewBook })
                         saveToLocalStorage(rootState.user.loggedinUser)
                         return res
                     })

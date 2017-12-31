@@ -74,16 +74,10 @@
 
           <h4>Name</h4>
              <el-input type="text" placeholder="name" v-model="updatedUser.name"></el-input>
-          
-          <h4>Last Name</h4>
-             <el-input type="text" placeholder="last name" v-model="updatedUser.lastName"></el-input>
-
           <h4>User Name</h4>
              <el-input type="text" placeholder="username" v-model="updatedUser.username"></el-input>
-
           <h4>Password</h4>
              <el-input type="password" placeholder="password" v-model="updatedUser.pass"></el-input>
-
           <h4>Profile Image</h4>
              <el-input type="text" placeholder="Copy image URL" v-model="updatedUser.avatar"></el-input>
 

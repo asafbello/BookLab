@@ -47,15 +47,12 @@
                 <el-form-item label="Name" prop="name">
                     <el-input type="text" placeholder="name" v-model="signupDetails.name"></el-input>
                 </el-form-item>
-                <el-form-item label="last Name" prop="lastName">
-                    <el-input type="text" placeholder="last Name" v-model="signupDetails.lastName"></el-input>
-                </el-form-item>
+                <el-form-item label="Password" prop="pass">
+                    <el-input type="password" placeholder="password" v-model="signupDetails.pass"></el-input>
+                </el-form-item> 
                 <el-form-item label="User Name" prop="username">
                     <el-input type="text" placeholder="username" v-model="signupDetails.username"></el-input>
                  </el-form-item>
-                <el-form-item label="password" prop="pass">
-                    <el-input type="password" placeholder="password" v-model="signupDetails.pass"></el-input>
-                </el-form-item> 
                             <el-upload class="upload-demo"  :limit="1"     
                              :auto-upload="false"   
                             @change.native="submitUpload"
