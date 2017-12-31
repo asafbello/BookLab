@@ -32,17 +32,10 @@ export default new Router({
       component: SignInPage
     },
     {
-      path: '/user/MyProfile',
+      path: '/user/:id',
       name: 'ProfilePage',
       component: ProfilePage
-    },
-    // {
-    //   path: '/book/:id/BookReviewPage',
-    //   name: 'BookReviewPage',
-    //   component: BookReviewPage
-    // }
-
-    
+    },    
   ]
 })
 ProfilePage

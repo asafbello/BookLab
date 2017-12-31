@@ -1,18 +1,16 @@
 <template>
     <div class="login">
-        <h2> Please Sign In</h2>
-
-        <el-form ref="form" :model="loginDetails" :rules="rules" @keyup.native.enter="login(loginDetails)">
-                    <el-form-item label="User Name">
-                           <el-input type="text" placeholder="User Name" v-model="loginDetails.username"></el-input>
-                    </el-form-item>
-                    <el-form-item label="Password">
-                            <el-input type="password" placeholder="Password" v-model="loginDetails.pass"></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button  class="btn" type="primary"  @click.native="login(loginDetails)">Sign In</el-button>
-                            <router-link to="/"><el-button type="secondary">Cancel</el-button></router-link>
-                    </el-form-item>   
+          <el-form ref="form" :model="loginDetails"  class="login-form" :rules="rules"> 
+             <h2> Sign In to BookLab</h2>
+            <el-form-item label="Your BookLab User Name" prop="username">
+                <el-input type="text" v-model="loginDetails.username" placeholder="User Name"></el-input>
+            </el-form-item>
+             <el-form-item label="Your Password" prop="pass">
+                <el-input  type="password" v-model="loginDetails.pass" placeholder="Password"></el-input>
+             </el-form-item>
+            <el-form-item>
+                 <el-button type="primary" @click.native="login">Sign In To  BookLab</el-button>
+           </el-form-item>  
         </el-form>
     </div>
 </template>
@@ -23,14 +21,13 @@ export default {
   name: "SignInPage",
   data() {
     return {
-      loginDetails: { username: "", pass: "" },
-            rules: {
-        name: [
-          {
-            required: true,
-            message: "Please input Your name",
-            trigger: "blur"
-          }
+      loginDetails: {
+        username: null,
+        pass: null
+      },
+      rules: {
+        username: [
+          { required: true, message: "Please input user name", trigger: "blur" }
         ],
         pass: [
           {
@@ -44,24 +41,21 @@ export default {
     };
   },
   methods: {
-    login(formName) {
-      let valid = true;
-      if (formName.username <= 1 || formName.pass <= 2) valid = false;
-      if (valid) {
-      this.$store
-        .dispatch({ type: SIGNIN, signinDetails: this.loginDetails })
-        .then(_ => {
-////////////////////need to fix, promise always then and never catch///////////////////////
-          
-          this.$router.push("/");
-        })
-        .catch(err => console.log('carch'));
-      }  else {
+    login() {
+      if (!this.loginDetails.pass && !this.loginDetails.username) {
         this.$message({
-          message: "please fill the form",
+          message: "Please fill your username and pssowrd",
           type: "warning"
         });
-        return false;
+      } else {
+        this.$store
+          .dispatch({ type: SIGNIN, signinDetails: this.loginDetails })
+          .then(res => {
+            this.$router.push("/");
+          })
+          .catch(err => {
+            this.$message.error("Sorry, wrong username or password");
+          });
       }
     }
   }
@@ -69,6 +63,10 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  /* padding: 1vw; */
+  /* margin: 1vw; */
+}
 .login {
   display: flex;
   flex-flow: column wrap;
@@ -85,9 +83,9 @@ export default {
   width: 100%;
   height: 100%;
 }
-
-.btn {
-  margin-right: 30px;
+.login-form * {
+  /* margin: 1vw; */
+  width: 100%;
 }
 
 @media screen and (max-width: 850px) {

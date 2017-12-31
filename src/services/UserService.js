@@ -6,21 +6,27 @@ const URL = 'http://localhost:3003'
 
 function signup(userDetails) {
     return axios.post(`${URL}/data/user`, userDetails)
-        .then(_ => {
-            return login(userDetails)
+        .then(res => {
+            return res.data
         })
-        .catch(err => err)
+        .catch(err => { throw err })
+}
+
+function getUserById(id) { 
+    return axios
+    .get((`${URL}/data/user/:${id}`))
+    .then(res => {
+        return res.data
+    })
+    
 }
 
 function login(userCreds) {
     return axios.post(`${URL}/login`, userCreds)
-        .then((data) => {
-            console.log(data, 'resolve')
-            return data
+        .then((res) => {
+            return res.data
         })
-        .catch(err => {
-            console.log({err})
-        })
+        .catch(err => {throw err})
 }
 
 function logout() {
@@ -41,7 +47,7 @@ function editUser(userId, updatedUser) {
 function uploadImage(file) {
     const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/diowvie2f/image/upload'
     const CLOUDINARY_PRESET = 'qvpbsmfe';
-
+    console.log('userservice');
     // fileUpload.addEventListener('change', function (event) {
     var file = event.target.files[0]
     var formData = new FormData()
@@ -55,11 +61,11 @@ function uploadImage(file) {
             'Content-type': 'application/x-www-form-urlencoded'
         },
         data: formData
-    }).then(res => res.data.url)
-        .catch(err => {
-            this.$message.error("Oops, Cant get your Avatar");
-            console.log(err)
-        })
+    }).then(res => {
+        console.log(res);
+        res.data.url
+    })
+
 }
 export default {
     signup,
@@ -67,5 +73,6 @@ export default {
     logout,
     deleteUser,
     editUser,
-    uploadImage
+    uploadImage,
+    getUserById
 } 

@@ -43,38 +43,33 @@
     </div>
            <el-button class="sign-up-btn-mobie" type="primary"  @click.native="signup(signupDetails)">Sign Up</el-button>
     </section>
-
         <el-form ref="form" :model="signupDetails" :rules="rules" @keyup.native.enter="signup" class="signin-form">
                 <el-form-item label="Name" prop="name">
                     <el-input type="text" placeholder="name" v-model="signupDetails.name"></el-input>
                 </el-form-item>
-                <el-form-item label="last Name" prop="lastName">
-                    <el-input type="text" placeholder="last Name" v-model="signupDetails.lastName"></el-input>
-                </el-form-item>
+                <el-form-item label="Password" prop="pass">
+                    <el-input type="password" placeholder="password" v-model="signupDetails.pass"></el-input>
+                </el-form-item> 
                 <el-form-item label="User Name" prop="username">
                     <el-input type="text" placeholder="username" v-model="signupDetails.username"></el-input>
                  </el-form-item>
-                <el-form-item label="password" prop="pass">
-                    <el-input type="password" placeholder="password" v-model="signupDetails.pass"></el-input>
-                </el-form-item> 
                             <el-upload class="upload-demo"  :limit="1"     
                              :auto-upload="false"   
-                            @change="submitUpload"
+                            @change.native="submitUpload"
                                            drag
                         action="https://jsonplaceholder.typicode.com/posts/"
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"><i class="el-icon-upload"></i>
                         <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
                         <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
-                        </el-upload>
-                <el-form-item label="Upload Your Picture" prop="avatar">
-                    <el-input type="text" placeholder="Copy image URL" v-model="signupDetails.avatar"></el-input>
+                        </el-upload> 
+                <el-form-item label="Choose For Me" prop="avatar" v-if="avatar"> 
+                        <el-button type="primary"  @click.native="setRandomAvatar"> <img  :src="randomAvatar" class="image mini-img" /> </el-button>                   
                 </el-form-item>    
                 <el-form-item class="sign-up-btn-desktop">
-                        <el-button type="primary"  @click.native="signup(signupDetails)">Sign Up</el-button>
+                        <el-button type="primary"  @click.native="signup">Sign Up</el-button>
                  </el-form-item>    
                 </el-form>
-                <!-- <input type="file" @change="submitUpload" id="file-upload" /> -->
     </div>
 
 </template>
@@ -90,17 +85,18 @@ export default {
     return {
       loginDetails: { username: "", pass: "" },
       signupDetails: {
-        joinedAt: moment().format("ll"),
+        joinedAt: Date.now(),
         name: "",
         lastName: "",
         username: "",
         pass: "",
-        avatar: null,
+        avatar: 'http://bbo.co.nz/wp-content/uploads/Generic-Avatar-Male.jpg',
         isAdmin: false,
         uBooks: [],
         reviews: [],
         favoriteJenre: []
       },
+      avatar: true,
       rules: {
         name: [
           {
@@ -121,12 +117,9 @@ export default {
     };
   },
   methods: {
-    signup(formName) {
+    signup() {
       let valid = true;
-      if (formName.name === "" || formName.pass <= 2) valid = false;
-      if (!this.signupDetails.avatar)
-        this.signupDetails.avatar =
-          "http://bbo.co.nz/wp-content/uploads/Generic-Avatar-Male.jpg";
+      if (this.signupDetails.name === "" || this.signupDetails.pass <= 2) valid = false;
       if (valid) {
         this.$store
           .dispatch({ type: SIGNUP, signupDetails: this.signupDetails })
@@ -137,7 +130,7 @@ export default {
               type: "success"
             });
           })
-          .catch(err => console.log(err));
+          .catch(err =>  this.$message.error("Sorry, cant sign you in"));
       } else {
         this.$message({
           message: "please fill the form",
@@ -145,14 +138,6 @@ export default {
         });
         return false;
       }
-    },
-    login() {
-      this.$store
-        .dispatch({ type: SIGNIN, signinDetails: this.loginDetails })
-        .then(_ => {
-          this.$router.push("/");
-        })
-        .catch(err => console.log(err));
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);
@@ -169,13 +154,22 @@ export default {
       var file = target.files;
       UserService.uploadImage(file)
         .then(imgUrl => {
-          // console.log('photo uploaded')
+          console.log('photo uploaded')
           this.signupDetails.avatar = imgUrl;
+          this.avatar = false
         })
         .catch(err => {
           console.error("error adding photo:", err);
           this.$message.error("Oops, Cant get your Avatar");
         });
+    },
+    setRandomAvatar(){
+      this.signupDetails.avatar = this.randomAvatar
+    }
+  },
+  computed:{
+    randomAvatar(){
+      return `https://robohash.org/${this.signupDetails.name || 'book'}`
     }
   }
 };
@@ -198,11 +192,11 @@ export default {
 }
 
 .signin-form {
-  display: flex;
+  /* display: flex;
   flex-flow: column wrap;
   margin-left: 5%;
   margin-top: 5%;
-  width: 35%;
+  width: 35%; */
 }
 
 h3 {
@@ -251,6 +245,10 @@ h3 {
 .fav-jenres {
   flex-direction: row;
   width: 100%;
+}
+.mini-img{
+  width: 30%; 
+  height: 30%
 }
 
 .fav-jenres > * {
