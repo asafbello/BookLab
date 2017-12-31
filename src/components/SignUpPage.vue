@@ -42,7 +42,6 @@
       </div>
     </div>
     </section>
-
         <el-form ref="form" :model="signupDetails" :rules="rules" @keyup.native.enter="signup" class="signin-form">
                 <el-form-item label="Name" prop="name">
                     <el-input type="text" placeholder="name" v-model="signupDetails.name"></el-input>
@@ -53,21 +52,18 @@
                 <el-form-item label="User Name" prop="username">
                     <el-input type="text" placeholder="username" v-model="signupDetails.username"></el-input>
                  </el-form-item>
-                            <el-upload class="upload-demo"  :limit="1"     
+                            <el-upload :limit="1"     
                              :auto-upload="false"   
-                            @change="submitUpload"
+                            @change.native="submitUpload"
                                            drag
                         action="https://jsonplaceholder.typicode.com/posts/"
                         :on-preview="handlePreview"
                         :on-remove="handleRemove"><i class="el-icon-upload"></i>
                         <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
                         <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
-                        </el-upload>
-                <el-form-item label="Upload Your Picture" prop="avatar">
-                    <el-input type="text" placeholder="Copy image URL" v-model="signupDetails.avatar"></el-input>
-                </el-form-item>    
-                <el-form-item label="Choose For Me" prop="avatar"> 
-                        <el-button type="primary"  @click.native="setRandomAvatar"> <img :src="randomAvatar" /> </el-button>                   
+                        </el-upload> 
+                <el-form-item label="Choose For Me" prop="avatar" v-if="avatar"> 
+                        <el-button type="primary"  @click.native="setRandomAvatar"> <img  :src="randomAvatar" class="image mini-img" /> </el-button>                   
                 </el-form-item>    
                 <el-form-item label="password" prop="pass">
                     <el-input type="password" placeholder="password" v-model="signupDetails.pass"></el-input>
@@ -102,6 +98,7 @@ export default {
         reviews: [],
         favoriteJenre: []
       },
+      avatar: true,
       rules: {
         name: [
           {
@@ -167,11 +164,14 @@ export default {
       console.log(file);
     },
     submitUpload({target}) {
+      console.log('hi');
+      
       var file = target.files
       UserService.uploadImage(file)
         .then(imgUrl => {
-          // console.log('photo uploaded')
+          console.log('photo uploaded')
           this.signupDetails.avatar = imgUrl;
+          this.avatar = false
         })
         .catch(err => {
           console.error("error adding photo:", err);
@@ -179,12 +179,12 @@ export default {
         });
     },
     setRandomAvatar(){
-      this.signinDetails.avatar = this.randomAvatar
+      this.signupDetails.avatar = this.randomAvatar
     }
   },
   computed:{
     randomAvatar(){
-      return `https://robohash.org/${this.signupDetails.name}`
+      return `https://robohash.org/${this.signupDetails.name || 'book'}`
     }
   }
 };
@@ -207,11 +207,11 @@ export default {
 }
 
 .signin-form {
-  display: flex;
+  /* display: flex;
   flex-flow: column wrap;
   margin-left: 5%;
   margin-top: 5%;
-  width: 35%;
+  width: 35%; */
 }
 
 h3 {
@@ -235,5 +235,9 @@ h3 {
 
 .fa-star {
   color: lightyellow;
+}
+.mini-img{
+  width: 30%; 
+  height: 30%
 }
 </style>

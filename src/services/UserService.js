@@ -13,7 +13,7 @@ function signup(userDetails) {
 }
 
 function login(userCreds) {
-    console.log({login})
+    console.log({ login })
     return axios.post(`${URL}/login`, userCreds)
         .then((res) => {
             console.log('elad', res)
@@ -39,7 +39,7 @@ function editUser(userId, updatedUser) {
 function uploadImage(file) {
     const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/diowvie2f/image/upload'
     const CLOUDINARY_PRESET = 'qvpbsmfe';
-
+    console.log('userservice');
     // fileUpload.addEventListener('change', function (event) {
     var file = event.target.files[0]
     var formData = new FormData()
@@ -53,7 +53,11 @@ function uploadImage(file) {
             'Content-type': 'application/x-www-form-urlencoded'
         },
         data: formData
-    }).then(res => res.data.url)
+    }).then(res => {
+        console.log(res);
+        res.data.url
+    })
+
 }
 export default {
     signup,
