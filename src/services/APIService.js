@@ -17,7 +17,10 @@ function getBookFromGoogle(foreingId) {
     return axios
     .get(`${GOOGLE_URL}/${foreingId}`)
         .then(res => {
+<<<<<<< HEAD
             // console.log(res.data, 'assaf')    
+=======
+>>>>>>> master
             return res.data
         })
         .catch(err => err)
@@ -32,7 +35,10 @@ function searchBook(query, type) {
 }
 
 function getBooksShelf(shelf) {
+<<<<<<< HEAD
         // console.log(shelf,'---------------')
+=======
+>>>>>>> master
         var prmBooks = shelf.map(id => {
             return getBookFromGoogle(id)
         });

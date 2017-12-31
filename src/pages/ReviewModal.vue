@@ -83,7 +83,7 @@ export default {
     },
     addUserReview() {
       this.$store.state.user.loggedInUser;
-      var objToUpdateUser = {
+      var reviewUser = {
         createdAt: Date.now(),
         foreignId: this.currBook.foreignId,
         review: {
@@ -97,7 +97,7 @@ export default {
           readDates: this.readDates
         }
       };
-      var objToUpdateBook = {
+      var reviewBook = {
         byUserId: this.$store.state.user.loggedinUser._id,
          createdAt: Date.now(),
         review: {
@@ -106,14 +106,11 @@ export default {
           readDates: this.readDates
         }
       };
-      this.$emit("addUserReview", objToUpdateBook, objToUpdateUser);
+      this.$emit("addUserReview", reviewBook, reviewUser);
     },
     closeOnEsc() {
       this.$emit("closeModalOnEsc");
     }
-  },
-  created() {
-    console.log(this.currBook, "asaf");
   }
 };
 </script>

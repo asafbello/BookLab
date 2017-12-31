@@ -7,7 +7,6 @@ const URL = 'http://localhost:3003'
 function signup(userDetails) {
     return axios.post(`${URL}/data/user`, userDetails)
         .then(_ => {
-            console.log('userDetails', userDetails);
             return login(userDetails)
         })
         .catch(err => err)
@@ -26,7 +25,6 @@ function logout() {
 }
 
 function deleteUser(userId) {
-    // console.log('assaf', userId);
     return axios.delete(`${URL}/data/user/${userId}`)
 }
 

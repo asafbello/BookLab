@@ -9,6 +9,7 @@ export const SIGNOUT = 'user/signout';
 export const DELETE_USER = 'user/deleteUser';
 export const UPDATE_USER = 'user/editUser';
 export const ADD_BOOK_SHELF = 'user/addBookShelf';
+export const ADD_REVIEW_USER = 'user/addReviewUser'
 
 const STORAGE_KEY = 'loggedinUser';
 
@@ -34,14 +35,21 @@ export default {
         [UPDATE_USER](state, {user}) {
             state.loggedinUser = user;
         },
+        [ADD_REVIEW_USER](state, {reviewUser}){
+            console.log('==================')
+            console.log('INSIDE: ' +ADD_REVIEW_USER)
+            console.log({reviewUser, user: state.loggedinUser})
+            console.log({reviews : state.loggedinUser.reviews})
+            console.log('==================')
+            state.loggedinUser.reviews.push(reviewUser  )
+        }
     },
     actions: {
-        [UPDATE_USER]({commit}, {userId, updatedUser} )  {
-            console.log('nooo action');
+        [UPDATE_USER]({commit ,state}, {userId, updatedUser} )  {
             return UserService.editUser(userId, updatedUser)
                 .then(user => {
                         commit({type: UPDATE_USER, user})
-                        saveToLocalStorage(user)
+                        saveToLocalStorage(this.state.loggedinUser)
                 })
         },
         [SIGNUP]({ commit }, { signupDetails }) {
