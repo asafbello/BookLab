@@ -9,6 +9,7 @@ export const DELETE_BOOK = 'book/deletebooks';
 export const ADD_BOOK = 'books/addBook'
 export const GET_BOOK = 'books/getBook'
 export const UPDATE_BOOK = 'books/updateBook'
+export const ADD_REVIEW_BOOK = 'books/addReviewBook'
 
 
 
@@ -42,6 +43,9 @@ export default {
         [UPDATE_BOOK](state, {book}) {
             state.currBook = book;
         },
+        [ADD_REVIEW_BOOK](state, {reviewBook}){
+            state.currBook.reviews.push(reviewBook)
+        }
     },
 
     actions: {
