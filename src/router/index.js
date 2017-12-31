@@ -36,11 +36,11 @@ export default new Router({
       name: 'ProfilePage',
       component: ProfilePage
     },
-    {
-      path: '/book/:id/BookReviewPage',
-      name: 'BookReviewPage',
-      component: BookReviewPage
-    }
+    // {
+    //   path: '/book/:id/BookReviewPage',
+    //   name: 'BookReviewPage',
+    //   component: BookReviewPage
+    // }
 
     
   ]

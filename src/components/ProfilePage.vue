@@ -36,12 +36,12 @@
         <h2>Read List</h2>
         <hr>
       <div class="read-list">
-          <book-preview class="book-preview" v-for="book in loggedinUser.readList" :img-url="book.img" :key="book.id"></book-preview>
+          <book-preview class="book-preview" v-for="book1 in loggedinUser.readList" :img-url="book1.img" :key="book1.id" @click.native="bookDetails(book.id)"></book-preview>
       </div>
         <h2>Books read</h2>
         <hr>
       <div class="read-list">
-          <book-preview class="book-preview" v-for="book in loggedinUser.readList" :img-url="book.img" :key="book.id"></book-preview>
+          <book-preview class="book-preview" v-for="book in loggedinUser.readList" :img-url="book.img" :key="book.id" @click.native="bookDetails(book.id)"></book-preview>
       </div>
   </div>
 <div class="right-panel jenres">
@@ -49,7 +49,7 @@
   <div class="curr-book-reading">
       <div class="book-align" v-if="loggedinUser.reviews.length != 0">
       <h3>Reading right now</h3>
-      <book-preview :img-url="loggedinUser.reviews[0].review.img" ></book-preview>
+      <book-preview :img-url="loggedinUser.reviews[1].review.img" @click.native="bookDetails(loggedinUser.reviews[0].review.id)"></book-preview>
       </div>
       <div class="jenres" v-if="!isEditing">
         <div class="jenres-wrapper">
@@ -62,24 +62,6 @@
 </div>
      <div class="reviews">
 
-    <!-- <book-preview @click.native="showReview(review.review.id)" v-for="(review, idx)  in loggedinUser.reviews"  
-                    :key="idx"
-                    :img-url="review.review.img" ></book-preview>  -->
-
-    <!-- <el-card v-for="(review , idx) in loggedinUser.reviews" :key="idx" :body-style="{ padding: '0px' }" class="review-cards" v-if="!isEditing && loggedinUser.reviews.length > 0">
-      <img :src="review.review.img" class="image">
-      <div style="padding: 14px;" class="left-panel-content">
-        <div class="bottom clearfix">
-          <time class="time">My rate: {{ review.review.rate }}</time> <br>
-          <el-button type="text" class="button"  @click="showReview(review.review.id)" v-if="!isEditing">
-            Expand
-          </el-button>
-          <el-button type="text" class="button"  @click="deleteReview(loggedinUser.reviews[0].review.id)">
-            Delete
-          </el-button>
-        </div>
-      </div>
-    </el-card> -->
   </div>
 </section>      
 
@@ -163,6 +145,11 @@ export default {
       this.$router.push(`/book/${id}/BookReviewPage`);
     },
 
+    bookDetails(id) {
+      console.log('router to book details')
+         this.$router.push('/book/' + id); 
+    },
+
     deleteReview(bookId) {
       console.log("bookid ", bookId);
       console.log(" this.updatedUser.reviews ", this.updatedUser);
@@ -232,10 +219,7 @@ export default {
   margin: auto;
 }
 
-.right-panel jenres {
-  display: flex;
 
-}
 
 .curr-book-reading > * {
   padding:  10px;
@@ -264,6 +248,7 @@ export default {
   flex-direction: column-reverse;
   flex-wrap: wrap;
   color: #999;
+  justify-content: flex-end;
 }
 
 .content-wrapper {
@@ -349,6 +334,7 @@ input {
   width: 15%;
   margin-top: 6%;
   margin-left: 3%;
+  align-self: flex-start;
 }
 
 .left-panel-content {
@@ -432,10 +418,7 @@ h2 {
   width: 95%;
   height: 25%;
   margin-top: 6%;
-}
-
-.el-card {
-  margin: 0;
+  margin: auto;
 }
 
 .content-wrapper {
@@ -465,18 +448,23 @@ h2 {
 
 .curr-book-reading {
   flex-direction: row;
+  margin-top: 5%;
 }
 
 .right-panel {
-  flex-flow: row wrap
+  display: flex;  
+  flex-flow: row wrap; 
+  width: 100%;
+  justify-content: flex-end;
+  
 }
 
-.right-panel  {
-  width: 100%;
-}
+
 
 .right-panel.jenres {
   width: unset;
+  justify-content: flex-end;
+  
 }
 
 .book-align {

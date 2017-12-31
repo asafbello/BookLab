@@ -6,6 +6,8 @@
         <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
             <div class="flipper">
                 <div class="front">
+      <!-- <router-link :to="'/book/' + book.id"> <el-button type="primary" size="mini">To Book Page</el-button></router-link> -->
+
                  <img class="book-img" :src="imgUrl"/>
                 </div>
                 <div class="back">
@@ -22,7 +24,7 @@ import store from "../store/store.js";
 
 
 export default {
-    props: ["imgUrl", "book.img"],
+    props: ["imgUrl"],
 
 }
 
