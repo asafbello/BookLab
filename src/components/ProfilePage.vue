@@ -105,7 +105,6 @@ export default {
 
   computed: {
     loggedinUser() {
-      // return this.$store.state.user.loggedinUser;
       return this.$store.state.user.currProfile;
     }
   },

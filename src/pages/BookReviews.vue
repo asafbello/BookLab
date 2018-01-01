@@ -1,8 +1,8 @@
-<template v-if="reviews">
-  <section>
+<template>
+  <section class="reviews-header">
     <h1 class="reviews-title">Latest readers reviews</h1>
-    <ul >
-      <li v-for="review in reviews"> 
+    <ul>
+      <li v-for="(review, index) in reviews" :key="index"> 
           <div class="wrapper">
             <blockquote>
             &ldquo;{{review.review.txt}}&rdquo;
@@ -17,8 +17,7 @@
             <div class="testimonialArrow"></div>
             <p class="author">
             &ndash;
-            <strong>Doge</strong>,
-            <router-link :to="'/user/' + review.byUserId">avi</router-link></p>
+            <router-link :to="'/user/' + review.byUserId">{{review.userName}}</router-link></p>
             </div>
       </li>
     </ul>
@@ -33,8 +32,11 @@ export default {
       hover: false
     };
   },
-  methods: {
-  }
+  // computed: {
+  //   loggedinUser() {
+  //     return this.$store.state.user.currProfile;
+  //   }
+  // },
 };
 </script>
 
@@ -82,6 +84,17 @@ strong {
 a {
  color: rgb(64, 131, 169);
  text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+  .reviews-header {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 3vw;
+    margin-right: 3vw;
+  }
 }
 
 </style>
