@@ -28,31 +28,30 @@
           <div class="statistics-item">
             <div class="icon-count">
               <p>{{loggedinUser.wishList.length}}</p>
-            <p>Books in wish list</p> </div><img class="icon" src="https://png.icons8.com/dusk/64/book-shelf.png" title="Book Shelf" width="64" height="64">
+            <p>Books in wish list</p> </div><img @click="showWishList" class="icon" src="https://png.icons8.com/dusk/64/book-shelf.png" title="Book Shelf" width="64" height="64">
             </div> 
-            <!-- <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div>  -->
   </div>
         <h2>Wish List</h2>
         <hr>
       <div class="read-list">
-          <book-preview class="book-preview" v-for="(book1, index) in loggedinUser.wishList" :img-url="book1.img" :key="index" @click.native="bookDetails(book.id)"></book-preview>
+          <book-preview class="book-preview" v-for="(book1, index) in loggedinUser.wishList.slice(0, 5)" :img-url="book1.img" :key="index" @click.native="bookDetails(book.id)"></book-preview>
       </div>
         <h2>Books read</h2>
         <hr>
       <div class="read-list">
-          <book-preview class="book-preview" v-for="(book , index) in loggedinUser.readList" :img-url="book.img" :key="index" @click.native="bookDetails(book.id)"></book-preview>
+          <book-preview class="book-preview" v-for="(book , index) in loggedinUser.readList.slice(0, 5)" :img-url="book.img" :key="index" @click.native="bookDetails(book.id)"></book-preview>
       </div>
   </div>
 <div class="right-panel jenres">
 
   <div class="curr-book-reading">
       <div class="book-align" v-if="loggedinUser.reviews.length != 0">
-      <h3>Reading right now</h3>
+      <h3 v-if="loggedinUser.currentlyReading > 0" >Reading right now</h3>
       <book-preview :img-url="loggedinUser.currentlyReading.img" @click.native="bookDetails(loggedinUser.reviews[0].review.id)"></book-preview>
       </div>
       <div class="jenres" v-if="!isEditing">
         <div class="jenres-wrapper">
-        <h1>Favorite jenres</h1>
+        <h1 v-if="loggedinUser.favoriteJenre.length > 0">Favorite jenres</h1>
         <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
     </div>
 
@@ -139,6 +138,38 @@ export default {
     })
    },
   methods: {
+          showWishList() {
+        const h = this.$createElement;
+        this.$msgbox({
+          title: 'Message',
+          message: h('p', null, [
+            h('span', null, 'Message can be '),
+            h('i', { style: 'color: teal' }, 'VNode')
+          ]),
+          showCancelButton: true,
+          // confirmButtonText: 'OK',
+          cancelButtonText: 'Close',
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = 'Loading...';
+              setTimeout(() => {
+                done();
+                setTimeout(() => {
+                  instance.confirmButtonLoading = false;
+                }, 300);
+              }, 3000);
+            } else {
+              done();
+            }
+          }
+        }).then(action => {
+          this.$message({
+            type: 'info',
+            message: 'action: ' + action
+          });
+        });
+      },
     deleteReview(bookId) {
       // this.updatedUser.reviews = this.updatedUser.reviews.filter(review => review.id != bookId)
       // var userId = this.$store.state.user.loggedinUser._id;

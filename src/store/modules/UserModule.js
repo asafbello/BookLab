@@ -13,6 +13,7 @@ export const ADD_BOOK_SHELF = 'user/addBookShelf';
 export const ADD_REVIEW_USER = 'user/addReviewUser'
 export const GET_USER = 'user/getUser'
 export const ADD_TO_WISH_LIST = 'user/addToWishList'
+export const ADD_TO_READ_LIST = 'user/addToReadList'
 export const UPDATE_USER_WISH_LIST = 'user/addToWishList'
 
 const STORAGE_KEY = 'loggedinUser';
@@ -119,9 +120,17 @@ export default {
                 // commit({ type: UPDATE_USER_WISH_LIST, user })
                 saveToLocalStorage(this.state.loggedinUser)
                 })
+        },
+        [ADD_TO_READ_LIST] ({commit}, {id, book}) {
+            UserService
+                .addToReadList(id, book) 
+                .then(user => {
+                // commit({ type: UPDATE_USER_WISH_LIST, user })
+                saveToLocalStorage(this.state.loggedinUser)
+                })
         }
     }
-}
+} 
 
 
 function getUserFromStorage() {

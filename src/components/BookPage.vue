@@ -45,7 +45,11 @@ import _ from "lodash";
 import BookService from "../services/BookService.js";
 import APIService from "../services/APIService.js";
 import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
-import { UPDATE_USER, ADD_TO_WISH_LIST } from "../store/modules/UserModule.js";
+import {
+  UPDATE_USER,
+  ADD_TO_WISH_LIST,
+  ADD_TO_READ_LIST
+} from "../store/modules/UserModule.js";
 import { UPDATE_BOOK_AND_USER } from "../store/modules/ReviewModule.js";
 import { mapGetters } from "vuex";
 
@@ -64,8 +68,7 @@ export default {
   },
   created() {
     var googleBookId = this.$route.params.googleBookId;
-    BookService.getBookByForeignId(googleBookId)
-    .then(book => {
+    BookService.getBookByForeignId(googleBookId).then(book => {
       if (book) {
         this.$store.commit({
           type: ADD_BOOK,
@@ -73,8 +76,7 @@ export default {
         });
       } else {
         var self = this.$store;
-        APIService.getBookFromGoogle(googleBookId)
-        .then(function(bookToAdd) {
+        APIService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
           if (bookToAdd._id) return;
           self.dispatch({
             type: ADD_BOOK,
@@ -83,15 +85,14 @@ export default {
         });
       }
     });
-
   },
   computed: {
-    ...mapGetters([ 'currBook', 'isUser', 'loggedInUser' ]),
+    ...mapGetters(["currBook", "isUser", "loggedInUser"]),
     styleReadMore() {
       return {
         height: this.isReadMore ? "" : "300px"
       };
-    },
+    }
   },
   methods: {
     showReviewModal() {
@@ -136,33 +137,40 @@ export default {
         this.$message.error("Oops, Please log in to add to a shelf");
       } else {
         this.showModal = !this.showModal;
-        this.$message('adding your review...');
+        this.$message("adding your review...");
         this.$store
           .dispatch({
-            type: UPDATE_BOOK_AND_USER,   
-              reviewBook,
-              reviewUser
+            type: UPDATE_BOOK_AND_USER,
+            reviewBook,
+            reviewUser
           })
           .then(_ => console.log("updated"))
           .catch(err => {
-            this.$message.error('Oops, could not get your review. Try again');
-            console.log("err", err)});
+            this.$message.error("Oops, could not get your review. Try again");
+            console.log("err", err);
+          });
       }
     },
-      SetBookToList(book) {
-    if (!this.$store.getters.isUser) {
-      this.$message.error("Oops, Please log in to add to a shelf");
-    } else {
-      this.$store
-        .dispatch({
-          type: ADD_TO_WISH_LIST, 
-          id: this.$store.state.user.loggedinUser._id,
-          book
-        })
+    SetBookToList(book) {
+      if (!this.$store.getters.isUser) {
+        this.$message.error("Oops, Please log in to add to a shelf");
+      } else {
+        if (this.readState === "WishList") {
+          this.$store.dispatch({
+            type: ADD_TO_WISH_LIST,
+            id: this.$store.state.user.loggedinUser._id,
+            book
+          })
+        } else if (this.readState === "Read") {
+          this.$store.dispatch({
+            type: ADD_TO_READ_LIST,
+            id: this.$store.state.user.loggedinUser._id,
+            book
+          });
+        }
+      }
     }
   }
-  },
-
 };
 </script>
 
@@ -259,15 +267,14 @@ export default {
   margin-top: 25px;
 }
 
-
 /* ////////////  mobile query  //////////////// */
 
 @media screen and (max-width: 768px) {
-.book-header {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: space-between;
-  } 
+  .book-header {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 </style>

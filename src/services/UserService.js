@@ -29,6 +29,15 @@ function addToWishList(userId, book) {
             return res.data
         })
     
+} 
+
+function addToReadList(userId, book) {
+    return axios.put(`${URL}/readList`, {userId, book} )
+        .then(res => {
+            console.log('res: ', res);
+            return res.data
+        })
+    
 }
 
 function login(userCreds) {
@@ -85,5 +94,6 @@ export default {
     editUser,
     uploadImage,
     getUserById,
-    addToWishList
+    addToWishList,
+    addToReadList
 } 
