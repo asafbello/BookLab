@@ -1,6 +1,9 @@
 import ReviewService from '../../services/ReviewService.js'
 import { UPDATE_USER, ADD_REVIEW_USER } from './UserModule.js'
 import { UPDATE_BOOK, ADD_REVIEW_BOOK } from './BookModule.js'
+import LocalService from '../../services/StorageService.js'
+
+const STORAGE_KEY = 'loggedinUser';
 
 export const UPDATE_BOOK_AND_USER = 'review/updateBookAndUser'
 export default {
@@ -22,7 +25,7 @@ export default {
                     .then(res => {
                         commit({ type: ADD_REVIEW_USER, reviewUser })
                         commit({ type: ADD_REVIEW_BOOK, reviewBook })
-                        saveToLocalStorage(rootState.user.loggedinUser)
+                        LocalService.save(STORAGE_KEY,rootState.user.loggedinUser)
                         return res
                     })
                     .catch(err => { throw err })
@@ -32,11 +35,8 @@ export default {
 }
 
 
-var STORAGE_KEY = 'loggedinUser';
 
-function saveToLocalStorage(user) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
-}
+
 
 
 

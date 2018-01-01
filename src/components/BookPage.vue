@@ -7,7 +7,7 @@
             <el-option value="Reading"></el-option>
             <el-option value="WishList"></el-option>
           </el-select>
-           <el-button class="add-book" type="primary" @click.native="SetBookToList(currBook)">Add To My Shelf</el-button>
+           <el-button class="add-book" type="primary" @click.native="setBookToList(currBook)">Add To My Shelf</el-button>
       </div>
       <img v-if="currBook" class="book-img" :src="currBook.img" />
       <!-- Rating -->
@@ -149,7 +149,7 @@ export default {
             console.log("err", err)});
       }
     },
-      SetBookToList(book) {
+      setBookToList(book) {
     if (!this.$store.getters.isUser) {
       this.$message.error("Oops, Please log in to add to a shelf");
     } else {
