@@ -90,7 +90,7 @@ export default {
         lastName: "",
         username: "",
         pass: "",
-        avatar: 'http://bbo.co.nz/wp-content/uploads/Generic-Avatar-Male.jpg',
+        avatar: "http://bbo.co.nz/wp-content/uploads/Generic-Avatar-Male.jpg",
         isAdmin: false,
         wishList: [],
         readList: [],
@@ -121,7 +121,8 @@ export default {
   methods: {
     signup() {
       let valid = true;
-      if (this.signupDetails.name === "" || this.signupDetails.pass <= 2) valid = false;
+      if (this.signupDetails.name === "" || this.signupDetails.pass <= 2)
+        valid = false;
       if (valid) {
         this.$store
           .dispatch({ type: SIGNUP, signupDetails: this.signupDetails })
@@ -132,7 +133,7 @@ export default {
               type: "success"
             });
           })
-          .catch(err =>  this.$message.error("Sorry, cant sign you in"));
+          .catch(err => this.$message.error("Sorry, cant sign you in"));
       } else {
         this.$message({
           message: "please fill the form",
@@ -156,22 +157,22 @@ export default {
       var file = target.files;
       UserService.uploadImage(file)
         .then(imgUrl => {
-          console.log('photo uploaded')
+          console.log("photo uploaded");
           this.signupDetails.avatar = imgUrl;
-          this.avatar = false
+          this.avatar = false;
         })
         .catch(err => {
           console.error("error adding photo:", err);
           this.$message.error("Oops, Cant get your Avatar");
         });
     },
-    setRandomAvatar(){
-      this.signupDetails.avatar = this.randomAvatar
+    setRandomAvatar() {
+      this.signupDetails.avatar = this.randomAvatar;
     }
   },
-  computed:{
-    randomAvatar(){
-      return `https://robohash.org/${this.signupDetails.name || 'book'}`
+  computed: {
+    randomAvatar() {
+      return `https://robohash.org/${this.signupDetails.name || "book"}`;
     }
   }
 };
@@ -239,41 +240,39 @@ h3 {
   }
 
   .signin-form {
-  width: 95%;
-  margin: auto;
-  
-}
+    width: 95%;
+    margin: auto;
+  }
 
-.fav-jenres {
-  flex-direction: row;
-  width: 100%;
-}
-.mini-img{
-  width: 30%; 
-  height: 30%
-}
+  .fav-jenres {
+    flex-direction: row;
+    width: 100%;
+  }
+  .mini-img {
+    width: 30%;
+    height: 30%;
+  }
 
-.fav-jenres > * {
-  margin: 15px;
-}
+  .fav-jenres > * {
+    margin: 15px;
+  }
 
-.sign-up-btn-desktop {
-  display: none;
-}
+  .sign-up-btn-desktop {
+    display: none;
+  }
 
-.sign-up-btn-mobie {
-  display: block;
-}
+  .sign-up-btn-mobie {
+    display: block;
+  }
 
-.lables {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
-}
+  .lables {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+  }
 
-.lables > * {
-  margin: 15px;
+  .lables > * {
+    margin: 15px;
+  }
 }
-}
-
 </style>
