@@ -1,6 +1,5 @@
 import UserService from "../../services/UserService.js";
-// import { TOGGLE_LIKED_BY_USER } from "./CarModule.js";
-
+import LocalService from '../../services/StorageService.js'
 
 export const SIGNUP = 'user/signup';
 export const SIGNIN = 'user/signin';
@@ -17,11 +16,12 @@ export const ADD_TO_READ_LIST = 'user/addToReadList'
 export const UPDATE_USER_WISH_LIST = 'user/addToWishList'
 export const SET_CURR_READING = 'user/currentlyReading'
 
+
 const STORAGE_KEY = 'loggedinUser';
 
 export default {
     state: {
-        loggedinUser: getUserFromStorage(),
+        loggedinUser:  LocalService.load(STORAGE_KEY),
         currProfile: null
     },
     getters: {
@@ -61,19 +61,17 @@ export default {
             return UserService.editUser(userId, updatedUser)
                 .then(user => {
                     commit({ type: UPDATE_USER, user })
-                    saveToLocalStorage(this.state.loggedinUser)
+                    LocalService.save(STORAGE_KEY,this.state.loggedinUser)
                 })
         },
         [SIGNUP]({ commit }, { signupDetails }) {
             return UserService
                 .signup(signupDetails)
                 .then(res => {
-                    console.log('ressss', res);
                     commit({ type: SET_USER, user: res })
-                    saveToLocalStorage(res)
+                    LocalService.save(STORAGE_KEY,res)
                 })
                 .catch(err => {
-                    console.log(err)
                     throw err;
                 });
         },
@@ -89,7 +87,7 @@ export default {
                 .login(signinDetails)
                 .then(res => {
                     commit({ type: SET_USER, user: res.user });
-                    saveToLocalStorage(res.user)
+                    LocalService.save(STORAGE_KEY,res.user)
                 })
                 .catch(err => {
                     throw 'error'
@@ -100,14 +98,13 @@ export default {
                 .logout()
                 .then(_ => {
                     commit({ type: SIGNOUT })
-                    saveToLocalStorage(null);
+                    LocalService.save(STORAGE_KEY,null)
                 })
         },
         [GET_USER]({ commit }, id) {
             return UserService
                 .getUserById(id)
                 .then(profile => {
-                    console.log({profile})
                     commit({
                         type: SET_PROFILE,
                         profile
@@ -143,14 +140,3 @@ export default {
 } 
 
 
-function getUserFromStorage() {
-    var currProfile = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
-    return currProfile;
-    return
-}
-
-
-
-function saveToLocalStorage(user) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(user))
-}

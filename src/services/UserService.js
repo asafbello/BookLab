@@ -22,10 +22,19 @@ function getUserById(id) {
     
 }
 
+function getUsers() {
+    return axios
+    .get((`${URL}/data/user`))
+    .then(res => {
+        if (res.data.length > 10) return res.data.splice(0,10)
+        return res.data
+    })
+    .catch(err =>{throw err})
+}
+
 function addToWishList(userId, book) {
     return axios.put(`${URL}/wishList`, {userId, book} )
         .then(res => {
-            console.log('res: ', res);
             return res.data
         })
     
@@ -102,6 +111,10 @@ export default {
     uploadImage,
     getUserById,
     addToWishList,
+<<<<<<< HEAD
     addToReadList,
     setCurrentlyReading
+=======
+    getUsers
+>>>>>>> master
 } 

@@ -131,7 +131,10 @@ export default {
         return acu + curr.pages;
       }, 0);
       this.pagesRead = pagesCount;
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
     })
    },
   methods: {

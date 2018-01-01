@@ -32,11 +32,9 @@ function getBooks() {
         .get(BOOK_URL, shelf)
         .then(res => res.data)
         .catch(e => {
-            // console.log('No Books', e);
             throw e;
         });
 }
-
 
 function saveBook(book) {
     if (book._id) {

@@ -29,7 +29,6 @@ export default {
   computed: {
     currBook() {
       return this.$store.state.user.loggedinUser.reviews.find(review => {
-        console.log({ id: review.review.id });
         return review.review.id === this.bookId;
       });
     }

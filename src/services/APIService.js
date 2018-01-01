@@ -45,9 +45,20 @@ function getBooksShelf(shelf) {
             })
     }
 
+    function getVideo(value) {
+        const UTUBE_APIKEY = 'AIzaSyDNttVkEbv8xDcN4LltfPgMAWIbWdcONZU';
+        return axios
+        .get(`https://www.googleapis.com/youtube/v3/search?part=snippet&videoEmbeddable=true&type=video&key=${UTUBE_APIKEY}&q=${value}`)
+        .then(function (res) {
+            console.log(res, value);
+            return res.data.items[0].id.videoId;
+        })
+    }
+
 
 export default {
     getBookFromGoogle,
     searchBook,
-    getBooksShelf
+    getBooksShelf,
+    getVideo
 }
