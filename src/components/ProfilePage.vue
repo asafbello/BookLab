@@ -14,76 +14,61 @@
         </div>
       </div>
     </el-card>
-
 <section class="content-wrapper" v-if="!isEditing">
+  <div class="statistics-wrapper">
       <div class="statistics">
           <div class="statistics-item">
             <div class="icon-count">
               <p>{{pagesRead}}</p>
-            <p>Pages read </p></div><i class="fa fa-book" aria-hidden="true"></i></div>
+            <p>Pages read </p></div><img class="icon" src="https://png.icons8.com/dusk/64/open-book.png" title="Open Book" width="64" height="64"></div>
           <div class="statistics-item">
           <div class="icon-count">
-            <p>{{loggedinUser.reviews.length}}</p>
-            <p>Books read </p> </div><i class="fa fa-check" aria-hidden="true"></i></div>
+            <p>{{loggedinUser.readList.length}}</p>
+            <p>Books read </p> </div><img class="icon" src="https://png.icons8.com/nolan/64/checkmark.png" title="Checkmark" width="64" height="64"></div>
           <div class="statistics-item">
             <div class="icon-count">
-              <!-- <p>{{loggedinUser.readList.length}}</p> --> <p>0</p>
-            <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div> 
+              <p>{{loggedinUser.wishList.length}}</p>
+            <p>Books in wish list</p> </div><img class="icon" src="https://png.icons8.com/dusk/64/book-shelf.png" title="Book Shelf" width="64" height="64">
+            </div> 
+            <!-- <p>Books in read list</p> </div><i class="fa fa-calendar-minus-o" aria-hidden="true"></i></div>  -->
+  </div>
+        <h2>Wish List</h2>
+        <hr>
+      <div class="read-list">
+          <book-preview class="book-preview" v-for="(book1, index) in loggedinUser.wishList" :img-url="book1.img" :key="index" @click.native="bookDetails(book.id)"></book-preview>
       </div>
+        <h2>Books read</h2>
+        <hr>
+      <div class="read-list">
+          <book-preview class="book-preview" v-for="(book , index) in loggedinUser.readList" :img-url="book.img" :key="index" @click.native="bookDetails(book.id)"></book-preview>
+      </div>
+  </div>
 <div class="right-panel jenres">
-
-  
 
   <div class="curr-book-reading">
       <div class="book-align" v-if="loggedinUser.reviews.length != 0">
       <h3>Reading right now</h3>
-      <book-preview :img-url="loggedinUser.reviews[0].review.img" ></book-preview>
+      <book-preview :img-url="loggedinUser.currentlyReading.img" @click.native="bookDetails(loggedinUser.reviews[0].review.id)"></book-preview>
       </div>
       <div class="jenres" v-if="!isEditing">
         <div class="jenres-wrapper">
         <h1>Favorite jenres</h1>
         <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
     </div>
+
   </div>
 
 </div>
      <div class="reviews">
 
-    <!-- <book-preview @click.native="showReview(review.review.id)" v-for="(review, idx)  in loggedinUser.reviews"  
-                    :key="idx"
-                    :img-url="review.review.img" ></book-preview>  -->
-
-    <!-- <el-card v-for="(review , idx) in loggedinUser.reviews" :key="idx" :body-style="{ padding: '0px' }" class="review-cards" v-if="!isEditing && loggedinUser.reviews.length > 0">
-      <img :src="review.review.img" class="image">
-      <div style="padding: 14px;" class="left-panel-content">
-        <div class="bottom clearfix">
-          <time class="time">My rate: {{ review.review.rate }}</time> <br>
-          <el-button type="text" class="button"  @click="showReview(review.review.id)" v-if="!isEditing">
-            Expand
-          </el-button>
-          <el-button type="text" class="button"  @click="deleteReview(loggedinUser.reviews[0].review.id)">
-            Delete
-          </el-button>
-        </div>
-      </div>
-    </el-card> -->
   </div>
 </section>      
 
-        <form class="signin-form "  v-if="isEditing">
-
-          <h4>Name</h4>
-             <el-input type="text" placeholder="name" v-model="updatedUser.name"></el-input>
-          
-          <h4>Last Name</h4>
-             <el-input type="text" placeholder="last name" v-model="updatedUser.lastName"></el-input>
-
-          <h4>User Name</h4>
-             <el-input type="text" placeholder="username" v-model="updatedUser.username"></el-input>
-
+        <form class="signin-form " v-if="isEditing">
           <h4>Password</h4>
              <el-input type="password" placeholder="password" v-model="updatedUser.pass"></el-input>
-
+          <h4>User Name</h4>
+             <el-input type="text" placeholder="username" v-model="updatedUser.username"></el-input>
           <h4>Profile Image</h4>
              <el-input type="text" placeholder="Copy image URL" v-model="updatedUser.avatar"></el-input>
 
@@ -102,7 +87,8 @@ import bookPreview from "./BookPreview";
 import {
   DELETE_USER,
   SIGNOUT,
-  UPDATE_USER
+  UPDATE_USER,
+  GET_USER
 } from "../store/modules/UserModule.js";
 
 export default {
@@ -113,7 +99,8 @@ export default {
 
   computed: {
     loggedinUser() {
-      return this.$store.state.user.loggedinUser;
+      // return this.$store.state.user.loggedinUser;
+      return this.$store.state.user.currProfile;
     }
   },
   data() {
@@ -138,21 +125,21 @@ export default {
   },
   created() {
     var id = this.$route.params.id;
-    // if(!this.loggedinUser) return;
-    var pagesCount = this.loggedinUser.reviews.reduce((acu, curr) => {
-      return acu + curr.review.pages;
-    }, 0);
-    this.pagesRead = pagesCount;
-  },
-  methods: {
-    showReview(id) {
-      console.log("id: ", id);
-      this.$router.push(`/book/${id}/BookReviewPage`);
-    },
+    this.$store.dispatch({
+      type: GET_USER,
+      id: id
+    })
+    .then( x => {
+      var pagesCount = this.$store.state.user.currProfile.readList.reduce((acu, curr) => {
+        return acu + curr.review.pages;
+      }, 0);
+      this.pagesRead = pagesCount;
 
+      console.log(this.$store.state.user.currProfile)
+    })
+   },
+  methods: {
     deleteReview(bookId) {
-      console.log("bookid ", bookId);
-      console.log(" this.updatedUser.reviews ", this.updatedUser);
       // this.updatedUser.reviews = this.updatedUser.reviews.filter(review => review.id != bookId)
       // var userId = this.$store.state.user.loggedinUser._id;
       // this.$store.dispatch({
@@ -207,10 +194,19 @@ export default {
 
 <style scoped>
 
-.right-panel jenres {
+.read-list {
   display: flex;
-
+  margin-top: 5%; 
 }
+
+.book-preview {
+  width: 100px;
+}
+.icon {
+  margin: auto;
+}
+
+
 
 .curr-book-reading > * {
   padding:  10px;
@@ -233,12 +229,13 @@ export default {
   /* height: 200px; */
 }
 .jenres {
-  width: 50%;
+  /* width: 50%; */
   display: flex;
   justify-content: space-evenly;
   flex-direction: column-reverse;
   flex-wrap: wrap;
   color: #999;
+  justify-content: flex-end;
 }
 
 .content-wrapper {
@@ -247,6 +244,7 @@ export default {
   flex-flow: row wrap;
   margin-right: 2%;
   margin-top: 2%;
+  justify-content: space-between;
 }
 
 .profile-pic-edit {
@@ -292,6 +290,11 @@ h3 {
   color: #999;
 }
 
+.statistics-wrapper {
+  width: 60%;
+  color: #999;  
+}
+
 .main-container {
   display: flex;
   flex-flow: row wrap;
@@ -302,7 +305,7 @@ h3 {
 .statistics {
   display: flex;
   justify-content: space-between;
-  width: 50%;
+  width: 100%;
   align-self: flex-start;
 }
 
@@ -318,6 +321,7 @@ input {
   width: 15%;
   margin-top: 6%;
   margin-left: 3%;
+  align-self: flex-start;
 }
 
 .left-panel-content {
@@ -335,6 +339,10 @@ input {
 
 h1 {
   font-size: 2em;
+}
+
+h2 {
+  margin-top: 5%;
 }
 
 .profile-img {
@@ -389,21 +397,22 @@ h1 {
   justify-content: space-between;
 }
 
+.statistics-wrapper {
+  width: 100%;
+}
+
 .left-panel {
   width: 95%;
   height: 25%;
   margin-top: 6%;
-}
-
-.el-card {
-  margin: 0;
+  margin: auto;
 }
 
 .content-wrapper {
   display: flex;
   width: 95%;
   flex-flow: column wrap;
-  /* margin-right: 2%; */
+  justify-content: space-between;
   margin-top: 2%;
 }
 
@@ -426,14 +435,23 @@ h1 {
 
 .curr-book-reading {
   flex-direction: row;
+  margin-top: 5%;
 }
 
 .right-panel {
-  flex-flow: row wrap
+  display: flex;  
+  flex-flow: row wrap; 
+  width: 100%;
+  justify-content: flex-end;
+  
 }
 
-.right-panel  {
-  width: 100%;
+
+
+.right-panel.jenres {
+  width: unset;
+  justify-content: flex-end;
+  
 }
 
 .book-align {

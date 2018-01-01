@@ -7,13 +7,13 @@
             <el-option value="Reading"></el-option>
             <el-option value="WishList"></el-option>
           </el-select>
-           <el-button class="add-book" type="primary" @click.native="addBook">Add To My Shelf</el-button>
+           <el-button class="add-book" type="primary" @click.native="SetBookToList(currBook)">Add To My Shelf</el-button>
       </div>
       <img v-if="currBook" class="book-img" :src="currBook.img" />
       <!-- Rating -->
       <div class="block">
         <span class="rating-title">Avg Rating</span>
-          <el-rate :value="4.5"  disabled  show-score  text-color="#ff9900" score-template="{value} points">
+          <el-rate :value="4.5" disabled show-score text-color="#ff9900" score-template="{value} points">
           </el-rate>
       </div>
     </div>
@@ -21,14 +21,14 @@
     <main class="book-content" v-if="currBook">
       <h1>{{currBook.title}}/ <span class="pageCount">{{currBook.pages}} pages</span></h1>
       <h5>{{currBook.author}}</h5>
-      <el-button type="success" @click="showReviewModal">Add Review</el-button>
-        <el-button type="info">Get a copy</el-button>
+      <el-button type="primary" @click="showReviewModal">Add Review</el-button>
+        <el-button class="vid-review" type="primary">Video Review</el-button>
+        <el-button class="copy-btn" type="info">Get a Copy</el-button>
       <article class="book-review">
         <p @click="isReadMore = !isReadMore" class="book-desc" :style="styleReadMore" v-html="currBook.desc"></p>
       </article>
       <article class="links">
-      <el-button class="chat-btn" type="primary">Chat about this book <span class="down-arrow">↓</span></el-button>
-        <el-button class="vid-review" type="primary">Video review</el-button>
+      <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
         <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
       <div class="modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
@@ -45,7 +45,7 @@ import _ from "lodash";
 import BookService from "../services/BookService.js";
 import APIService from "../services/APIService.js";
 import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
-import { UPDATE_USER } from "../store/modules/UserModule.js";
+import { UPDATE_USER, ADD_TO_WISH_LIST } from "../store/modules/UserModule.js";
 import { UPDATE_BOOK_AND_USER } from "../store/modules/ReviewModule.js";
 import { mapGetters } from "vuex";
 
@@ -58,7 +58,7 @@ export default {
     return {
       ratingVal: null,
       showModal: false,
-      readState: "Read",
+      readState: "mark book",
       isReadMore: false
     };
   },
@@ -83,6 +83,7 @@ export default {
         });
       }
     });
+
   },
   computed: {
     ...mapGetters([ 'currBook', 'isUser', 'loggedInUser' ]),
@@ -90,7 +91,7 @@ export default {
       return {
         height: this.isReadMore ? "" : "300px"
       };
-    }
+    },
   },
   methods: {
     showReviewModal() {
@@ -110,7 +111,7 @@ export default {
     },
     addBook() {
       if (!this.$store.getters.isUser) {
-        this.$message.error("Oops, Please log in to add a to shelf");
+        this.$message.error("Oops, Please log in to add to your shelf");
       } else {
         var objToUpdateBook = {
           userId: this.loggedInUser._id,
@@ -132,7 +133,7 @@ export default {
     },
     addRateToBook(reviewBook, reviewUser) {
       if (!this.$store.getters.isUser) {
-        this.$message.error("Oops, Please log in to add a to shelf");
+        this.$message.error("Oops, Please log in to add to a shelf");
       } else {
         this.showModal = !this.showModal;
         this.$message('adding your review...');
@@ -144,11 +145,24 @@ export default {
           })
           .then(_ => console.log("updated"))
           .catch(err => {
-            this.$message.error('Oops, coldnt gut your review. try again');
+            this.$message.error('Oops, could not get your review. Try again');
             console.log("err", err)});
       }
+    },
+      SetBookToList(book) {
+    if (!this.$store.getters.isUser) {
+      this.$message.error("Oops, Please log in to add to a shelf");
+    } else {
+      this.$store
+        .dispatch({
+          type: ADD_TO_WISH_LIST, 
+          id: this.$store.state.user.loggedinUser._id,
+          book
+        })
     }
   }
+  },
+
 };
 </script>
 
@@ -201,10 +215,6 @@ export default {
   margin-bottom: 5px;
 }
 
-.vid-review {
-  border: none;
-}
-
 .book-img {
   max-width: 280px;
   height: auto;
@@ -221,7 +231,8 @@ export default {
 }
 
 .book-desc {
-  padding-right: 10px;
+  padding-right: 2vw;
+  padding-left: 2vw;
   overflow: hidden;
 }
 .add-to-shelf {
@@ -232,11 +243,31 @@ export default {
   margin: 0.3vw;
 }
 
+.copy-btn {
+  margin-top: 2vw;
+}
+
+.chat-btn {
+  margin-bottom: 2vw;
+}
+
 .book-review {
   cursor: pointer;
 }
 
 .book-content {
   margin-top: 25px;
+}
+
+
+/* ////////////  mobile query  //////////////// */
+
+@media screen and (max-width: 768px) {
+.book-header {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-between;
+  } 
 }
 </style>

@@ -5,7 +5,6 @@ import axios from 'axios'
 const URL = 'http://localhost:3003'
 
 function signup(userDetails) {
-    console.log(userDetails,'in user service first')
     return axios.post(`${URL}/data/user`, userDetails)
         .then(res => {
             return res.data
@@ -13,11 +12,28 @@ function signup(userDetails) {
         .catch(err => { throw err })
 }
 
+function getUserById(id) { 
+    return axios
+    .get((`${URL}/data/user/${id.id}`))
+    .then(res => {
+        console.log({id})
+        return res.data
+    })
+    
+}
+
+function addToWishList(userId, book) {
+    return axios.put(`${URL}/wishList`, {userId, book} )
+        .then(res => {
+            console.log('res: ', res);
+            return res.data
+        })
+    
+}
+
 function login(userCreds) {
-    console.log({ login })
     return axios.post(`${URL}/login`, userCreds)
         .then((res) => {
-            console.log('elad', res)
             return res.data
         })
         .catch(err => {throw err})
@@ -67,5 +83,7 @@ export default {
     logout,
     deleteUser,
     editUser,
-    uploadImage
+    uploadImage,
+    getUserById,
+    addToWishList
 } 

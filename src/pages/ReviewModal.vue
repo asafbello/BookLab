@@ -34,9 +34,6 @@ import state from "../store/modules/UserModule.js";
 
 export default {
   props: ["currBook"],
-  //NEDD TO FIXXXXXXXXXXXXXXXXXXXXXXXXXXXX!!!
-  //!!!!!!!!!!!!!
-  //MOVE TO PROPSSSSSSSS
   computed: {},
   data() {
     return {
@@ -82,7 +79,6 @@ export default {
       this.$emit("closeFromCancel");
     },
     addUserReview() {
-      this.$store.state.user.loggedInUser;
       var reviewUser = {
         createdAt: Date.now(),
         foreignId: this.currBook.foreignId,

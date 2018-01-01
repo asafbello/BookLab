@@ -5,22 +5,30 @@ import UserService from "../../services/UserService.js";
 export const SIGNUP = 'user/signup';
 export const SIGNIN = 'user/signin';
 export const SET_USER = 'user/setUser';
+export const SET_PROFILE = 'user/setProfile';
 export const SIGNOUT = 'user/signout';
 export const DELETE_USER = 'user/deleteUser';
 export const UPDATE_USER = 'user/editUser';
 export const ADD_BOOK_SHELF = 'user/addBookShelf';
 export const ADD_REVIEW_USER = 'user/addReviewUser'
+export const GET_USER = 'user/getUser'
+export const ADD_TO_WISH_LIST = 'user/addToWishList'
+export const UPDATE_USER_WISH_LIST = 'user/addToWishList'
 
 const STORAGE_KEY = 'loggedinUser';
 
 export default {
     state: {
-        loggedinUser: getUserFromStorage()
+        loggedinUser: getUserFromStorage(),
+        currProfile: null
     },
     getters: {
         isUser(state) {
             return !!state.loggedinUser
         },
+        loggedInUser(state) {
+            return state.loggedInUser;
+        }
         //     isAdmin(state) {
         //         return state.loggedinUser && state.loggedinUser.isAdmin
         //     }
@@ -36,13 +44,15 @@ export default {
             state.loggedinUser = user;
         },
         [ADD_REVIEW_USER](state, { reviewUser }) {
-            console.log('==================')
-            console.log('INSIDE: ' + ADD_REVIEW_USER)
-            console.log({ reviewUser, user: state.loggedinUser })
-            console.log({ reviews: state.loggedinUser.reviews })
-            console.log('==================')
             state.loggedinUser.reviews.push(reviewUser)
-        }
+            state.loggedinUser.readList.push(reviewUser)
+        },
+        [SET_PROFILE](state, { profile }) {
+            state.currProfile = profile;
+        },
+        // [UPDATE_USER_WISH_LIST](state, {book}) {
+        //     state.loggedInUser.wishList.push(book)
+        // }
     },
     actions: {
         [UPDATE_USER]({ commit, state }, { userId, updatedUser }) {
@@ -56,7 +66,7 @@ export default {
             return UserService
                 .signup(signupDetails)
                 .then(res => {
-                    console.log('ressss',res);
+                    console.log('ressss', res);
                     commit({ type: SET_USER, user: res })
                     saveToLocalStorage(res)
                 })
@@ -73,10 +83,9 @@ export default {
                 })
         },
         [SIGNIN]({ commit }, { signinDetails }) {
-           return  UserService
+            return UserService
                 .login(signinDetails)
                 .then(res => {
-                    console.log('secseus', res)
                     commit({ type: SET_USER, user: res.user });
                     saveToLocalStorage(res.user)
                 })
@@ -92,13 +101,32 @@ export default {
                     saveToLocalStorage(null);
                 })
         },
+        [GET_USER]({ commit }, id) {
+            return UserService
+                .getUserById(id)
+                .then(profile => {
+                    console.log({profile})
+                    commit({
+                        type: SET_PROFILE,
+                        profile
+                    })
+                })
+        }, 
+        [ADD_TO_WISH_LIST] ({commit}, {id, book}) {
+            UserService
+                .addToWishList(id, book)
+                .then(user => {
+                // commit({ type: UPDATE_USER_WISH_LIST, user })
+                saveToLocalStorage(this.state.loggedinUser)
+                })
+        }
     }
 }
 
 
 function getUserFromStorage() {
-    var loggedinUser = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
-    return loggedinUser;
+    var currProfile = JSON.parse(localStorage.getItem(STORAGE_KEY)) || null;
+    return currProfile;
     return
 }
 
