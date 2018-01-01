@@ -140,10 +140,6 @@ export default {
         return acu + curr.review.pages;
       }, 0);
       this.pagesRead = pagesCount;
-<<<<<<< HEAD
-      console.log(this.$store.state.user.currProfile)
-=======
->>>>>>> master
     })
    },
   methods: {
