@@ -94,7 +94,7 @@ export default {
         isAdmin: false,
         wishList: [],
         readList: [],
-        currentlyReading: [],
+        currentlyReading: '',
         reviews: [],
         favoriteJenre: []
       },

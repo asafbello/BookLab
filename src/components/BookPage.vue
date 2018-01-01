@@ -48,7 +48,8 @@ import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
 import {
   UPDATE_USER,
   ADD_TO_WISH_LIST,
-  ADD_TO_READ_LIST
+  ADD_TO_READ_LIST,
+  SET_CURR_READING
 } from "../store/modules/UserModule.js";
 import { UPDATE_BOOK_AND_USER } from "../store/modules/ReviewModule.js";
 import { mapGetters } from "vuex";
@@ -160,10 +161,16 @@ export default {
             type: ADD_TO_WISH_LIST,
             id: this.$store.state.user.loggedinUser._id,
             book
-          })
+          });
         } else if (this.readState === "Read") {
           this.$store.dispatch({
             type: ADD_TO_READ_LIST,
+            id: this.$store.state.user.loggedinUser._id,
+            book
+          });
+        } else if (this.readState === "Reading") {
+          this.$store.dispatch({
+            type: SET_CURR_READING,
             id: this.$store.state.user.loggedinUser._id,
             book
           });

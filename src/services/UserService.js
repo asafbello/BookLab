@@ -37,7 +37,14 @@ function addToReadList(userId, book) {
             console.log('res: ', res);
             return res.data
         })
-    
+}
+
+function setCurrentlyReading(userId, book) {
+    return axios.put(`${URL}/currentlyReading`, {userId, book} )
+    .then(res => {
+        console.log('res: ', res);
+        return res.data
+    })
 }
 
 function login(userCreds) {
@@ -95,5 +102,6 @@ export default {
     uploadImage,
     getUserById,
     addToWishList,
-    addToReadList
+    addToReadList,
+    setCurrentlyReading
 } 

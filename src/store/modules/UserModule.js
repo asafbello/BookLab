@@ -15,6 +15,7 @@ export const GET_USER = 'user/getUser'
 export const ADD_TO_WISH_LIST = 'user/addToWishList'
 export const ADD_TO_READ_LIST = 'user/addToReadList'
 export const UPDATE_USER_WISH_LIST = 'user/addToWishList'
+export const SET_CURR_READING = 'user/currentlyReading'
 
 const STORAGE_KEY = 'loggedinUser';
 
@@ -118,7 +119,7 @@ export default {
                 .addToWishList(id, book)
                 .then(user => {
                 // commit({ type: UPDATE_USER_WISH_LIST, user })
-                saveToLocalStorage(this.state.loggedinUser)
+                // saveToLocalStorage(this.state.loggedinUser)
                 })
         },
         [ADD_TO_READ_LIST] ({commit}, {id, book}) {
@@ -126,9 +127,18 @@ export default {
                 .addToReadList(id, book) 
                 .then(user => {
                 // commit({ type: UPDATE_USER_WISH_LIST, user })
-                saveToLocalStorage(this.state.loggedinUser)
+                // saveToLocalStorage(this.state.loggedinUser)
                 })
-        }
+        },
+
+        [SET_CURR_READING] ({commit}, {id, book}) {
+            UserService
+                .setCurrentlyReading(id, book) 
+                .then(user => {
+                    console.log('cuu reading');
+                })
+        },
+        
     }
 } 
 

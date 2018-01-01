@@ -45,22 +45,20 @@
 <div class="right-panel jenres">
 
   <div class="curr-book-reading">
-      <div class="book-align" v-if="loggedinUser.reviews.length != 0">
-      <h3 v-if="loggedinUser.currentlyReading > 0" >Reading right now</h3>
+      <div class="book-align">
+      <h3>Reading right now</h3>
       <book-preview :img-url="loggedinUser.currentlyReading.img" @click.native="bookDetails(loggedinUser.reviews[0].review.id)"></book-preview>
       </div>
       <div class="jenres" v-if="!isEditing">
         <div class="jenres-wrapper">
-        <h1 v-if="loggedinUser.favoriteJenre.length > 0">Favorite jenres</h1>
+        <h1>Favorite jenres</h1>
         <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
     </div>
 
   </div>
 
 </div>
-     <div class="reviews">
 
-  </div>
 </section>      
 
         <form class="signin-form " v-if="isEditing">
