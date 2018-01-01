@@ -85,7 +85,7 @@ export default {
     return {
       loginDetails: { username: "", pass: "" },
       signupDetails: {
-        joinedAt: Date.now(),
+        joinedAt: moment().format('LL'),
         name: "",
         lastName: "",
         username: "",

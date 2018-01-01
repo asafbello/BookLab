@@ -23,7 +23,7 @@ export default {
                     .then(res => {
                         debugger;
                         commit({ type: ADD_REVIEW_USER, reviewUser })
-                        // commit({ type: ADD_REVIEW_BOOK, reviewBook })
+                        commit({ type: ADD_REVIEW_BOOK, reviewBook })
                         saveToLocalStorage(rootState.user.loggedinUser)
                         return res
                     })
