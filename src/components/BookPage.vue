@@ -88,6 +88,7 @@ export default {
       this.showVideo = true;
     },
     closeVideoModal(){
+      console.log('hi');
       this.showVideo = false;
     },
     showReviewModal() {
