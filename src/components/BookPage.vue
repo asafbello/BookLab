@@ -1,5 +1,8 @@
 <template>
   <section class="book-header">
+      <!-- <div>
+        <book-reviews :reviews="currBook.reviews"></book-reviews>
+      </div> -->
     <div class="book-aside">
       <div class="add-to-shelf">
           <el-select v-model="readState" placeholder="Wish List">
@@ -22,7 +25,9 @@
       <h1>{{currBook.title}}/ <span class="pageCount">{{currBook.pages}}showVideo {{showVideo}}pages</span></h1>
       <h5>{{currBook.author}}</h5>
       <el-button type="primary" @click="showReviewModal">Add Review</el-button>
-        <el-button class="vid-review" type="primary" @click.native="showVideoModal"><i class="fa fa-video-camera" aria-hidden="true"> </i> Video Review</el-button>
+        <el-button class="vid-review" type="primary"
+         @click.native="showVideoModal">
+         <i class="fa fa-video-camera" aria-hidden="true"> </i> Video Review</el-button>
         <el-button class="copy-btn" type="info">Get a Copy</el-button>
       <article class="book-review">
         <p @click="isReadMore = !isReadMore" class="book-desc" :style="styleReadMore" v-html="currBook.desc"></p>
@@ -44,6 +49,7 @@
 
 <script>
 import ReviewModal from "../pages/ReviewModal.vue";
+import BookReviews from "../pages/BookReviews.vue";
 import VideoModal from "../components/VideoModal.vue";
 import BookPreview from "../components/BookPreview.vue";
 import _ from "lodash";
@@ -58,7 +64,8 @@ export default {
   name: "BookPage",
   components: {
     ReviewModal,
-    VideoModal
+    VideoModal,
+    BookReviews
   },
   data() {
     return {
