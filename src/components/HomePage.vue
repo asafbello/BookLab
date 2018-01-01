@@ -28,14 +28,17 @@
               </div>
         <!-- </el-collapse-transition> -->
           </section>
+          <profiles-prev :profiles="recentProfiles"></profiles-prev>
           <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"  v-loading="loading"></shelf-cmp>
     </div>
 </template>
 
 <script>
 import { LOAD_BOOKS, ADD_BOOK } from "../store/modules/BookModule.js";
+import {LOAD_PROFILES} from "../store/modules/ProfileModule.js";
 import APIService from "../services/APIService.js";
 import ShelfCmp from "./ShelfCmp";
+import ProfilesPrev from "../pages/ProfilesPrev";
 import _ from "lodash";
 
 export default {
@@ -48,7 +51,7 @@ export default {
       bookSearchRes: [],
       loading: true,
       searching: false,
-      searchMode:'Clear'
+      searchMode:'Clear',
     };
   },
   methods: {
@@ -78,9 +81,9 @@ export default {
       // this.searchMode = 'Search'
     }
   },
-  created() {
+  created() { 
+      // GET BOOKS
     var shelf = ["c_KYSDoCYQ4C","DKcWE3WXoj8C","kUeDc_wYSnoC","pj16s_fnr08C","twHgJGtm3o4C"];
-    
     this.$store
       .dispatch({ type: LOAD_BOOKS, shelf })
       .then(books => {
@@ -90,10 +93,22 @@ export default {
       .catch(err => {
         console.log("err", err);
       });
+    //GET PROFILES
+    this.$store
+      .dispatch({ type: LOAD_PROFILES})
+          .then(_ => {
+          console.log("Getting profiles", _);
+            })
+          .catch(err => {
+            console.log("err", err);
+          });
   },
   computed: {
     booksToDisplay() {
       return this.$store.getters.booksToDisplay;
+    },
+    recentProfiles() {
+      return this.$store.getters.profilesToDisplay;
     },
     isUser() {
       return this.$store.getters.isUser;
@@ -103,7 +118,8 @@ export default {
     }
   },
   components: {
-    ShelfCmp
+    ShelfCmp,
+    ProfilesPrev
   }
 };
 </script>
@@ -145,7 +161,7 @@ export default {
 .page-entry {
   display: flex;
   justify-content: center;
-  flex-direction: row
+  flex-direction: row;
 }
 /* .flip-list-move {
   transition: transform 1s;
