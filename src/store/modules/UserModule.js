@@ -12,6 +12,8 @@ export const UPDATE_USER = 'user/editUser';
 export const ADD_BOOK_SHELF = 'user/addBookShelf';
 export const ADD_REVIEW_USER = 'user/addReviewUser'
 export const GET_USER = 'user/getUser'
+export const ADD_TO_WISH_LIST = 'user/addToWishList'
+export const UPDATE_USER_WISH_LIST = 'user/addToWishList'
 
 const STORAGE_KEY = 'loggedinUser';
 
@@ -24,6 +26,9 @@ export default {
         isUser(state) {
             return !!state.loggedinUser
         },
+        loggedInUser(state) {
+            return state.loggedInUser;
+        }
         //     isAdmin(state) {
         //         return state.loggedinUser && state.loggedinUser.isAdmin
         //     }
@@ -44,7 +49,10 @@ export default {
         },
         [SET_PROFILE](state, { profile }) {
             state.currProfile = profile;
-        }
+        },
+        // [UPDATE_USER_WISH_LIST](state, {book}) {
+        //     state.loggedInUser.wishList.push(book)
+        // }
     },
     actions: {
         [UPDATE_USER]({ commit, state }, { userId, updatedUser }) {
@@ -78,7 +86,6 @@ export default {
             return UserService
                 .login(signinDetails)
                 .then(res => {
-                    console.log('secseus', res)
                     commit({ type: SET_USER, user: res.user });
                     saveToLocalStorage(res.user)
                 })
@@ -103,6 +110,14 @@ export default {
                         type: SET_PROFILE,
                         profile
                     })
+                })
+        }, 
+        [ADD_TO_WISH_LIST] ({commit}, {id, book}) {
+            UserService
+                .addToWishList(id, book)
+                .then(user => {
+                // commit({ type: UPDATE_USER_WISH_LIST, user })
+                saveToLocalStorage(this.state.loggedinUser)
                 })
         }
     }

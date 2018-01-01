@@ -21,7 +21,7 @@ export default {
                 .updateBookAndUser(reviewBook, reviewUser, userId, bookId)
                     .then(res => {
                         commit({ type: ADD_REVIEW_USER, reviewUser })
-                        // commit({ type: ADD_REVIEW_BOOK, reviewBook })
+                        commit({ type: ADD_REVIEW_BOOK, reviewBook })
                         saveToLocalStorage(rootState.user.loggedinUser)
                         return res
                     })

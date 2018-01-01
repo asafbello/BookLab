@@ -7,7 +7,7 @@
             <el-option value="Reading"></el-option>
             <el-option value="WishList"></el-option>
           </el-select>
-           <el-button class="add-book" type="primary" @click.native="addBook">Add To My Shelf</el-button>
+           <el-button class="add-book" type="primary" @click.native="SetBookToList(currBook)">Add To My Shelf</el-button>
       </div>
       <img v-if="currBook" class="book-img" :src="currBook.img" />
       <!-- Rating -->
@@ -45,7 +45,7 @@ import _ from "lodash";
 import BookService from "../services/BookService.js";
 import APIService from "../services/APIService.js";
 import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
-import { UPDATE_USER } from "../store/modules/UserModule.js";
+import { UPDATE_USER, ADD_TO_WISH_LIST } from "../store/modules/UserModule.js";
 import { UPDATE_BOOK_AND_USER } from "../store/modules/ReviewModule.js";
 import { mapGetters } from "vuex";
 
@@ -58,7 +58,7 @@ export default {
     return {
       ratingVal: null,
       showModal: false,
-      readState: "",
+      readState: "mark book",
       isReadMore: false
     };
   },
@@ -91,7 +91,7 @@ export default {
       return {
         height: this.isReadMore ? "" : "300px"
       };
-    }
+    },
   },
   methods: {
     showReviewModal() {
@@ -111,7 +111,7 @@ export default {
     },
     addBook() {
       if (!this.$store.getters.isUser) {
-        this.$message.error("Oops, Please log in to add a to shelf");
+        this.$message.error("Oops, Please log in to add to your shelf");
       } else {
         var objToUpdateBook = {
           userId: this.loggedInUser._id,
@@ -133,7 +133,7 @@ export default {
     },
     addRateToBook(reviewBook, reviewUser) {
       if (!this.$store.getters.isUser) {
-        this.$message.error("Oops, Please log in to add a to shelf");
+        this.$message.error("Oops, Please log in to add to a shelf");
       } else {
         this.showModal = !this.showModal;
         this.$message('adding your review...');
@@ -145,11 +145,24 @@ export default {
           })
           .then(_ => console.log("updated"))
           .catch(err => {
-            this.$message.error('Oops, coldnt gut your review. try again');
+            this.$message.error('Oops, could not get your review. Try again');
             console.log("err", err)});
       }
+    },
+      SetBookToList(book) {
+    if (!this.$store.getters.isUser) {
+      this.$message.error("Oops, Please log in to add to a shelf");
+    } else {
+      this.$store
+        .dispatch({
+          type: ADD_TO_WISH_LIST, 
+          id: this.$store.state.user.loggedinUser._id,
+          book
+        })
     }
   }
+  },
+
 };
 </script>
 
