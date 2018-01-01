@@ -19,20 +19,24 @@
     </div>
     <!-- Book content -->
     <main class="book-content" v-if="currBook">
-      <h1>{{currBook.title}}/ <span class="pageCount">{{currBook.pages}} pages</span></h1>
+      <h1>{{currBook.title}}/ <span class="pageCount">{{currBook.pages}}showVideo {{showVideo}}pages</span></h1>
       <h5>{{currBook.author}}</h5>
       <el-button type="primary" @click="showReviewModal">Add Review</el-button>
-        <el-button class="vid-review" type="primary">Video Review</el-button>
+        <el-button class="vid-review" type="primary" @click.native="showVideoModal"><i class="fa fa-video-camera" aria-hidden="true"> </i> Video Review</el-button>
         <el-button class="copy-btn" type="info">Get a Copy</el-button>
       <article class="book-review">
         <p @click="isReadMore = !isReadMore" class="book-desc" :style="styleReadMore" v-html="currBook.desc"></p>
       </article>
       <article class="links">
       <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
-        <i class="fa fa-video-camera" aria-hidden="true"></i>
       </article>
-      <div class="modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
-      <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="review-modal" @addUserReview="addRateToBook"></review-modal>
+        <div v-if="showVideo" class="bg-modal">
+          <button @click="closeVideoModal">
+            <i class="el-icon-error close-vid"></i></button>
+          <video-modal class="klub-modal" :videoId="videoSrc"></video-modal>
+        </div>
+      <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
+      <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
       </div>
     </main>
   </section>
@@ -40,6 +44,7 @@
 
 <script>
 import ReviewModal from "../pages/ReviewModal.vue";
+import VideoModal from "../components/VideoModal.vue";
 import BookPreview from "../components/BookPreview.vue";
 import _ from "lodash";
 import BookService from "../services/BookService.js";
@@ -52,48 +57,39 @@ import { mapGetters } from "vuex";
 export default {
   name: "BookPage",
   components: {
-    ReviewModal
+    ReviewModal,
+    VideoModal
   },
   data() {
     return {
       ratingVal: null,
       showModal: false,
       readState: "mark book",
-      isReadMore: false
+      isReadMore: false,
+      showVideo: false,
+      videoSrc: null
     };
   },
-  created() {
-    var googleBookId = this.$route.params.googleBookId;
-    BookService.getBookByForeignId(googleBookId)
-    .then(book => {
-      if (book) {
-        this.$store.commit({
-          type: ADD_BOOK,
-          book
-        });
-      } else {
-        var self = this.$store;
-        APIService.getBookFromGoogle(googleBookId)
-        .then(function(bookToAdd) {
-          if (bookToAdd._id) return;
-          self.dispatch({
-            type: ADD_BOOK,
-            bookToAdd
-          });
-        });
-      }
-    });
-
-  },
   computed: {
-    ...mapGetters([ 'currBook', 'isUser', 'loggedInUser' ]),
+    ...mapGetters(["currBook", "isUser", "loggedInUser"]),
     styleReadMore() {
       return {
         height: this.isReadMore ? "" : "300px"
       };
-    },
+    }
   },
   methods: {
+    showVideoModal() {
+      let title = this.currBook.title + " book review";
+      APIService.getVideo(title)
+      .then(videoSrc => {
+        this.videoSrc = videoSrc
+      });
+      this.showVideo = true;
+    },
+    closeVideoModal(){
+      this.showVideo = false;
+    },
     showReviewModal() {
       if (!this.$store.getters.isUser) {
         this.$message.error("Oops, Please log in to add a review");
@@ -136,38 +132,58 @@ export default {
         this.$message.error("Oops, Please log in to add to a shelf");
       } else {
         this.showModal = !this.showModal;
-        this.$message('adding your review...');
+        this.$message("adding your review...");
         this.$store
           .dispatch({
-            type: UPDATE_BOOK_AND_USER,   
-              reviewBook,
-              reviewUser
+            type: UPDATE_BOOK_AND_USER,
+            reviewBook,
+            reviewUser
           })
           .then(_ => console.log("updated"))
           .catch(err => {
-            this.$message.error('Oops, could not get your review. Try again');
-            console.log("err", err)});
+            this.$message.error("Oops, could not get your review. Try again");
+            console.log("err", err);
+          });
       }
     },
-      setBookToList(book) {
-    if (!this.$store.getters.isUser) {
-      this.$message.error("Oops, Please log in to add to a shelf");
-    } else {
-      this.$store
-        .dispatch({
-          type: ADD_TO_WISH_LIST, 
+    setBookToList(book) {
+      if (!this.$store.getters.isUser) {
+        this.$message.error("Oops, Please log in to add to a shelf");
+      } else {
+        this.$store.dispatch({
+          type: ADD_TO_WISH_LIST,
           id: this.$store.state.user.loggedinUser._id,
           book
-        })
+        });
+      }
     }
-  }
   },
-
+  created() {
+    var googleBookId = this.$route.params.googleBookId;
+    BookService.getBookByForeignId(googleBookId).then(book => {
+      if (book) {
+        this.$store.commit({
+          type: ADD_BOOK,
+          book
+        });
+      } else {
+        var self = this.$store;
+        APIService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
+          if (bookToAdd._id) return;
+          self.dispatch({
+            type: ADD_BOOK,
+            bookToAdd
+          });
+        });
+      }
+    });
+  }
 };
 </script>
 
 <style scoped>
-.review-modal {
+
+/* .review-modal {
   margin-right: auto;
   margin-left: auto;
   z-index: 1;
@@ -186,7 +202,7 @@ export default {
   height: 100%;
   background: rgba(0, 0, 0, 0.445);
   overflow: scroll;
-}
+} */
 .book-header {
   display: flex;
 }
@@ -259,15 +275,18 @@ export default {
   margin-top: 25px;
 }
 
+.close-vid {
+  font-size: 2.5em
+}
 
 /* ////////////  mobile query  //////////////// */
 
 @media screen and (max-width: 768px) {
-.book-header {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: space-between;
-  } 
+  .book-header {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
 </style>

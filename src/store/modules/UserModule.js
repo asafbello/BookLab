@@ -66,12 +66,10 @@ export default {
             return UserService
                 .signup(signupDetails)
                 .then(res => {
-                    console.log('ressss', res);
                     commit({ type: SET_USER, user: res })
                     LocalService.save(STORAGE_KEY,res)
                 })
                 .catch(err => {
-                    console.log(err)
                     throw err;
                 });
         },
@@ -105,7 +103,6 @@ export default {
             return UserService
                 .getUserById(id)
                 .then(profile => {
-                    console.log({profile})
                     commit({
                         type: SET_PROFILE,
                         profile
