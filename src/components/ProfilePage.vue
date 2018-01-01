@@ -54,9 +54,29 @@
         <h1>Favorite jenres</h1>
         <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
     </div>
-
   </div>
+</div>
 
+<div class="bg-modal" v-if="showWishListModal">
+      <div class="modal-content">
+    <div class="klub-modal">
+<el-row class="modal-row" v-for="(book, index) in loggedinUser.wishList" :key="index"> 
+  <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+          <el-card :body-style="{ padding: '0px' }">
+            <img :src="book.img" class="wl-modal-image">
+            <div style="padding: 14px;">
+              <span>{{book.title}}</span>
+              <div class="bottom clearfix">
+               <p>By {{book.author}}</p>
+               <!-- <p> {{book.raview.rate}}</p> -->
+                <el-button type="text" class="button">Book details</el-button>
+              </div>
+            </div>
+          </el-card>
+</el-row>
+    </div>
+            <el-button class="modal-btn" type="default"  v-on:keyup.esc="showWishList" @click="showWishList">Close</el-button>
+    </div>
 </div>
 
 </section>      
@@ -102,6 +122,7 @@ export default {
   },
   data() {
     return {
+      showWishListModal: false,
       pagesRead: 0,
       userImg: null,
       userId: this.$store.state.user.loggedinUser._id,
@@ -122,25 +143,30 @@ export default {
   },
   created() {
     var id = this.$route.params.id;
-    this.$store.dispatch({
-      type: GET_USER,
-      id: id
-    })
-    .then( x => {
-      var pagesCount = this.$store.state.user.currProfile.readList.reduce((acu, curr) => {
-        return acu + curr.pages;
-      }, 0);
-      this.pagesRead = pagesCount;
-<<<<<<< HEAD
-
-=======
->>>>>>> master
-    })
-   },
+    this.$store
+      .dispatch({
+        type: GET_USER,
+        id: id
+      })
+      .then(x => {
+        var pagesCount = this.$store.state.user.currProfile.readList.reduce(
+          (acu, curr) => {
+            return acu + curr.pages;
+          },
+          0
+        );
+        this.pagesRead = pagesCount;
+      });
+  },
   methods: {
-          showWishList() {
-            console.log('asaf');
-      },
+    showWishList() {
+      document.addEventListener("keyup", evt => {
+        if (evt.keyCode === 27) {
+          this.showWishListModal = false;
+        }
+      });
+      this.showWishListModal = !this.showWishListModal;
+    },
     deleteReview(bookId) {
       // this.updatedUser.reviews = this.updatedUser.reviews.filter(review => review.id != bookId)
       // var userId = this.$store.state.user.loggedinUser._id;
@@ -170,24 +196,29 @@ export default {
     },
 
     deleteUser(userId) {
-
-       this.$confirm('This will permanently delete the Profile. Continue?', 'Warning', {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
-          type: 'warning'
-        }).then(() => {
+      this.$confirm(
+        "This will permanently delete the Profile. Continue?",
+        "Warning",
+        {
+          confirmButtonText: "OK",
+          cancelButtonText: "Cancel",
+          type: "warning"
+        }
+      )
+        .then(() => {
           this.$router.push("/");
           this.$store.dispatch({ type: DELETE_USER, userId });
           this.$store.dispatch({ type: SIGNOUT, userId });
           this.$message({
-            type: 'success',
-            message: 'Delete completed'
+            type: "success",
+            message: "Delete completed"
           });
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$message({
-            type: 'info',
-            message: 'Delete canceled'
-          });          
+            type: "info",
+            message: "Delete canceled"
+          });
         });
     }
   }
@@ -195,10 +226,43 @@ export default {
 </script>
 
 <style scoped>
+.modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-btn {
+  width: 10%;
+  margin: auto;
+}
+
+.bottom clearfix > p {
+  padding-top: unset;
+}
+
+.modal-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 20%;
+}
+
+.wl-modal-image {
+  width: 100%;
+  display: block;
+}
+
+.klub-modal {
+  background: white;
+  padding: 2%;
+  margin: 5vw;
+  display: flex;
+  flex-flow: row wrap;
+}
 
 .read-list {
   display: flex;
-  margin-top: 5%; 
+  margin-top: 5%;
 }
 
 .book-preview {
@@ -208,10 +272,8 @@ export default {
   margin: auto;
 }
 
-
-
 .curr-book-reading > * {
-  padding:  10px;
+  padding: 10px;
 }
 .curr-book-reading {
   display: flex;
@@ -294,7 +356,7 @@ h3 {
 
 .statistics-wrapper {
   width: 60%;
-  color: #999;  
+  color: #999;
 }
 
 .main-container {
@@ -392,77 +454,73 @@ h2 {
 /* ////////////  mobile query  //////////////// */
 
 @media screen and (max-width: 768px) {
-.main-container {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: space-between;
-}
+  .main-container {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-.statistics-wrapper {
-  width: 100%;
-}
+  .statistics-wrapper {
+    width: 100%;
+  }
 
-.left-panel {
-  width: 95%;
-  height: 25%;
-  margin-top: 6%;
-  margin: auto;
-}
+  .left-panel {
+    width: 95%;
+    height: 25%;
+    margin-top: 6%;
+    margin: auto;
+  }
 
-.content-wrapper {
-  display: flex;
-  width: 95%;
-  flex-flow: column wrap;
-  justify-content: space-between;
-  margin-top: 2%;
-}
+  .content-wrapper {
+    display: flex;
+    width: 95%;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    margin-top: 2%;
+  }
 
-.statistics {
-  width: 100%;
-  justify-content: space-around;
-  margin-top: 1%;
-}
+  .statistics {
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 1%;
+  }
 
-.profile-img {
-  margin-top: 2%;
-  width: 40%;
-}
+  .profile-img {
+    margin-top: 2%;
+    width: 40%;
+  }
 
-.profile-btns {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
+  .profile-btns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 
-.curr-book-reading {
-  flex-direction: row;
-  margin-top: 5%;
-}
+  .curr-book-reading {
+    flex-direction: row;
+    margin-top: 5%;
+  }
 
-.right-panel {
-  display: flex;  
-  flex-flow: row wrap; 
-  width: 100%;
-  justify-content: flex-end;
-  
-}
+  .right-panel {
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+    justify-content: flex-end;
+  }
 
+  .right-panel.jenres {
+    width: unset;
+    justify-content: flex-end;
+  }
 
+  .book-align {
+    align-self: flex-start;
+  }
 
-.right-panel.jenres {
-  width: unset;
-  justify-content: flex-end;
-  
-}
-
-.book-align {
-  align-self: flex-start;
-}
-
-.signin-form  {
-  margin-left: 0;
-  width: 95%;
-}
+  .signin-form {
+    margin-left: 0;
+    width: 95%;
+  }
 }
 </style>

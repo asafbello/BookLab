@@ -111,10 +111,6 @@ export default {
     uploadImage,
     getUserById,
     addToWishList,
-<<<<<<< HEAD
     addToReadList,
     setCurrentlyReading
-=======
-    getUsers
->>>>>>> master
 } 

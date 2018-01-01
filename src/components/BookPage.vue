@@ -1,8 +1,8 @@
 <template>
   <section class="book-header">
-      <!-- <div>
+      <div>
         <book-reviews :reviews="currBook.reviews"></book-reviews>
-      </div> -->
+      </div>
     <div class="book-aside">
       <div class="add-to-shelf">
           <el-select v-model="readState" placeholder="Wish List">
@@ -159,7 +159,7 @@ export default {
           });
       }
     },
-    SetBookToList(book) {
+    setBookToList(book) {
       if (!this.$store.getters.isUser) {
         this.$message.error("Oops, Please log in to add to a shelf");
       } else {
