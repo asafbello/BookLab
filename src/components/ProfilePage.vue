@@ -128,45 +128,15 @@ export default {
     })
     .then( x => {
       var pagesCount = this.$store.state.user.currProfile.readList.reduce((acu, curr) => {
-        return acu + curr.review.pages;
+        return acu + curr.pages;
       }, 0);
       this.pagesRead = pagesCount;
 
-      console.log(this.$store.state.user.currProfile)
     })
    },
   methods: {
           showWishList() {
-        const h = this.$createElement;
-        this.$msgbox({
-          title: 'Message',
-          message: h('p', null, [
-            h('span', null, 'Message can be '),
-            h('i', { style: 'color: teal' }, 'VNode')
-          ]),
-          showCancelButton: true,
-          // confirmButtonText: 'OK',
-          cancelButtonText: 'Close',
-          beforeClose: (action, instance, done) => {
-            if (action === 'confirm') {
-              instance.confirmButtonLoading = true;
-              instance.confirmButtonText = 'Loading...';
-              setTimeout(() => {
-                done();
-                setTimeout(() => {
-                  instance.confirmButtonLoading = false;
-                }, 300);
-              }, 3000);
-            } else {
-              done();
-            }
-          }
-        }).then(action => {
-          this.$message({
-            type: 'info',
-            message: 'action: ' + action
-          });
-        });
+            console.log('asaf');
       },
     deleteReview(bookId) {
       // this.updatedUser.reviews = this.updatedUser.reviews.filter(review => review.id != bookId)
