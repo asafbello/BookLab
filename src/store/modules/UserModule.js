@@ -39,7 +39,6 @@ export default {
             state.loggedinUser = user;
         },
         [ADD_REVIEW_USER](state, { reviewUser }) {
-            debugger;
             state.loggedinUser.reviews.push(reviewUser)
             state.loggedinUser.readList.push(reviewUser)
         },
