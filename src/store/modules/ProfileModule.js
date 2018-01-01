@@ -2,8 +2,9 @@ import UserService from "../../services/UserService.js";
 import LocalService from '../../services/StorageService.js'
 
 export const LOAD_PROFILES = 'profile/loadProfiles';
+export const LOAD_PROFILES_FROM_BOOK = 'profile/loadProfilesFromBook';
 
-const SET_PROFILES = 'profile/setProfiles'
+export const SET_PROFILES = 'profile/setProfiles'
 
 export default {
     state: {
@@ -12,11 +13,11 @@ export default {
     getters:{
             profilesToDisplay: state => {
                 return state.currProfiles;
-            }
+            },
     },
     mutations: {
         [SET_PROFILES](state, { profiles }) {
-            console.log('profiles', profiles);
+            console.log('profiles in moudle', profiles);
             state.currProfiles = profiles;
         },
     },

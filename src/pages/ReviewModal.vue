@@ -23,7 +23,7 @@
                 </el-date-picker>
              </div>
              <br>
-               <el-button @click.native="addUserReview" type="success">Add Your Review</el-button>
+               <el-button @click.native="addUserReview" type="success" class="add-btn">Add Your Review</el-button>
                <el-button @click.native="closeModal" type="info">Cancel</el-button>
     </form>
 </template>
@@ -94,6 +94,8 @@ export default {
         }
       };
       var reviewBook = {
+        userName: this.$store.state.user.loggedinUser.username,
+        userAvatar: this.$store.state.user.loggedinUser.avatar,
         byUserId: this.$store.state.user.loggedinUser._id,
          createdAt: Date.now(),
         review: {
@@ -124,5 +126,41 @@ textarea {
 
 .picker {
   cursor: pointer;
+}
+
+.add-btn {
+  margin-bottom: 2vw;
+}
+
+@media screen and (max-width: 768px) {
+  .modal-header {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-left: 3vw;
+    margin-right: 3vw;
+  }
+
+  textarea {
+    display: flex;
+    max-width: 100%;
+  }
+
+  .block {
+    display: flex;
+    max-width: 100%;
+  }
+
+  .picker {
+    display: flex;
+    max-width: 100%;
+    width: 70vw;
+  }
+
+  .cancel-btn {
+    margin-top: 2vw;
+  }
+  
 }
 </style>
