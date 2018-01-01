@@ -128,7 +128,7 @@ export default {
           .then(_ => {
             this.$router.push("/");
             this.$message({
-              message: "Wellcome to BookLub",
+              message: "Welcome to BookLub",
               type: "success"
             });
           })
