@@ -114,5 +114,6 @@ export default {
     getUserById,
     addToWishList,
     addToReadList,
-    setCurrentlyReading
+    setCurrentlyReading,
+    getUsers
 } 
