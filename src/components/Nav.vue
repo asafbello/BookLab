@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="line"></div>
+        <div class="line"></div> 
             <el-menu  class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
             <el-menu-item class="logo-container" index="1" >
             <router-link to="/"><img  @mouseover="toglleLogo" :class="{flip:show}" class="animated logo" src="../assets/img/logo.png"/></router-link>

@@ -33,9 +33,13 @@ function emptyBook() {
 // }
 
 function getBooks() {
+    const BookAmount = 6
     return axios
-        .get(BOOK_URL, shelf)
-        .then(res => res.data)
+        .get(BOOK_URL)
+        .then(res =>{
+            if (res.data.length >BookAmount) return res.data.splice(0,BookAmount)
+            return res.data
+        })
         .catch(e => {
             throw e;
         });

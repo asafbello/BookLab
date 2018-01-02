@@ -2,9 +2,11 @@
   <section>
     <ul >
       <li v-for="profile in profiles" :key="profile._id">
+          <el-card :body-style="{ padding: '0px' }">
        <router-link :to="'/user/' + profile._id">
           <img :src="profile.avatar" /></router-link>  
           <span>{{profile.name}}</span>
+          </el-card>
       </li>
     </ul>
   </section>
@@ -32,11 +34,9 @@ export default {
     li {
       display: flex;
       flex-direction: column;
-      height: 5vw;
-      margin: 1vh;
+      /* /* height: 5vw; */
+      padding: 1vh 0 0 2vh;
       transition: all .5s ease;
-      border-width: 0;
-      background: white;
       padding: 1vw;
       border-radius: .75em;
              
@@ -47,24 +47,24 @@ export default {
     }
 
     li img {
+      max-height: 10vh;
+      padding: 0;
       display: block;
-      height: 5vw;
-      border-radius: 2em;
+      max-width: 100%;
+      background: gray;
     }
     li span {
       visibility: hidden;
-      background-color: rgba(255, 255, 255, 0);
       width: 100%;
-      color: rgb(19, 19, 19);
-      display: inline;
+      color: rgba(255, 255, 255, 0);
+      display: block;
       position: relative;
-      top: -40%;
+      /* top: -40%; */
       cursor: pointer;
 }
     li:hover span {
-      color: rgb(255, 255, 255);
+      color: var(--main-color);
      visibility:visible;
-    background-color: rgba(0, 0, 0, 0.527);
 }
 </style>
 
