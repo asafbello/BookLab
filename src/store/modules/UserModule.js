@@ -13,8 +13,11 @@ export const ADD_REVIEW_USER = 'user/addReviewUser'
 export const GET_USER = 'user/getUser'
 export const ADD_TO_WISH_LIST = 'user/addToWishList'
 export const ADD_TO_READ_LIST = 'user/addToReadList'
+export const REMOVE_FROM_WISH_LIST = 'user/removeFromWishList'
+export const REMOVE_FROM_READ_LIST = 'user/removeFromReadList'
 export const UPDATE_USER_WISH_LIST = 'user/addToWishList'
 export const SET_CURR_READING = 'user/currentlyReading'
+export const REMOVE_BOOK_FROM_WISH_LIST = 'user/removeBookFromWishList'
 
 
 const STORAGE_KEY = 'loggedinUser';
@@ -52,9 +55,11 @@ export default {
         [SET_PROFILE](state, { profile }) {
             state.currProfile = profile;
         },
-        // [UPDATE_USER_WISH_LIST](state, {book}) {
-        //     state.loggedInUser.wishList.push(book)
-        // }
+        [REMOVE_BOOK_FROM_WISH_LIST](state, {bookId}) {
+            console.log(state.loggedinUser)
+        
+            
+        }
     },
     actions: {
         [UPDATE_USER]({ commit, state }, { userId, updatedUser }) {
@@ -125,6 +130,24 @@ export default {
                 .then(user => {
                 // commit({ type: UPDATE_USER_WISH_LIST, user })
                 // saveToLocalStorage(this.state.loggedinUser)
+                })
+        },
+
+        [REMOVE_FROM_WISH_LIST] ({commit}, {id, book}) {
+            UserService
+                .removeFromWishList(id, book) 
+                .then(user => {
+                    console.log(book,'aaa');
+                    commit({ type: REMOVE_BOOK_FROM_WISH_LIST, book })
+                })
+        },
+
+        [REMOVE_FROM_READ_LIST] ({commit}, {id, book}) {
+            UserService
+                .removeFromReadList(id, book) 
+                .then(user => {
+                    console.log(book,'aaa');
+                    commit({ type: REMOVE_BOOK_FROM_WISH_LIST, book })
                 })
         },
 

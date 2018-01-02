@@ -1,5 +1,6 @@
 
 import axios from 'axios'
+import { resolve } from 'url';
 
 
 let URL = 'http://localhost:3003'
@@ -48,6 +49,30 @@ function addToReadList(userId, book) {
             console.log('res: ', res);
             return res.data
         })
+}
+
+function removeFromWishList(userId, bookId) {
+    debugger;
+    return axios.put(`${URL}/removeFromWishList`, {userId, bookId} )
+        .then(res => {
+            debugger;
+            // console.log('res: ', res);
+            return res.data;
+        }).catch(err => {
+            debugger;
+        });
+}
+
+function removeFromReadList(userId, bookId) {
+    debugger;
+    return axios.put(`${URL}/removeFromReadList`, {userId, bookId} )
+        .then(res => {
+            debugger;
+            // console.log('res: ', res);
+            return res.data;
+        }).catch(err => {
+            debugger;
+        });
 }
 
 function setCurrentlyReading(userId, book) {
@@ -115,5 +140,7 @@ export default {
     addToWishList,
     addToReadList,
     setCurrentlyReading,
-    getUsers
+    getUsers,
+    removeFromWishList,
+    removeFromReadList
 } 

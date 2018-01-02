@@ -12,7 +12,7 @@
               <div class="bottom clearfix">
                <p>By {{book.author}}</p>
                <!-- <p> {{book.raview.rate}}</p> -->
-                <el-button type="text" class="button">Book details</el-button>
+                <el-button v-if="theUserHimself" type="text" class="button" @click="removeFromList(list,book)">Remove</el-button>
               </div>
             </div>
           </el-card>
@@ -24,14 +24,47 @@
 </template>
 
 <script>
+
+import { REMOVE_FROM_WISH_LIST, REMOVE_FROM_READ_LIST } from "../store/modules/UserModule.js";
+
+
 export default {
   props: ["list"],
   methods: {
     closeModal() {
       this.$emit("closeFromCancel");
     },
+
     goTobookDetails(id) {
       this.$router.push(`/book/${id}`);
+    },
+
+    removeFromList(list,book) {
+      if(list ===  this.$store.state.user.currProfile.wishList ) {
+        console.log( 'in if');
+            this.$store.dispatch({
+            type: REMOVE_FROM_WISH_LIST,
+            id: this.$store.state.user.loggedinUser._id,
+            book: book._id
+          });
+      } else if(list ===  this.$store.state.user.currProfile.readList) {
+        console.log('else');
+            this.$store.dispatch({
+            type: REMOVE_FROM_READ_LIST,
+            id: this.$store.state.user.loggedinUser._id,
+            book: book._id
+          });
+      }
+        console.log('out');
+      
+    },
+
+  },
+
+  computed: {
+    theUserHimself() {
+      if(this.$store.state.user.loggedinUser._id === this.$store.state.user.currProfile._id) return true
+      else return false;
     }
   }
 };

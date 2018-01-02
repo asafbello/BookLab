@@ -8,8 +8,8 @@
         <div class="bottom clearfix">
           <time class="time">Joind at: {{ loggedinUser.joinedAt }}</time> <br>
           <div class="profile-btns">
-          <el-button type="text" class="button" @click="deleteUser(loggedinUser._id)">Delete Profile</el-button><br>
-          <el-button type="text" class="button"  @click="editProfile" v-if="!isEditing">Edit Profile</el-button>
+          <el-button type="text" class="button" @click="deleteUser(loggedinUser._id)"  v-if="!isEditing && loggedinUser._id === activeUser._id">Delete Profile</el-button><br>
+          <el-button type="text" class="button"  @click="editProfile" v-if="!isEditing && loggedinUser._id === activeUser._id">Edit Profile</el-button>
           </div>
         </div>
       </div>
@@ -88,7 +88,8 @@ import {
   DELETE_USER,
   SIGNOUT,
   UPDATE_USER,
-  GET_USER
+  GET_USER,
+  REMOVE_FROM_WISH_LIST
 } from "../store/modules/UserModule.js";
 
 export default {
@@ -102,6 +103,10 @@ export default {
     loggedinUser() {
       // return this.$store.state.user.loggedinUser;
       return this.$store.state.user.currProfile;
+    },
+
+    activeUser() {
+      return this.$store.state.user.loggedinUser;
     },
 
     screenWidth() {
