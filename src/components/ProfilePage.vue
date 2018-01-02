@@ -34,12 +34,12 @@
         <h2>Wish List</h2>
         <hr>
       <div class="read-list">
-          <book-preview class="book-preview" v-for="(book1, index) in loggedinUser.wishList.slice(0, screenWidth)" :img-url="book1.img" :key="index" @click.native="goTobookDetails(loggedinUser.wishList)"></book-preview>
+          <book-preview class="book-preview" v-for="(book1, index) in loggedinUser.wishList.slice(0, screenWidth)" :img-url="book1.img" :key="index" @click.native="goTobookDetails(book1.forigenId)"></book-preview>
       </div>
         <h2>Books read</h2>
         <hr>
       <div class="read-list">
-          <book-preview class="book-preview" v-for="(book , index) in loggedinUser.readList.slice(0, screenWidth)" :img-url="book.img" :key="index" @click.native="goTobookDetails(book.id)"></book-preview>
+          <book-preview class="book-preview" v-for="(book , index) in loggedinUser.readList.slice(0, screenWidth)" :img-url="book.img" :key="index" @click.native="goTobookDetails(book.forigenId)"></book-preview>
       </div>
   </div>
 <div class="right-panel jenres">
@@ -47,7 +47,7 @@
   <div class="curr-book-reading">
       <div class="book-align">
       <h3>Reading right now</h3>
-      <book-preview :img-url="loggedinUser.currentlyReading.img" @click.native="goTobookDetails(loggedinUser.currentlyReading._id)"></book-preview>
+      <book-preview :img-url="loggedinUser.currentlyReading.img" @click.native="goTobookDetails(loggedinUser.currentlyReading.forigenId)"></book-preview>
       </div>
       <div class="jenres" v-if="!isEditing">
         <div class="jenres-wrapper">
@@ -155,6 +155,7 @@ export default {
   },
   methods: {
     goTobookDetails(id) {
+      console.log('id: ', id);
       // this.$router.push(`/book/${this.loggedinUser.currentlyReading._id}`);
       this.$router.push(`/book/${id}`);
     },

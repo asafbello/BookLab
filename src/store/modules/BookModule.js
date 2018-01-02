@@ -81,7 +81,6 @@ export default {
                 })
         },
         [ADD_BOOK]({ commit }, { bookToAdd }) {
-            debugger
             return BookService.saveBook(bookToAdd)
                 .then(book => {
                     commit({
@@ -92,7 +91,6 @@ export default {
                 })
         },
         [GET_BOOK]({ commit }, { googleBookId }) {
-            debugger;
             return APIServicevice.getBookFromGoogle(googleBookId)
                 .then(book => {
                     commit({

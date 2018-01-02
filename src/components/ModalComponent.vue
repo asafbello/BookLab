@@ -6,7 +6,7 @@
 <el-row class="modal-row" v-for="(book, index) in list" :key="index"> 
   <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
           <el-card :body-style="{ padding: '0px' }">
-            <img :src="book.img" class="wl-modal-image">
+            <img @click="goTobookDetails(book.forigenId)" :src="book.img" class="wl-modal-image">
             <div style="padding: 14px;padding-bottom:  0;">
               <span>{{book.title}}</span>
               <div class="bottom clearfix">
@@ -24,21 +24,22 @@
 </template>
 
 <script>
-
 export default {
-    props: ['list'],
- methods: {
+  props: ["list"],
+  methods: {
     closeModal() {
       this.$emit("closeFromCancel");
     },
-}
-}
-
+    goTobookDetails(id) {
+      this.$router.push(`/book/${id}`);
+    }
+  }
+};
 </script>
 
 <style scoped>
 p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .modal-content {
@@ -47,7 +48,7 @@ p {
 }
 
 .el-card {
-    padding: 4px;
+  padding: 4px;
 }
 
 .modal-btn {
@@ -83,12 +84,9 @@ p {
 }
 
 @media screen and (max-width: 768px) {
-
-.modal-row {
+  .modal-row {
     width: 45%;
-   /* justify-content: space-around; */
+    /* justify-content: space-around; */
+  }
 }
-
-}
-
 </style>
