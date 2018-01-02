@@ -1,8 +1,12 @@
 <template>
   <section class="book-header">
+<<<<<<< HEAD
       <div>
         <book-reviews :reviews="currBook.reviews"></book-reviews>
       </div>
+=======
+    <!-- <profiles-prev :profiles="profilesFromReviews"></profiles-prev> -->
+>>>>>>> master
     <div class="book-aside">
       <div class="add-to-shelf">
           <el-select v-model="readState" placeholder="Wish List">
@@ -16,14 +20,22 @@
       <!-- Rating -->
       <div class="block">
         <span class="rating-title">Avg Rating</span>
-          <el-rate :value="4.5" disabled show-score text-color="#ff9900" score-template="{value} points">
-          </el-rate>
+          <el-rate v-if="bookRate" :value="bookRate" disabled show-score text-color="#ff9900"
+           score-template="{value} stars"></el-rate>
+          <el-rate v-else :value=".5" disabled show-score text-color="#ff9900"
+           score-template="No rates yet"></el-rate>
       </div>
     </div>
     <!-- Book content -->
     <main class="book-content" v-if="currBook">
-      <h1>{{currBook.title}}/ <span class="pageCount">{{currBook.pages}}showVideo {{showVideo}}pages</span></h1>
-      <h5>{{currBook.author}}</h5>
+      <div>
+        <h1 v-if="currBook">{{currBook.title}}</h1>
+        <span class="pageCount">{{currBook.pages }} pages 
+        <i class="fa fa-file-text-o" aria-hidden="true"></i>
+        </span>
+      </div>
+      <h5 class="book-author">{{currBook.author}}</h5>
+      <!-- Action buttons -->
       <el-button type="primary" @click="showReviewModal">Add Review</el-button>
         <el-button class="vid-review" type="primary"
          @click.native="showVideoModal">
@@ -35,20 +47,29 @@
       <article class="links">
       <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
       </article>
-        <div v-if="showVideo" class="bg-modal">
-          <button @click="closeVideoModal">
-            <i class="el-icon-error close-vid"></i></button>
+      <!-- Video modal -->
+        <div @click="closeVideoModal" v-if="showVideo" class="bg-modal">
+          <i @click="closeVideoModal" class="el-icon-error close-vid"></i>
           <video-modal class="klub-modal" :videoId="videoSrc"></video-modal>
         </div>
+        <!-- Review modal -->
       <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
       <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
       </div>
     </main>
+    <!-- Book reviews -->
+    <section v-if="currBook" class="book-reviews">
+      <book-reviews :reviews="currBook.reviews"></book-reviews>
+    </section>
+      <div v-else class="first-review">Be the first to review {{currBook.title}}!
+        <img  src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
+      </div>
   </section>
 </template>
 
 <script>
 import ReviewModal from "../pages/ReviewModal.vue";
+import ProfilesPrev from "../pages/ProfilesPrev.vue";
 import BookReviews from "../pages/BookReviews.vue";
 import VideoModal from "../components/VideoModal.vue";
 import BookPreview from "../components/BookPreview.vue";
@@ -64,43 +85,63 @@ import {
 } from "../store/modules/UserModule.js";
 import { UPDATE_BOOK_AND_USER } from "../store/modules/ReviewModule.js";
 import { mapGetters } from "vuex";
+import { SET_PROFILES } from "../store/modules/ProfileModule.js";
 
 export default {
   name: "BookPage",
   components: {
     ReviewModal,
     VideoModal,
-    BookReviews
+    BookReviews,
+    ProfilesPrev
   },
   data() {
     return {
       ratingVal: null,
       showModal: false,
-      readState: "mark book",
+      readState: "Mark Book",
       isReadMore: false,
       showVideo: false,
       videoSrc: null
     };
   },
   computed: {
-    ...mapGetters(["currBook", "isUser", "loggedInUser"]),
+    ...mapGetters([
+      "currBook",
+      "isUser",
+      "loggedInUser",
+      "bookRate",
+      // "profilesFromBook"
+    ]),
     styleReadMore() {
       return {
         height: this.isReadMore ? "" : "300px"
       };
-    }
+    },
+    // profilesFromReviews() {
+    //    console.log(this.currBook.reviews);
+    //   var profiles = this.currBook.reviews.map(profile => {
+    //     return {
+    //       avatar: profile.userAvatar,
+    //       name: profile.userName,
+    //       _id: profile.byUserId
+    //     };
+    //   });
+    //   console.log(profiles);
+    //   // this.$store
+    //   //   .commit({ type: SET_PROFILES , profiles })
+    //   return profiles
+    // }
   },
   methods: {
     showVideoModal() {
-      let title = this.currBook.title + " book review";
-      APIService.getVideo(title)
-      .then(videoSrc => {
-        this.videoSrc = videoSrc
+      let title = this.currBook.title + " funny book review";
+      APIService.getVideo(title).then(videoSrc => {
+        this.videoSrc = videoSrc;
       });
       this.showVideo = true;
     },
-    closeVideoModal(){
-      console.log('hi');
+    closeVideoModal() {
       this.showVideo = false;
     },
     showReviewModal() {
@@ -209,27 +250,6 @@ export default {
 </script>
 
 <style scoped>
-
-/* .review-modal {
-  margin-right: auto;
-  margin-left: auto;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  right: 50%;
-  background: rgba(0, 0, 0, 0.4);
-  padding: 15vw;
-  margin: 5vw;
-}
-.modal {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.445);
-  overflow: scroll;
-} */
 .book-header {
   display: flex;
 }
@@ -303,7 +323,25 @@ export default {
 }
 
 .close-vid {
-  font-size: 2.5em
+  font-size: 2.5em;
+}
+
+.el-icon-error::before {
+  position: absolute;
+  top: 1.2em;
+  right: 220px;
+}
+
+.first-review {
+  margin-bottom: 2vw;
+}
+
+.el-icon-error {
+  cursor: pointer;
+}
+
+.book-author {
+  font-size: 1.5em;
 }
 
 /* ////////////  mobile query  //////////////// */
@@ -314,6 +352,16 @@ export default {
     flex-flow: column;
     align-items: center;
     justify-content: space-between;
+    margin-left: 3vw;
+    margin-right: 3vw;
+  }
+
+  .vid-review {
+    margin-top: 3vw;
+  }
+
+  .book-content {
+    margin-top: 0em;
   }
 }
 </style>

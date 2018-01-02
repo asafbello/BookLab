@@ -2,8 +2,11 @@
 import axios from 'axios'
 
 
-const URL = 'http://localhost:3003'
-
+let URL = 'http://localhost:3003'
+if (process.env.NODE_ENV !== 'development'){
+    URL = ''
+}
+    
 function signup(userDetails) {
     return axios.post(`${URL}/data/user`, userDetails)
         .then(res => {

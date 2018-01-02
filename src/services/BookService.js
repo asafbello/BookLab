@@ -1,6 +1,11 @@
 import axios from 'axios'
-const BOOK_URL = 'http://localhost:3003/data/book';
-const GET_BOOK_URL = 'http://localhost:3003/book';
+let BOOK_URL = 'http://localhost:3003/data/book';
+let GET_BOOK_URL = 'http://localhost:3003/book';
+
+if (process.env.NODE_ENV !== 'development'){
+    BOOK_URL = '/data/book'
+    GET_BOOK_URL = '/book'
+}
 
 const GOOGLE_KEY = 'AIzaSyDhqDAWyXzaOz6gMB-zROK-vB20FxC6Yak'
 

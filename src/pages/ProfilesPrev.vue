@@ -34,17 +34,22 @@ export default {
       flex-direction: column;
       height: 5vw;
       margin: 1vh;
-       transition: all .5s ease;
-         outline: rgb(255, 255, 255) .1vw solid;
+      transition: all .5s ease;
+      border-width: 0;
+      background: white;
+      padding: 1vw;
+      border-radius: .75em;
+             
     }
     li:hover {
-      outline: black .1vw solid;
-      /* visibility:visible */
+    box-shadow: 7px 4px 4px 0 rgba(7, 19, 26, 0.12), 0 4px 12px 0 rgba(2, 23, 36, 0.12);
+    transform: translateY(-1px);
     }
 
     li img {
       display: block;
       height: 5vw;
+      border-radius: 2em;
     }
     li span {
       visibility: hidden;

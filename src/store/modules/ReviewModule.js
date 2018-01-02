@@ -18,13 +18,11 @@ export default {
 
     actions: {
         [UPDATE_BOOK_AND_USER]({ commit, rootState, store }, {reviewUser ,reviewBook }) {
-            debugger;
             var userId = rootState.user.loggedinUser._id
             var bookId = rootState.book.currBook._id
             ReviewService
                 .updateBookAndUser(reviewBook, reviewUser, userId, bookId)
                     .then(res => {
-                        debugger;
                         commit({ type: ADD_REVIEW_USER, reviewUser })
                         commit({ type: ADD_REVIEW_BOOK, reviewBook })
                         LocalService.save(STORAGE_KEY,rootState.user.loggedinUser)

@@ -2,8 +2,7 @@
     <section class="vid-modal">
         <h1 class="vid-title">We get it, videos are easier &#128526 </h1>
         <div class="video-wrapper">
-            <iframe class="iframe" frameborder="0" width="100%" :src="videoURL"></iframe>
-
+            <iframe class="iframe" frameborder="0" width="100%" height="220vh" :src="videoURL"></iframe>
         </div>
     </section>
 </template>
@@ -27,11 +26,13 @@ export default {
 
 .vid-title {
     margin-bottom: 2vw;
+    border-bottom: 1px solid black;
 }
 
 .vid-modal {
     background: white;
 }
+
 
 
 </style>

@@ -1,5 +1,8 @@
 import axios from 'axios';
-const REVIEW_URL = 'http://localhost:3003/review';
+let REVIEW_URL = 'http://localhost:3003/review';
+if (process.env.NODE_ENV !== 'development'){
+    REVIEW_URL = ''
+}
 
 function updateBookAndUser(objToUpdateBook,objToUpdateUser,userId,bookId){
     console.log(objToUpdateBook,objToUpdateUser,userId,bookId)
@@ -18,3 +21,5 @@ function updateBookAndUser(objToUpdateBook,objToUpdateUser,userId,bookId){
 export default{
     updateBookAndUser
 }
+
+console.log('test log for gittt');

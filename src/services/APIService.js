@@ -1,6 +1,10 @@
 const GOODREADS_KEY = 'FELO3TUoq67L0ebw62ErQ'
 const GOOGLE_KEY = 'AIzaSyBZD7e18qKjBq3N_we3BoHEoYmMHlTAYtM'
-const GOOGLE_URL = 'http://localhost:3003/googleBook';
+let GOOGLE_URL = 'http://localhost:3003/googleBook';
+
+if (process.env.NODE_ENV !== 'development'){
+    GOOGLE_URL = '/googleBook'
+}
 
 import axios from 'axios'
 import BookService from './BookService.js'
