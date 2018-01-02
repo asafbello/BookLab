@@ -1,12 +1,6 @@
 <template>
   <section class="book-header">
-<<<<<<< HEAD
-      <div>
-        <book-reviews :reviews="currBook.reviews"></book-reviews>
-      </div>
-=======
     <!-- <profiles-prev :profiles="profilesFromReviews"></profiles-prev> -->
->>>>>>> master
     <div class="book-aside">
       <div class="add-to-shelf">
           <el-select v-model="readState" placeholder="Wish List">
