@@ -2,9 +2,10 @@
   <section class="reviews-header">
     <h1 class="reviews-title">Latest readers reviews</h1>
     <ul>
-      <li v-for="(review, index) in reviews" :key="index"> 
+      <li class="review" v-for="(review, index) in reviews" :key="index"> 
           <div class="wrapper">
             <blockquote>
+            <router-link :to="'/user/' + review.byUserId">{{review.userName}} said: </router-link>
             &ldquo;{{review.review.txt}}&rdquo;
             <el-rate
                 v-model="review.review.rate"
@@ -15,9 +16,8 @@
             </el-rate>
             </blockquote>
             <div class="testimonialArrow"></div>
-            <p class="author">
-            &ndash;
-            <router-link :to="'/user/' + review.byUserId">{{review.userName}}</router-link></p>
+            <p class="author"></p>
+            <!-- &ndash; -->
             </div>
       </li>
     </ul>
@@ -81,6 +81,11 @@ strong {
  color: rgb(68, 68, 68);
 }
 
+.review {
+  margin-right: 4em;
+  margin-left: 4em;
+}
+
 a {
  color: rgb(64, 131, 169);
  text-decoration: none;
@@ -94,6 +99,9 @@ a {
     justify-content: space-between;
     margin-left: 3vw;
     margin-right: 3vw;
+  }
+  .wrapper {
+    width: 22em;
   }
 }
 

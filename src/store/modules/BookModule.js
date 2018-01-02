@@ -41,6 +41,7 @@ export default {
             return books
         },
         bookRate: context => {
+            if(!context.currBook) return 0;
             if (context.currBook.reviews.length === 0) return 0;
             var avgRate = context.currBook.reviews.reduce((accu, review) => {
                 return accu + review.review.rate;

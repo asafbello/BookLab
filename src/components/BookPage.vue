@@ -23,12 +23,13 @@
     <!-- Book content -->
     <main class="book-content" v-if="currBook">
       <div>
-        <h1>{{currBook.title}}</h1>
+        <h1 v-if="currBook">{{currBook.title}}</h1>
         <span class="pageCount">{{currBook.pages }} pages 
         <i class="fa fa-file-text-o" aria-hidden="true"></i>
         </span>
       </div>
-      <h5>{{currBook.author}}</h5>
+      <h5 class="book-author">{{currBook.author}}</h5>
+      <!-- Action buttons -->
       <el-button type="primary" @click="showReviewModal">Add Review</el-button>
         <el-button class="vid-review" type="primary"
          @click.native="showVideoModal">
@@ -40,21 +41,23 @@
       <article class="links">
       <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
       </article>
-        <div v-if="showVideo" class="bg-modal">
-          <button @click="closeVideoModal">
-            <i class="el-icon-error close-vid"></i></button>
+      <!-- Video modal -->
+        <div @click="closeVideoModal" v-if="showVideo" class="bg-modal">
+          <i @click="closeVideoModal" class="el-icon-error close-vid"></i>
           <video-modal class="klub-modal" :videoId="videoSrc"></video-modal>
         </div>
+        <!-- Review modal -->
       <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
       <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
       </div>
     </main>
-    <section class="book-reviews">
-      <book-reviews v-if="currBook.reviews.length" :reviews="currBook.reviews"></book-reviews>
-      <div v-else class="first-review">Be the first to review {{currBook.title}}!
-        <img src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
-      </div>
+    <!-- Book reviews -->
+    <section v-if="currBook" class="book-reviews">
+      <book-reviews :reviews="currBook.reviews"></book-reviews>
     </section>
+      <div v-else class="first-review">Be the first to review {{currBook.title}}!
+        <img  src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
+      </div>
   </section>
 </template>
 
@@ -121,14 +124,13 @@ export default {
   },
   methods: {
     showVideoModal() {
-      let title = this.currBook.title + " book review";
+      let title = this.currBook.title + " funny book review";
       APIService.getVideo(title).then(videoSrc => {
         this.videoSrc = videoSrc;
       });
       this.showVideo = true;
     },
     closeVideoModal() {
-      console.log("hi");
       this.showVideo = false;
     },
     showReviewModal() {
@@ -299,8 +301,22 @@ export default {
   font-size: 2.5em;
 }
 
+.el-icon-error::before {
+  position: absolute;
+  top: 1.2em;
+  right: 220px;
+}
+
 .first-review {
   margin-bottom: 2vw;
+}
+
+.el-icon-error {
+  cursor: pointer;
+}
+
+.book-author {
+  font-size: 1.5em;
 }
 
 /* ////////////  mobile query  //////////////// */
@@ -317,6 +333,10 @@ export default {
 
   .vid-review {
     margin-top: 3vw;
+  }
+
+  .book-content {
+    margin-top: 0em;
   }
 }
 </style>
