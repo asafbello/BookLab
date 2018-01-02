@@ -3,7 +3,7 @@
     <h1 class="reviews-title">Latest readers reviews</h1>
     <ul>
       <li class="review" v-for="(review, index) in reviews" :key="index"> 
-          <div class="wrapper">
+          <div class=".eview-wrapper ">
             <blockquote>
             <router-link :to="'/user/' + review.byUserId">{{review.userName}} said: </router-link>
             &ldquo;{{review.review.txt}}&rdquo;
@@ -42,15 +42,6 @@ export default {
 
 <style scoped>
 
-.reviews-title {
-    margin-bottom: 2vw;
-    border-bottom: 1px solid var(--main-color);
-}
-
-.wrapper {
- width: 600px;
- margin: 24px auto;
-}
 
 blockquote {
  background-color: rgb(255, 255, 255);
@@ -62,14 +53,6 @@ blockquote {
  padding: 17px;
 }
 
-.testimonialArrow {
-    width: 0; 
-    height: 0; 
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-    border-top: 20px solid rgb(255, 255, 255);
-    margin-left: 48px;
-}
 p.author {
     background-color: transparent;
     font-weight: 500;
@@ -81,17 +64,12 @@ strong {
  color: rgb(68, 68, 68);
 }
 
-.review {
-  margin-right: 4em;
-  margin-left: 4em;
-}
-
 a {
  color: rgb(64, 131, 169);
  text-decoration: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 650px) {
   .reviews-header {
     display: flex;
     flex-flow: column;

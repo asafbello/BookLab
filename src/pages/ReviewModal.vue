@@ -97,12 +97,14 @@ export default {
         userName: this.$store.state.user.loggedinUser.username,
         userAvatar: this.$store.state.user.loggedinUser.avatar,
         byUserId: this.$store.state.user.loggedinUser._id,
-         createdAt: Date.now(),
+        createdAt: Date.now(),
         review: {
           txt: this.txtRate,
           rate: this.ratingVal,
           readDates: this.readDates
-        }
+        },
+         bookName: this.currBook.title,
+         foreignId: this.currBook.foreignId
       };
       this.$emit("addUserReview", reviewBook, reviewUser);
     },
