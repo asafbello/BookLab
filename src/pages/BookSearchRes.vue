@@ -1,20 +1,23 @@
 
 <template v-if="searchRes">
-   <section class="answers">
-      <transition-group name="list-complete">
-        <div class="books-res list-complete-item" v-for="book in searchRes"
-                 :key="book.id">
-            <el-tooltip :content="book.volumeInfo.description" placement="bottom" effect="light">
-                    <el-button >{{book.volumeInfo.title}}</el-button>
-            </el-tooltip>
-            <router-link :to="'/book/' + book.id"> <el-button type="primary" size="mini">To Book Page</el-button>
-            </router-link>
-            <el-badge value="3" class="item">
-            <el-button size="mini"><i class="fa fa-book" aria-hidden="true"></i></el-button>
-            </el-badge>
-        </div>
-     </transition-group>
-  </section>
+        <el-row class="card-wrapper">
+          <transition-group name="list">
+            <el-col :span="8"  v-for="(book,index) in searchRes" :key="book.id" class="card-book list-item">
+              <el-card :body-style="{ padding: '0px' }" class="card-container">
+                <img :src="book.volumeInfo.imageLinks.thumbnail" class="image">
+                  <div>
+                      <div class="bottom clearfix">
+                      <span><i class="fa fa-book" aria-hidden="true"></i> {{book.volumeInfo.title}}</span>
+                        <p class="time" v-if="book.volumeInfo.authors">author: {{book.volumeInfo.authors[0]}}</p>
+                        <router-link :to="'/book/' + book.id">
+                          <el-button type="text" class="button"><i class="el-icon-info"></i>Book Page</el-button>
+                        </router-link>
+                      </div>
+                </div>
+              </el-card>
+            </el-col>
+      </transition-group>
+          </el-row>
 </template>
 
 <script>
@@ -28,41 +31,72 @@ export default {
 </script>
 
 
-<style scoped>
-.answers {
-  display: block;
-  position: absolute;
-  z-index: 99;
-  left: 15%;
-  /* right:15%; */
-  margin-left: auto;
-  margin-right: auto;
-}
-.books-res {
+<style scoped> 
+.bottom{
   display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   align-items: center;
-  justify-content: center;
-  border: 0.1vw rgb(211, 211, 211) dashed;
-  background-color: rgba(0, 0, 0, 0.342);
-  width: 70vw;
-  font-size: 0.8em;
-  margin: 0.3vw;
 }
-.books-res * {
-  padding: 0.3vw;
+.bottom *{
+padding: .5vw;
 }
-.list-complete-item {
-  transition: all 1s;
-  display: inline-block;
-  /* margin-right: 10px; */
+  .time {
+    font-size: .6em;
+    color: #999;
+  }
+
+  .button {
+    font-size: 1em;
+  }
+
+  .image {
+    width: 100%;
+    display: block;
+  }
+
+  .card-wrapper{
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: space-between;
+    justify-content: center;
+  }
+  .card-book{
+    width: 15vw;
+    transition: all .5s ease;
+    margin: 1vw;
+  }
+  .card-book:hover{
+    box-shadow: 0 4px 12px 0 rgba(2, 23, 36, 0.12);
+    transform: translateY(-1px);
+    /* cursor: pointer; */
+  }
+  .card-container{
+    height: 40vw;
+    font-size: .9em;
+  }
+
+.list-enter-active, .list-leave-active {
+    transition: all .5s;
 }
-.list-complete-enter, .list-complete-leave-to {
+.list-enter, {
   opacity: 0;
   transform: translateY(90px);
 }
-.list-complete-leave-active {
-  position: absolute;
-  transform: translateY(0px); 
+.list-leave-to{
+  opacity: 0;
+ transform: translateY(180px);
+}
+@media screen and (max-width: 650px) {
+ .card-wrapper{
+    width: 100%;
+ }
+   .card-book{
+     width: 10vw;
+     font-size: .5em;
+   }
 }
 
 </style>

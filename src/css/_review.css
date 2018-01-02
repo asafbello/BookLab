@@ -1,0 +1,20 @@
+.reviews-title {
+    margin-bottom: 2vw;
+    border-bottom: 1px solid var(--main-color);
+}
+.review-wrapper {
+ width: 600px;
+ margin: 24px auto;
+}
+.testimonialArrow {
+    width: 0; 
+    height: 0; 
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid rgb(255, 255, 255);
+    margin-left: 48px;
+}
+    .review {
+        margin-right: 4em;
+        margin-left: 4em;
+    }

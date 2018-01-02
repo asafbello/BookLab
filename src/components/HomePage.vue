@@ -1,6 +1,7 @@
 <template>
     <div>
       <section class="search-book">
+        <!-- <h1>hii | uppercase</h1> -->
         <div>
             <el-input  @keyup.native="searchForBook()" 
                suffix-icon="el-icon-search" 
@@ -19,11 +20,16 @@
           <book-search-res :searchRes="bookSearchRes" v-loading="searching"
                             element-loading-text="Getting Your Books..."
                             element-loading-spinner="el-icon-loading"
-                            element-loading-background="rgba(0, 0, 0, 0.342)"></book-search-res>
-          <p class="txt-title"><i class="el-icon-caret-right"></i> Recently joined readers:</p>
+                            element-loading-background="rgba(0, 0, 0, 0.342)">
+          </book-search-res>
+          <p class="txt-title"><i class="fa fa-user" aria-hidden="true"></i> Recently Joined Readers:</p>
           <profiles-prev :profiles="profilesToDisplay"></profiles-prev>
-                    <p class="txt-title"><i class="el-icon-caret-right"></i> Latest Books In BookLub:</p>
+                    <p class="txt-title"><i class="fa fa-book" aria-hidden="true"></i> Latest Books In BookLub:</p>
           <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"  v-loading="loading"></shelf-cmp>
+        <div class="space"></div>
+      <p class="txt-title"><i class="el-icon-tickets"></i> Latest Reviews In BookLub:</p>
+          <div class="space"></div>
+        <reviews-cmp :reviews="recentReviews"></reviews-cmp>
         <!-- CMPS -->
    </div>
 </template>
@@ -35,10 +41,12 @@ import { LOAD_PROFILES } from "../store/modules/ProfileModule.js";
 import { mapGetters } from "vuex";
 
 import APIService from "../services/APIService.js";
+import ReviewService from "../services/ReviewService.js";
 
 import ShelfCmp from "./ShelfCmp";
 import ProfilesPrev from "../pages/ProfilesPrev";
 import BookSearchRes from "../pages/BookSearchRes";
+import ReviewsCmp from "../pages/ReviewsCmp";
 
 export default {
   name: "HomePage",
@@ -50,7 +58,8 @@ export default {
       bookSearchRes: [],
       loading: true,
       searchMode: "Clear",
-      searching: false
+      searching: false,
+      recentReviews:null
     };
   },
   methods: {
@@ -84,6 +93,7 @@ export default {
     }
   },
   created() {
+    console.log(this.$filters)
     // GET BOOKS
     this.$store
       .dispatch({ type: LOAD_BOOKS })
@@ -103,6 +113,10 @@ export default {
       .catch(err => {
         console.log("err", err);
       });
+    // GET REVIEWS
+  ReviewService.getReviews()
+        .then(reviews => this.recentReviews = reviews)
+        .catch(err => console.log(err))
   },
   computed: {
     //MAP GAETEERS
@@ -112,7 +126,8 @@ export default {
   components: {
     ShelfCmp,
     ProfilesPrev,
-    BookSearchRes
+    BookSearchRes,
+    ReviewsCmp
   }
 };
 </script>
@@ -141,5 +156,8 @@ export default {
   text-align: left;
   /* text-decoration: underline */
 
+}
+.space{
+  margin: 5vh;
 }
 </style>
