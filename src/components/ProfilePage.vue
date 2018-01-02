@@ -24,11 +24,11 @@
           <div class="statistics-item">
           <div class="icon-count">
             <p>{{loggedinUser.readList.length}}</p>
-            <p>Books read </p> </div><img class="icon" src="https://png.icons8.com/nolan/64/checkmark.png" title="Checkmark" width="64" height="64"></div>
+            <p>Books read </p> </div><img @click="showWishList(loggedinUser.readList)" class="icon" src="https://png.icons8.com/nolan/64/checkmark.png" title="Checkmark" width="64" height="64"></div>
           <div class="statistics-item">
             <div class="icon-count">
               <p>{{loggedinUser.wishList.length}}</p>
-            <p>Books in wish list</p> </div><img @click="showWishList" class="icon" src="https://png.icons8.com/dusk/64/book-shelf.png" title="Book Shelf" width="64" height="64">
+            <p>Books in wish list</p> </div><img @click="showWishList(loggedinUser.wishList)" class="icon" src="https://png.icons8.com/dusk/64/book-shelf.png" title="Book Shelf" width="64" height="64">
             </div> 
   </div>
         <h2>Wish List</h2>
@@ -57,27 +57,9 @@
   </div>
 </div>
 
-<div class="bg-modal" v-if="showWishListModal">
-      <div class="modal-content">
-    <div class="klub-modal">
-<el-row class="modal-row" v-for="(book, index) in loggedinUser.wishList" :key="index"> 
-  <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
-          <el-card :body-style="{ padding: '0px' }">
-            <img :src="book.img" class="wl-modal-image">
-            <div style="padding: 14px;">
-              <span>{{book.title}}</span>
-              <div class="bottom clearfix">
-               <p>By {{book.author}}</p>
-               <!-- <p> {{book.raview.rate}}</p> -->
-                <el-button type="text" class="button">Book details</el-button>
-              </div>
-            </div>
-          </el-card>
-</el-row>
-    </div>
-            <el-button class="modal-btn" type="default"  v-on:keyup.esc="showWishList" @click="showWishList">Close</el-button>
-    </div>
-</div>
+<modal-component v-if="showWishListModal" :list="modalList" @closeFromCancel="showWishList"></modal-component>
+
+
 
 </section>      
 
@@ -100,6 +82,7 @@
 import ShelfCmp from "./ShelfCmp";
 import store from "../store/store.js";
 import bookPreview from "./BookPreview";
+import ModalComponent from "./ModalComponent";
 
 import {
   DELETE_USER,
@@ -111,17 +94,22 @@ import {
 export default {
   name: "ProfilePage",
   components: {
-    bookPreview
+    bookPreview,
+    ModalComponent
   },
 
   computed: {
     loggedinUser() {
       // return this.$store.state.user.loggedinUser;
       return this.$store.state.user.currProfile;
+    },
+    screenWidth() {
+      var screenWidth = window.innerWidth
     }
   },
   data() {
     return {
+      modalList:'',
       showWishListModal: false,
       pagesRead: 0,
       userImg: null,
@@ -159,12 +147,13 @@ export default {
       });
   },
   methods: {
-    showWishList() {
+    showWishList(listType) {
       document.addEventListener("keyup", evt => {
         if (evt.keyCode === 27) {
           this.showWishListModal = false;
         }
       });
+      this.modalList = listType
       this.showWishListModal = !this.showWishListModal;
     },
     deleteReview(bookId) {
@@ -226,39 +215,6 @@ export default {
 </script>
 
 <style scoped>
-.modal-content {
-  display: flex;
-  flex-direction: column;
-}
-
-.modal-btn {
-  width: 10%;
-  margin: auto;
-}
-
-.bottom clearfix > p {
-  padding-top: unset;
-}
-
-.modal-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  width: 20%;
-}
-
-.wl-modal-image {
-  width: 100%;
-  display: block;
-}
-
-.klub-modal {
-  background: white;
-  padding: 2%;
-  margin: 5vw;
-  display: flex;
-  flex-flow: row wrap;
-}
 
 .read-list {
   display: flex;
