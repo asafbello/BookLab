@@ -20,7 +20,9 @@
                             element-loading-text="Getting Your Books..."
                             element-loading-spinner="el-icon-loading"
                             element-loading-background="rgba(0, 0, 0, 0.342)"></book-search-res>
+          <p class="txt-title"><i class="el-icon-caret-right"></i> Recently Readers Joined BookLub Community:</p>
           <profiles-prev :profiles="profilesToDisplay"></profiles-prev>
+                    <p class="txt-title"><i class="el-icon-caret-right"></i> Latest Books In BookLub:</p>
           <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"  v-loading="loading"></shelf-cmp>
         <!-- CMPS -->
    </div>
@@ -83,15 +85,8 @@ export default {
   },
   created() {
     // GET BOOKS
-    var shelf = [
-      "c_KYSDoCYQ4C",
-      "DKcWE3WXoj8C",
-      "kUeDc_wYSnoC",
-      "pj16s_fnr08C",
-      "twHgJGtm3o4C"
-    ];
     this.$store
-      .dispatch({ type: LOAD_BOOKS, shelf })
+      .dispatch({ type: LOAD_BOOKS })
       .then(books => {
         console.log("we have books :)");
         this.loading = false;
@@ -138,5 +133,13 @@ export default {
   display: flex;
   justify-content: center;
   flex-direction: row;
+}
+.txt-title{
+  margin: 0 0 0 0 ;
+  padding: 1vh 0 0 2vw;
+  color: var(--main-color);
+  text-align: left;
+  /* text-decoration: underline */
+
 }
 </style>

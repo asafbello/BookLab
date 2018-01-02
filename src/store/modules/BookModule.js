@@ -70,7 +70,7 @@ export default {
     actions: {
         [LOAD_BOOKS]({ commit, rootState }, { shelf }) {
             // if (rootState.user.loggedinUser) shelf = rootState.user.loggedinUser.uBooks
-            return APIService.getBooksShelf(shelf)
+            return BookService.getBooks()
                 .then(books => {
                     commit({ type: SET_BOOKS, books })
 
