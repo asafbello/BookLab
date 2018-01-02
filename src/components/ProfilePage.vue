@@ -34,12 +34,12 @@
         <h2>Wish List</h2>
         <hr>
       <div class="read-list">
-          <book-preview class="book-preview" v-for="(book1, index) in loggedinUser.wishList.slice(0, 5)" :img-url="book1.img" :key="index" @click.native="bookDetails(book.id)"></book-preview>
+          <book-preview class="book-preview" v-for="(book1, index) in loggedinUser.wishList.slice(0, screenWidth)" :img-url="book1.img" :key="index" @click.native="goTobookDetails(loggedinUser.wishList)"></book-preview>
       </div>
         <h2>Books read</h2>
         <hr>
       <div class="read-list">
-          <book-preview class="book-preview" v-for="(book , index) in loggedinUser.readList.slice(0, 5)" :img-url="book.img" :key="index" @click.native="bookDetails(book.id)"></book-preview>
+          <book-preview class="book-preview" v-for="(book , index) in loggedinUser.readList.slice(0, screenWidth)" :img-url="book.img" :key="index" @click.native="goTobookDetails(book.id)"></book-preview>
       </div>
   </div>
 <div class="right-panel jenres">
@@ -47,7 +47,7 @@
   <div class="curr-book-reading">
       <div class="book-align">
       <h3>Reading right now</h3>
-      <book-preview :img-url="loggedinUser.currentlyReading.img" @click.native="bookDetails(loggedinUser.reviews[0].review.id)"></book-preview>
+      <book-preview :img-url="loggedinUser.currentlyReading.img" @click.native="goTobookDetails(loggedinUser.currentlyReading._id)"></book-preview>
       </div>
       <div class="jenres" v-if="!isEditing">
         <div class="jenres-wrapper">
@@ -103,13 +103,20 @@ export default {
       // return this.$store.state.user.loggedinUser;
       return this.$store.state.user.currProfile;
     },
+
     screenWidth() {
-      var screenWidth = window.innerWidth
+      if (window.innerWidth > 1300) {
+        return 5;
+      } else if (window.innerWidth > 768) {
+        return 4;
+      } else {
+        return 3;
+      }
     }
   },
   data() {
     return {
-      modalList:'',
+      modalList: "",
       showWishListModal: false,
       pagesRead: 0,
       userImg: null,
@@ -147,13 +154,18 @@ export default {
       });
   },
   methods: {
+    goTobookDetails(id) {
+      // this.$router.push(`/book/${this.loggedinUser.currentlyReading._id}`);
+      this.$router.push(`/book/${id}`);
+    },
+
     showWishList(listType) {
       document.addEventListener("keyup", evt => {
         if (evt.keyCode === 27) {
           this.showWishListModal = false;
         }
       });
-      this.modalList = listType
+      this.modalList = listType;
       this.showWishListModal = !this.showWishListModal;
     },
     deleteReview(bookId) {
@@ -215,7 +227,6 @@ export default {
 </script>
 
 <style scoped>
-
 .read-list {
   display: flex;
   margin-top: 5%;

@@ -7,7 +7,7 @@
   <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
           <el-card :body-style="{ padding: '0px' }">
             <img :src="book.img" class="wl-modal-image">
-            <div style="padding: 14px;">
+            <div style="padding: 14px;padding-bottom:  0;">
               <span>{{book.title}}</span>
               <div class="bottom clearfix">
                <p>By {{book.author}}</p>
@@ -37,13 +37,21 @@ export default {
 </script>
 
 <style scoped>
+p {
+    margin-bottom: 0;
+}
+
 .modal-content {
   display: flex;
   flex-direction: column;
 }
 
+.el-card {
+    padding: 4px;
+}
+
 .modal-btn {
-  width: 10%;
+  /* width: 10%; */
   margin: auto;
 }
 
@@ -55,7 +63,9 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  /* height: 20%; */
   width: 20%;
+  border-radius: 10px;
 }
 
 .wl-modal-image {
@@ -67,7 +77,18 @@ export default {
   background: white;
   padding: 2%;
   margin: 5vw;
+  margin-bottom: 2vw;
   display: flex;
   flex-flow: row wrap;
 }
+
+@media screen and (max-width: 768px) {
+
+.modal-row {
+    width: 45%;
+   /* justify-content: space-around; */
+}
+
+}
+
 </style>
