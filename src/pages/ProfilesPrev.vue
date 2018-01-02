@@ -1,7 +1,7 @@
 <template v-if="profiles">
   <section>
     <ul >
-      <li v-for="profile in profiles" :key="profile._id">
+      <li v-for="(profile, index)  in profiles" :key="index">
           <el-card :body-style="{ padding: '0px' }">
        <router-link :to="'/user/' + profile._id">
           <img :src="profile.avatar" /></router-link>  

@@ -1,66 +1,74 @@
 <template>
-  <section class="book-header">
-    <!-- <profiles-prev :profiles="profilesFromReviews"></profiles-prev> -->
-    <div class="book-aside">
-      <div class="add-to-shelf">
-          <el-select v-model="readState" placeholder="Wish List">
-            <el-option value="Read"></el-option>
-            <el-option value="Reading"></el-option>
-            <el-option value="WishList"></el-option>
-          </el-select>
-           <el-button class="add-book" type="primary" @click.native="setBookToList(currBook)">Add To My Shelf</el-button>
-      </div>
-      <img v-if="currBook" class="book-img" :src="currBook.img" />
-      <!-- Rating -->
-      <div class="block">
-        <span class="rating-title">Avg Rating</span>
-          <el-rate v-if="bookRate" :value="bookRate" disabled show-score text-color="#ff9900"
-           score-template="{value} stars"></el-rate>
-          <el-rate v-else :value=".5" disabled show-score text-color="#ff9900"
-           score-template="No rates yet"></el-rate>
-      </div>
-    </div>
-    <!-- Book content -->
-    <main class="book-content" v-if="currBook">
-      <div>
-        <h1 v-if="currBook">{{currBook.title}}</h1>
-        <span class="pageCount">{{currBook.pages }} pages 
-        <i class="fa fa-file-text-o" aria-hidden="true"></i>
-        </span>
-      </div>
-      <h5 class="book-author">{{currBook.author}}</h5>
+  <main>
+    <!-- Readers' profiles -->
+    <article class="profile-display">
+      <h3 class="profile-title">Also read by</h3>
+      <profiles-prev :profiles="profilesFromReviews"></profiles-prev>
+    </article>
+    <section class="book-header">
+        <!-- List select -->
+      <div class="book-aside">
+        <div class="add-to-shelf">
+            <el-select v-model="readState" placeholder="Wish List">
+              <el-option value="Read"></el-option>
+              <el-option value="Reading"></el-option>
+              <el-option value="WishList"></el-option>
+            </el-select>
+            <el-button class="add-book" type="primary" @click.native="setBookToList(currBook)">Add To My Shelf</el-button>
+        </div>
+        <img v-if="currBook" class="book-img" :src="currBook.img" />
+        <!-- Rating -->
+        <div class="block">
+          <span class="rating-title">Avg Rating</span>
+            <el-rate v-if="bookRate" :value="bookRate" disabled show-score text-color="#ff9900"
+            score-template="{value} stars"></el-rate>
+            <el-rate v-else :value=".5" disabled show-score text-color="#ff9900"
+            score-template="No rates yet"></el-rate>
+        </div>
       <!-- Action buttons -->
-      <el-button type="primary" @click="showReviewModal">Add Review</el-button>
-        <el-button class="vid-review" type="primary"
-         @click.native="showVideoModal">
-         <i class="fa fa-video-camera" aria-hidden="true"> </i> Video Review</el-button>
-        <el-button class="copy-btn" type="info">Get a Copy</el-button>
-        <!-- Book description start -->
-      <article class="book-review">
-        <p class="book-desc" v-html="currBook.desc"></p>
-      </article>
-      <!-- Book description end -->
-      <article class="links">
-      <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
-      </article>
-        <!-- Review modal -->
-      <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
-      <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
+      <div class="actn-btns">
+        <i class="fa fa-video-camera vid-review" @click="showVideoModal" aria-hidden="true"> </i>
+        <el-button type="primary" @click="showReviewModal">Add Review</el-button>
+        <i class="fa fa-shopping-cart copy-btn" aria-hidden="true"></i>
       </div>
-    </main>
-    <!-- Book reviews -->
-    <section v-if="currBook" class="book-reviews">
-      <book-reviews :reviews="currBook.reviews"></book-reviews>
+      <!-- Book content -->
+      <main class="book-content" v-if="currBook">
+        <div>
+          <h1 v-if="currBook">{{currBook.title}}</h1>
+          <span class="pageCount">{{currBook.pages }} pages 
+          <i class="fa fa-file-text-o" aria-hidden="true"></i>
+          </span>
+        </div>
+        <h5 class="book-author">{{currBook.author}}</h5>
+          <!-- Book description start -->
+        <article class="book-review">
+          <p class="book-desc" v-html="currBook.desc"></p>
+        </article>
+        <!-- Book description end -->
+        <article class="links">
+        <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
+        </article>
+          <!-- Review modal -->
+        <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
+        <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
+        </div>
+      </main>
+    </div>
+      <!-- Book reviews -->
+      <section v-if="currBook" class="book-reviews">
+        <book-reviews :reviews="currBook.reviews"></book-reviews>
+      </section>
+        <div v-else class="first-review">Be the first to review {{currBook.title}}!
+          <img src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
+        </div>
+        <!-- Video modal -->
+        <div @click="closeVideoModal" v-if="showVideo" class="bg-modal">
+          <i @click="closeVideoModal" class="el-icon-error close-vid"></i>
+          <video-modal class="klub-modal" :videoId="videoSrc"></video-modal>
+        </div>
     </section>
-      <div v-else class="first-review">Be the first to review {{currBook.title}}!
-        <img  src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
-      </div>
-      <!-- Video modal -->
-      <div @click="closeVideoModal" v-if="showVideo" class="bg-modal">
-        <i @click="closeVideoModal" class="el-icon-error close-vid"></i>
-        <video-modal class="klub-modal" :videoId="videoSrc"></video-modal>
-      </div>
-  </section>
+  </main>
+
 </template>
 
 <script>
@@ -107,22 +115,20 @@ export default {
       "isUser",
       "loggedInUser",
       "bookRate",
-      // "profilesFromBook"
+      "profilesFromBook"
     ]),
-    // profilesFromReviews() {
-    //    console.log(this.currBook.reviews);
-    //   var profiles = this.currBook.reviews.map(profile => {
-    //     return {
-    //       avatar: profile.userAvatar,
-    //       name: profile.userName,
-    //       _id: profile.byUserId
-    //     };
-    //   });
-    //   console.log(profiles);
-    //   // this.$store
-    //   //   .commit({ type: SET_PROFILES , profiles })
-    //   return profiles
-    // }
+    profilesFromReviews() {
+      var profiles = this.currBook.reviews.map(profile => {
+        return {
+          avatar: profile.userAvatar,
+          name: profile.userName,
+          _id: profile.byUserId
+        };
+      });
+      // this.$store
+      //   .commit({ type: SET_PROFILES , profiles })
+      return profiles
+    }
   },
   methods: {
     showVideoModal() {
@@ -241,20 +247,16 @@ export default {
 </script>
 
 <style scoped>
+
 .book-header {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .block {
   width: 100%;
-}
-
-.modal-header {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 75%;
 }
 
 .book-aside {
@@ -299,11 +301,16 @@ export default {
 
 .copy-btn {
   margin-top: 2vw;
+  font-size: 2em;
 }
 
 .chat-btn {
   margin-bottom: 2vw;
 }
+
+/* .fa-video-camera {
+  transform: rotateY(180deg);
+} */
 
 .book-review {
   cursor: pointer;
@@ -333,6 +340,24 @@ export default {
 
 .book-author {
   font-size: 1.5em;
+  margin-top: .8em;
+  margin-bottom: .8em;
+}
+
+.profile-display {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: .5em;
+  border: 1px solid var(--main-color);
+  border-radius: 1em;
+  margin-right: 1.5em;
+  margin-left: 1.5em;
+}
+
+.profile-title {
+  margin-top: 1em;
+  font-size: 2em;
 }
 
 /* ////////////  mobile query  //////////////// */
@@ -349,6 +374,7 @@ export default {
 
   .vid-review {
     margin-top: 3vw;
+    font-size: 2em;
   }
 
   .book-content {
@@ -358,8 +384,39 @@ export default {
   .el-icon-error::before {
   position: absolute;
   top: 1.25em;
-  right: 235px;
-}
+  right: 220px;
+  }
+
+  .book-author {
+  font-size: 1.5em;
+  margin-top: .8em;
+  margin-bottom: .8em;
+  }
+
+  .actn-btns {
+  display: flex;
+  justify-content: space-evenly;
+  position: relative;
+  left: .8em;
+  width: 16em;
+  margin-bottom: .7em;
+  margin-top: .7em;
+  align-items: center;
+  }
+
+  .profile-display {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-top: .5em;
+  border: 1px solid var(--main-color);
+  border-radius: 1em;
+  }
+
+  .profile-title {
+  margin-top: .4em;
+  font-size: 1.2em;
+  }
 }
 </style>
 
@@ -372,3 +429,4 @@ export default {
       //   height: this.isReadMore ? "" : "300px"
       // }
     // },
+

@@ -21,5 +21,3 @@ function updateBookAndUser(objToUpdateBook,objToUpdateUser,userId,bookId){
 export default{
     updateBookAndUser
 }
-
-console.log('test log for gittt');

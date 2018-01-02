@@ -12,7 +12,7 @@
               <router-link to="/user/SignInPage"><el-menu-item index="5">Sign In</el-menu-item></router-link>
             </div>
             <div v-else class="user-area">
-              <el-menu-item index="5-0" v-if="isUser">Hello {{loggedInUser.username}}</el-menu-item>
+              <router-link :to="'/user/' + loggedInUser._id"><el-menu-item index="5-0" v-if="isUser">Hello {{loggedInUser.username}}</el-menu-item></router-link>
               <el-submenu index="5-1">
                   <template slot="title"><i  class="fa fa-user-circle-o fa-2x userIcon" aria-hidden="true"></i></template>
                   <el-menu-item class="submenu-items" index="5-1" v-if="loggedInUser" @click="logout">Sign Out</el-menu-item>

@@ -20,7 +20,7 @@
                             element-loading-text="Getting Your Books..."
                             element-loading-spinner="el-icon-loading"
                             element-loading-background="rgba(0, 0, 0, 0.342)"></book-search-res>
-          <p class="txt-title"><i class="el-icon-caret-right"></i> Recently Readers Joined BookLub Community:</p>
+          <p class="txt-title"><i class="el-icon-caret-right"></i> Recently joined readers:</p>
           <profiles-prev :profiles="profilesToDisplay"></profiles-prev>
                     <p class="txt-title"><i class="el-icon-caret-right"></i> Latest Books In BookLub:</p>
           <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"  v-loading="loading"></shelf-cmp>
