@@ -17,7 +17,6 @@ export default {
     },
     mutations: {
         [SET_PROFILES](state, { profiles }) {
-            console.log('profiles in moudle', profiles);
             state.currProfiles = profiles;
         },
     },

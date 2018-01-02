@@ -35,17 +35,14 @@
          @click.native="showVideoModal">
          <i class="fa fa-video-camera" aria-hidden="true"> </i> Video Review</el-button>
         <el-button class="copy-btn" type="info">Get a Copy</el-button>
+        <!-- Book description start -->
       <article class="book-review">
-        <p @click="isReadMore = !isReadMore" class="book-desc" :style="styleReadMore" v-html="currBook.desc"></p>
+        <p class="book-desc" v-html="currBook.desc"></p>
       </article>
+      <!-- Book description end -->
       <article class="links">
       <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
       </article>
-      <!-- Video modal -->
-        <div @click="closeVideoModal" v-if="showVideo" class="bg-modal">
-          <i @click="closeVideoModal" class="el-icon-error close-vid"></i>
-          <video-modal class="klub-modal" :videoId="videoSrc"></video-modal>
-        </div>
         <!-- Review modal -->
       <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
       <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
@@ -57,6 +54,11 @@
     </section>
       <div v-else class="first-review">Be the first to review {{currBook.title}}!
         <img  src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
+      </div>
+      <!-- Video modal -->
+      <div @click="closeVideoModal" v-if="showVideo" class="bg-modal">
+        <i @click="closeVideoModal" class="el-icon-error close-vid"></i>
+        <video-modal class="klub-modal" :videoId="videoSrc"></video-modal>
       </div>
   </section>
 </template>
@@ -102,11 +104,6 @@ export default {
       "bookRate",
       // "profilesFromBook"
     ]),
-    styleReadMore() {
-      return {
-        height: this.isReadMore ? "" : "300px"
-      };
-    },
     // profilesFromReviews() {
     //    console.log(this.currBook.reviews);
     //   var profiles = this.currBook.reviews.map(profile => {
@@ -303,8 +300,8 @@ export default {
 
 .el-icon-error::before {
   position: absolute;
-  top: 1.2em;
-  right: 220px;
+  top: 5.45em;
+  right: 225px;
 }
 
 .first-review {
@@ -338,5 +335,21 @@ export default {
   .book-content {
     margin-top: 0em;
   }
+
+  .el-icon-error::before {
+  position: absolute;
+  top: 1.25em;
+  right: 235px;
+}
 }
 </style>
+
+ <p class="book-desc" :style="styleReadMore" @click="isReadMore = !isReadMore"></p>
+
+
+  Read more function on methods:
+    // styleReadMore() {
+      // return {
+      //   height: this.isReadMore ? "" : "300px"
+      // }
+    // },
