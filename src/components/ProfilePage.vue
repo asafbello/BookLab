@@ -325,6 +325,7 @@ h3 {
 .statistics-wrapper {
   width: 60%;
   color: #999;
+  padding-bottom: 5%;
 }
 
 .main-container {
