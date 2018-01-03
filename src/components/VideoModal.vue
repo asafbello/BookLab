@@ -27,6 +27,7 @@ export default {
 .vid-title {
     margin-bottom: 1em;
     padding-bottom: .3em;
+    padding-top: .3em;
     border-bottom: 1px solid black;
 }
 

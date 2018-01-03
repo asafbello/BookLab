@@ -326,8 +326,9 @@ export default {
 
 .el-icon-error::before {
   position: absolute;
-  top: 5.45em;
-  right: 225px;
+  top: 3.45em;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .first-review {
@@ -382,9 +383,11 @@ export default {
   }
 
   .el-icon-error::before {
-  position: absolute;
-  top: 1.25em;
-  right: 220px;
+    position: absolute;
+    top: 1em;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-bottom: 1em;
   }
 
   .book-author {
