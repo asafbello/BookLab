@@ -39,6 +39,7 @@ export default {
             state.loggedinUser = null;
         },
         [UPDATE_USER](state, { user }) {
+            LocalService.save(STORAGE_KEY,user)
             state.loggedinUser = user;
         },
         [ADD_REVIEW_USER](state, { reviewUser }) {
@@ -52,7 +53,6 @@ export default {
             return UserService.editUser(userId, updatedUser)
                 .then(user => {
                     commit({ type: UPDATE_USER, user })
-                    LocalService.save(STORAGE_KEY,this.state.loggedinUser)
                 })
         },
         [SIGNUP]({ commit }, { signupDetails }) {

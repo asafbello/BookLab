@@ -10,6 +10,8 @@ export const REMOVE_FROM_READ_LIST = 'profile/removeFromReadList'
 
 const SET_PROFILE = 'profile/setProfile';
 
+const STORAGE_KEY = 'loggedinUser';
+
 export default {
     state: {
         currProfiles: null,
@@ -28,12 +30,14 @@ export default {
             state.currProfile = profile;
         },
         [REMOVE_FROM_WISH_LIST](state, {bookId}) {
-            var newProfile = state.currProfile.wishList.filter(book => book._id !== bookId )
-            state.currProfile.wishList = newProfile
+            var newList = state.currProfile.wishList.filter(book => book._id !== bookId )
+            state.currProfile.wishList = newList
+            LocalService.save(STORAGE_KEY, state.currProfile)
         },
         [REMOVE_FROM_READ_LIST](state, {bookId}) {
-            var newProfile = state.currProfile.readList.filter(book => book._id !== bookId )
-            state.currProfile.readList = newProfile
+            var newList = state.currProfile.readList.filter(book => book._id !== bookId )
+            state.currProfile.readList = newList
+            LocalService.save(STORAGE_KEY, state.currProfile)
         }
     },
     actions: {
