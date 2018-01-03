@@ -4,7 +4,6 @@ import LocalService from '../../services/StorageService.js'
 export const SIGNUP = 'user/signup';
 export const SIGNIN = 'user/signin';
 export const SET_USER = 'user/setUser';
-export const SET_PROFILE = 'user/setProfile';
 export const SIGNOUT = 'user/signout';
 export const DELETE_USER = 'user/deleteUser';
 export const UPDATE_USER = 'user/editUser';
@@ -13,11 +12,9 @@ export const ADD_REVIEW_USER = 'user/addReviewUser'
 export const GET_USER = 'user/getUser'
 export const ADD_TO_WISH_LIST = 'user/addToWishList'
 export const ADD_TO_READ_LIST = 'user/addToReadList'
-export const REMOVE_FROM_WISH_LIST = 'user/removeFromWishList'
-export const REMOVE_FROM_READ_LIST = 'user/removeFromReadList'
 export const UPDATE_USER_WISH_LIST = 'user/addToWishList'
 export const SET_CURR_READING = 'user/currentlyReading'
-export const REMOVE_BOOK_FROM_WISH_LIST = 'user/removeBookFromWishList'
+
 
 
 const STORAGE_KEY = 'loggedinUser';
@@ -25,7 +22,6 @@ const STORAGE_KEY = 'loggedinUser';
 export default {
     state: {
         loggedinUser:  LocalService.load(STORAGE_KEY),
-        currProfile: null
     },
     getters: {
         isUser(state) {
@@ -34,9 +30,6 @@ export default {
         loggedInUser(state) {
             return state.loggedInUser;
         }
-        //     isAdmin(state) {
-        //         return state.loggedinUser && state.loggedinUser.isAdmin
-        //     }
     },
     mutations: {
         [SET_USER](state, { user }) {
@@ -52,14 +45,7 @@ export default {
             state.loggedinUser.reviews.push(reviewUser)
             state.loggedinUser.readList.push(reviewUser)
         },
-        [SET_PROFILE](state, { profile }) {
-            state.currProfile = profile;
-        },
-        [REMOVE_BOOK_FROM_WISH_LIST](state, {bookId}) {
-            console.log(state.loggedinUser)
-        
-            
-        }
+
     },
     actions: {
         [UPDATE_USER]({ commit, state }, { userId, updatedUser }) {
@@ -132,25 +118,6 @@ export default {
                 // saveToLocalStorage(this.state.loggedinUser)
                 })
         },
-
-        [REMOVE_FROM_WISH_LIST] ({commit}, {id, book}) {
-            UserService
-                .removeFromWishList(id, book) 
-                .then(user => {
-                    console.log(book,'aaa');
-                    commit({ type: REMOVE_BOOK_FROM_WISH_LIST, book })
-                })
-        },
-
-        [REMOVE_FROM_READ_LIST] ({commit}, {id, book}) {
-            UserService
-                .removeFromReadList(id, book) 
-                .then(user => {
-                    console.log(book,'aaa');
-                    commit({ type: REMOVE_BOOK_FROM_WISH_LIST, book })
-                })
-        },
-
         [SET_CURR_READING] ({commit}, {id, book}) {
             UserService
                 .setCurrentlyReading(id, book) 

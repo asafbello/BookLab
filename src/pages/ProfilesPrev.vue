@@ -71,7 +71,7 @@ export default {
       color: var(--main-color);
      visibility:visible;
 }
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 768px) {
 
 }
 </style>

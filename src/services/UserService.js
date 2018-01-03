@@ -22,6 +22,7 @@ function getUserById(id) {
     .then(res => {
         return res.data
     })
+    .catch(err =>{throw err})
     
 }
 
@@ -51,26 +52,21 @@ function addToReadList(userId, book) {
 }
 
 function removeFromWishList(userId, bookId) {
-    debugger;
     return axios.put(`${URL}/removeFromWishList`, {userId, bookId} )
         .then(res => {
-            debugger;
-            // console.log('res: ', res);
             return res.data;
         }).catch(err => {
-            debugger;
+            throw err
         });
 }
 
 function removeFromReadList(userId, bookId) {
-    debugger;
     return axios.put(`${URL}/removeFromReadList`, {userId, bookId} )
         .then(res => {
-            debugger;
-            // console.log('res: ', res);
+            console.log('res: ', res);
             return res.data;
         }).catch(err => {
-            debugger;
+            throw err
         });
 }
 
@@ -107,7 +103,6 @@ function editUser(userId, updatedUser) {
 function uploadImage(file) {
     const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/diowvie2f/image/upload'
     const CLOUDINARY_PRESET = 'qvpbsmfe';
-    console.log('userservice');
     // fileUpload.addEventListener('change', function (event) {
     var file = event.target.files[0]
     var formData = new FormData()
