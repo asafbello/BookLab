@@ -1,11 +1,11 @@
 <template v-if="profiles">
   <section>
     <ul >
-      <li v-for="profile in profiles" :key="profile._id">
+      <li v-for="(profile, index)  in profiles" :key="index">
           <el-card :body-style="{ padding: '0px' }">
        <router-link :to="'/user/' + profile._id">
           <img :src="profile.avatar" /></router-link>  
-          <span>{{profile.name}}</span>
+          <p>{{profile.name}}</p>
           </el-card>
       </li>
     </ul>
@@ -29,11 +29,12 @@ export default {
 <style scoped>
     ul {
       display: flex;
+      flex-direction: row;
       margin: 1vw;
     }
     li {
-      display: flex;
-      flex-direction: column;
+      width: 7vw;
+      display: block;
       /* /* height: 5vw; */
       padding: 1vh 0 0 2vh;
       transition: all .5s ease;
@@ -53,18 +54,25 @@ export default {
       max-width: 100%;
       background: gray;
     }
-    li span {
+    li p {
+      overflow-wrap: break-word;
+      padding: 1vw;
+      margin: 0;
       visibility: hidden;
+      font-size: .9em;
       width: 100%;
       color: rgba(255, 255, 255, 0);
-      display: block;
+      display: inline;
       position: relative;
       /* top: -40%; */
       cursor: pointer;
 }
-    li:hover span {
+    li:hover p {
       color: var(--main-color);
      visibility:visible;
+}
+@media screen and (max-width: 650px) {
+
 }
 </style>
 

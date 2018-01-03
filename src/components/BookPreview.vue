@@ -1,14 +1,10 @@
 <template>
     <section>
-        <!-- <div class="example-book"> 
-            <img class="book-img" src="../assets/img/bookCovers/catch22.jpg"/>
-        </div> -->
         <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
             <div class="flipper">
                 <div class="front">
-      <!-- <router-link :to="'/book/' + book.id"> <el-button type="primary" size="mini">To Book Page</el-button></router-link> -->
-
-                 <img class="book-img" :src="imgUrl"/>
+                 <img class="book-img" style="box-shadow: 7px 7px 15px 0px rgb(177, 177, 180);
+" :src="imgUrl"/>
                 </div>
                 <div class="back">
                     <img  class="book-img" :src="imgUrl" />
@@ -46,7 +42,7 @@ export default {
 .flip-container, .front, .back {
 	width: auto;
 	height: 200px;
-    /* //////////// Changed to auto instead 320 px, in case of problems revert!////////// */
+    /* // Changed to auto instead 320 px, in case of problems revert!// */
 }
 .flip-container img {
     height: 200px;
@@ -78,6 +74,10 @@ export default {
 /* back, initially hidden pane */
 .back {
 	transform: rotateY(180deg);
+    box-shadow: 5px 5px 15px 0px rgb(177, 177, 180);
+}
+
+.back:hover {
 }
 
 

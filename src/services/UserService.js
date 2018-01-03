@@ -46,7 +46,6 @@ function addToWishList(userId, book) {
 function addToReadList(userId, book) {
     return axios.put(`${URL}/readList`, {userId, book} )
         .then(res => {
-            console.log('res: ', res);
             return res.data
         })
 }
@@ -78,7 +77,6 @@ function removeFromReadList(userId, bookId) {
 function setCurrentlyReading(userId, book) {
     return axios.put(`${URL}/currentlyReading`, {userId, book} )
     .then(res => {
-        console.log('res: ', res);
         return res.data
     })
 }

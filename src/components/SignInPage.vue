@@ -63,18 +63,12 @@ export default {
 </script>
 
 <style scoped>
-h2 {
-  /* padding: 1vw; */
-  /* margin: 1vw; */
-}
 .login {
   display: flex;
   flex-flow: column wrap;
-  /* justify-content: space-between; */
   margin: auto;
   margin-top: 10%;
   width: 35%;
-  /* height: 40%; */
 }
 .login-form {
   display: flex;
@@ -88,7 +82,7 @@ h2 {
   width: 100%;
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 650px) {
  .login {
   display: flex;
   flex-flow: column wrap;

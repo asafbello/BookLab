@@ -6,7 +6,7 @@
       <div style="padding: 14px;" class="left-panel-content">
         <span>{{loggedinUser.username}}</span>
         <div class="bottom clearfix">
-          <time class="time">Joind at: {{ loggedinUser.joinedAt }}</time> <br>
+          <time class="time">Joined at: {{ loggedinUser.joinedAt }}</time> <br>
           <div class="profile-btns">
           <el-button type="text" class="button" @click="deleteUser(loggedinUser._id)"  v-if="!isEditing && loggedinUser._id === activeUser._id">Delete Profile</el-button><br>
           <el-button type="text" class="button"  @click="editProfile" v-if="!isEditing && loggedinUser._id === activeUser._id">Edit Profile</el-button>
