@@ -70,12 +70,15 @@ margin-bottom: 0.5%;
 .reviews-header {
   display: flex;
   flex-flow: row wrap;
-  padding: 3%;
+  padding: 1%;
+  justify-content: space-around;
 }
 
 .review {
-  width: 25%;
+  width: 100%;
   margin: 2%;
+  /* justify-content: space-around; */
+  
 }
 
 blockquote {

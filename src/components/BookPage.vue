@@ -1,7 +1,7 @@
 <template>
   <main>
     <!-- Readers' profiles -->
-    <article class="profile-display">
+    <article class="profile-display" v-if="profilesFromReviews.length > 0">
       <h3 class="profile-title">Also read by</h3>
       <profiles-prev :profiles="profilesFromReviews"></profiles-prev>
     </article>
@@ -29,6 +29,14 @@
             <el-rate v-else :value=".5" disabled show-score text-color="#ff9900"
             score-template="No rates yet"></el-rate>
         </div>
+              <div class="select-menu">
+            <img class="img-icon-select" src="https://png.icons8.com/office/100/000000/book-shelf.png"  @click.native="setBookToList(currBook)">
+            <el-select v-model="readState" placeholder="Wish List">
+              <el-option value="Read">Read <img src="https://png.icons8.com/metro/20/000000/checkmark.png"></el-option>
+              <el-option value="Reading">Reading <img src="https://png.icons8.com/ios/20/000000/reading.png"></el-option>
+              <el-option value="WishList">Wish list <img src="https://png.icons8.com/wired/20/000000/star-of-bethlehem.png"></el-option>
+            </el-select>
+            </div>
         </div>
 
       <!-- Action buttons -->
@@ -65,30 +73,34 @@
             </div>
           </transition>
         </div>
-      </main>
-          <div class="actions">
+                  <div class="actions">
             <img class="img-icon" src="https://png.icons8.com/color/100/000000/youtube-play.png" @click="showVideoModal">
             <img class="img-icon" src="https://png.icons8.com/dusk/100/000000/hand-with-pen.png" @click="showReviewModal">
             <img class="img-icon" src="https://png.icons8.com/office/100/000000/collaboration.png">
             <div class="add-to-shelf" >
-              <div class="select-menu">
-            <img class="img-icon" src="https://png.icons8.com/office/100/000000/book-shelf.png"  @click.native="setBookToList(currBook)">
+
+        </div>
+        
+        </div>
+              <!-- <div v-if="screenWidth" class="select-menu-mobile">
+            <img class="img-icon-mobile" src="https://png.icons8.com/office/100/000000/book-shelf.png"  @click.native="setBookToList(currBook)">
             <el-select v-model="readState" placeholder="Wish List">
               <el-option value="Read">Read <img src="https://png.icons8.com/metro/20/000000/checkmark.png"></el-option>
               <el-option value="Reading">Reading <img src="https://png.icons8.com/ios/20/000000/reading.png"></el-option>
               <el-option value="WishList">Wish list <img src="https://png.icons8.com/wired/20/000000/star-of-bethlehem.png"></el-option>
             </el-select>
-            </div>
-        </div>
-        </div>
-    </div>
-      <!-- Book reviews -->
-      <section v-if="currBook" class="book-reviews">
+            </div> -->
+      </main>
+            <section v-if="currBook" class="book-reviews">
         <book-reviews v-if="currBook.reviews" :reviews="currBook.reviews"></book-reviews>
         <div v-else class="first-review">Be the first to review {{currBook.title}}!
           <img src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
         </div>
       </section>
+    </div>
+
+      <!-- Book reviews -->
+
         <!-- Video modal -->
         <div class="video-wrapper">
           <transition name="fadeVideo">
@@ -138,10 +150,15 @@ export default {
       readState: "Add to list",
       isReadMore: false,
       showVideo: false,
-      videoSrc: null,
+      videoSrc: null
     };
   },
   computed: {
+    screenWidth() {
+      if (window.innerWidth < 768) return true
+      else return false;
+    },
+
     ...mapGetters([
       "currBook",
       "isUser",
@@ -281,11 +298,15 @@ export default {
 
 <style scoped>
 
+.img-icon-select {
+  margin: auto;
+}
 .book-reviews {
-  width: 100%;
+  width: 30%;
 }
 .img-icon {
   cursor: pointer;
+  width: 25%;
 }
 
 .title-and-author {
@@ -293,14 +314,19 @@ export default {
 }
 
 .actions {
-  width: 15%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .bookimg-and-rate {
   display: flex;
   flex-direction: column;
-  width: 30%;
-  margin-top: 0;
+  justify-content: flex-start;
+  width: 25%;
+  margin: 0;
+  margin-top: 5%;
 }
 
 .book-header {
@@ -316,7 +342,7 @@ export default {
 
 .book-aside {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   flex-direction: row;
   /* flex-flow: column nowrap; */
   /* max-width: 280px; */
@@ -380,7 +406,7 @@ export default {
   /* margin-top: 25px; */
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 35%;
 }
 
 .close-vid {
@@ -426,24 +452,56 @@ export default {
 }
 
 /* Modal fade */
-.fadeReview-enter-active, .fadeReview-leave-active {
-  transition: opacity .5s
+.fadeReview-enter-active,
+.fadeReview-leave-active {
+  transition: opacity 0.5s;
 }
-.fadeReview-enter, .fadeReview-leave-to {
-  opacity: 0
+.fadeReview-enter,
+.fadeReview-leave-to {
+  opacity: 0;
 }
 
 /* Video modal fade */
-.fadeVideo-enter-active, .fadeVideo-leave-active {
-  transition: opacity .5s
+.fadeVideo-enter-active,
+.fadeVideo-leave-active {
+  transition: opacity 0.5s;
 }
-.fadeVideo-enter, .fadeVideo-leave-to {
-  opacity: 0
+.fadeVideo-enter,
+.fadeVideo-leave-to {
+  opacity: 0;
 }
+
+.select-menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%;
+  margin: auto;
+  margin-top: 5%;
+}
+
+
 
 /* ////////////  mobile query  //////////////// */
 
 @media screen and (max-width: 768px) {
+  .book-reviews {
+    width: 100%;
+    margin-top: 3%;
+  }
+
+  .el-input {
+    width: 100%;
+  }
+
+  .select-menu-mobile {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%;
+  margin: auto;
+  margin-top: 5%;
+    width: 100%;
+}
+
   .book-header {
     display: flex;
     flex-flow: column;
@@ -477,14 +535,14 @@ export default {
   }
 
   .actn-btns {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  left: .8em;
-  width: 16em;
-  margin-bottom: .7em;
-  margin-top: .7em;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    left: 0.8em;
+    width: 16em;
+    margin-bottom: 0.7em;
+    margin-top: 0.7em;
+    align-items: center;
   }
 
   .profile-display {
@@ -509,37 +567,36 @@ export default {
     width: 100%;
   }
 
-  .img-icon {
-    width: 25%;
+  .select-menu {
+    width: 50%;
+    margin-top: 15%;
+  
   }
+
+  .img-icon {
+    width: 100%;
+  }
+
   .actions {
     flex-direction: row;
     width: 100%;
   }
-}
 
-.book-content {
-  width: 95%;
-}
+  .book-content {
+    width: 95%;
+  }
 
-.title-and-author {
-  margin-top: 5%;
-}
+  .title-and-author {
+    margin-top: 5%;
+    text-align: center;
+  }
 
-.bookimg-and-rate {
-  width: 50%;
-  margin: auto;
-  margin-bottom: 3%;
+  .bookimg-and-rate {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 3%;
+  }
 }
 </style>
 
- <p class="book-desc" :style="styleReadMore" @click="isReadMore = !isReadMore"></p>
-
-
-  Read more function on methods:
-    // styleReadMore() {
-      // return {
-      //   height: this.isReadMore ? "" : "300px"
-      // }
-    // },
 

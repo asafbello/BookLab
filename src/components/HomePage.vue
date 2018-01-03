@@ -150,7 +150,8 @@ export default {
   height: 40vh;
 }
 .input-with-select {
-  width: 70vw;
+  width: 65vw;
+  z-index: 1;
 }
 
 .page-entry {
@@ -168,5 +169,9 @@ export default {
 }
 .space{
   margin: 5vh;
+}
+
+.el-button {
+  z-index: 1;
 }
 </style>

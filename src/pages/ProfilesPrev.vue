@@ -10,7 +10,7 @@
       </li>
     </ul> -->
    
-      <div class="card" v-for="(profile, index)  in profiles" :key="index">
+      <div class="card" v-for="(profile, index)  in profiles.slice(0, screenWidth)" :key="index">
           <el-card :body-style="{ padding: '0px' }">
               <router-link :to="'/user/' + profile._id"><img :src="profile.avatar" class="wl-modal-image"></router-link> 
             <div style="padding: 0;padding-bottom:  0;">
@@ -27,8 +27,20 @@
 <script>
 export default {
   props: ["profiles"],
+  computed: {
+    screenWidth() {
+        if (window.innerWidth > 768) {
+          this.quantity = 10;
+        } else {
+          return 3;
+        }
+
+    }
+  },
+
   data() {
     return {
+      // quantity: '',
       hover: false
     };
   },
@@ -150,31 +162,34 @@ p {
 }
 
 @media screen and (max-width: 768px) {
+  .modal-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* height: 20%; */
+    width: 20%;
+    border-radius: 10px;
+  }
 
-.modal-row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  /* height: 20%; */
-  width: 20%;
-  border-radius: 10px;
-}
+  .wl-modal-image {
+    width: 100%;
+    display: block;
+    margin: auto;
+  }
 
-.wl-modal-image {
-  width: 100%;
-  display: block;
-  margin: auto;
-}
+  .klub-modal {
+    background: white;
+    padding: 2%;
+    margin: 5vw;
+    margin-bottom: 2vw;
+    display: flex;
+    flex-flow: row wrap;
+  }
 
-.klub-modal {
-  background: white;
-  padding: 2%;
-  margin: 5vw;
-  margin-bottom: 2vw;
-  display: flex;
-  flex-flow: row wrap;
+  .profile {
+    justify-content: space-around;
+    margin: auto
+  }
 }
-}
-
 </style>
 

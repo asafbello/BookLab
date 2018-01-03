@@ -347,5 +347,9 @@ h2 {
     margin-left: 0;
     width: 95%;
   }
+
+  .statistics-wrapper {
+    width: 100%;
+  }
 }
 </style>
