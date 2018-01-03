@@ -30,6 +30,12 @@ import { REMOVE_FROM_WISH_LIST, REMOVE_FROM_READ_LIST } from "../store/modules/U
 
 export default {
   props: ["list"],
+  data() {
+    return {
+      showDeleted: true
+    }
+  },
+
   methods: {
     closeModal() {
       this.$emit("closeFromCancel");
@@ -55,8 +61,7 @@ export default {
             book: book._id
           });
       }
-        console.log('out');
-      
+        // console.log('out');
     },
 
   },
