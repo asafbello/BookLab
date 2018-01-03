@@ -331,12 +331,12 @@ h2 {
     display: flex;
     flex-flow: row wrap;
     width: 100%;
-    justify-content: flex-end;
+    justify-content: space-around;
   }
 
   .right-panel.jenres {
     width: unset;
-    justify-content: flex-end;
+    justify-content: space-around;;
   }
 
   .book-align {
@@ -346,6 +346,10 @@ h2 {
   .signin-form {
     margin-left: 0;
     width: 95%;
+  }
+
+  .statistics-wrapper {
+    width: 100%;
   }
 }
 </style>
