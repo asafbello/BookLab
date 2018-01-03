@@ -14,7 +14,8 @@
               <el-option value="Reading"></el-option>
               <el-option value="WishList"></el-option>
             </el-select>
-            <el-button class="add-book" type="primary" @click.native="setBookToList(currBook)">Add To My Shelf</el-button>
+            <el-button class="add-book" type="primary"
+            @click.native="setBookToList(currBook)">Add To My Shelf</el-button>
         </div>
         <img v-if="currBook" class="book-img" :src="currBook.img" />
         <!-- Rating -->
@@ -49,22 +50,30 @@
         <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
         </article>
           <!-- Review modal -->
-        <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
-        <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
+        <div class="modal-wrapper">
+          <transition name="fadeReview">
+            <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
+            <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
+            </div>
+          </transition>
         </div>
       </main>
     </div>
       <!-- Book reviews -->
       <section v-if="currBook" class="book-reviews">
-        <book-reviews :reviews="currBook.reviews"></book-reviews>
-      </section>
+        <book-reviews v-if="currBook.reviews" :reviews="currBook.reviews"></book-reviews>
         <div v-else class="first-review">Be the first to review {{currBook.title}}!
           <img src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
         </div>
+      </section>
         <!-- Video modal -->
-        <div @click="closeVideoModal" v-if="showVideo" class="bg-modal">
-          <i @click="closeVideoModal" class="el-icon-error close-vid"></i>
-          <video-modal class="klub-modal" :videoId="videoSrc"></video-modal>
+        <div class="video-wrapper">
+          <transition name="fadeVideo">
+            <div @click="closeVideoModal" v-if="showVideo" class="bg-modal">
+              <i @click="closeVideoModal" class="el-icon-error close-vid"></i>
+              <video-modal class="klub-modal" :videoId="videoSrc"></video-modal>
+          </div>
+          </transition>
         </div>
     </section>
   </main>
@@ -106,7 +115,7 @@ export default {
       readState: "Mark Book",
       isReadMore: false,
       showVideo: false,
-      videoSrc: null
+      videoSrc: null,
     };
   },
   computed: {
@@ -118,6 +127,7 @@ export default {
       "profilesFromBook"
     ]),
     profilesFromReviews() {
+      if (this.currBook === null) return [];
       var profiles = this.currBook.reviews.map(profile => {
         return {
           avatar: profile.userAvatar,
@@ -322,6 +332,7 @@ export default {
 
 .close-vid {
   font-size: 2.5em;
+  color: #dfdfdf;
 }
 
 .el-icon-error::before {
@@ -361,6 +372,22 @@ export default {
   font-size: 2em;
 }
 
+/* Modal fade */
+.fadeReview-enter-active, .fadeReview-leave-active {
+  transition: opacity .5s
+}
+.fadeReview-enter, .fadeReview-leave-to {
+  opacity: 0
+}
+
+/* Video modal fade */
+.fadeVideo-enter-active, .fadeVideo-leave-active {
+  transition: opacity .5s
+}
+.fadeVideo-enter, .fadeVideo-leave-to {
+  opacity: 0
+}
+
 /* ////////////  mobile query  //////////////// */
 
 @media screen and (max-width: 768px) {
@@ -384,7 +411,7 @@ export default {
 
   .el-icon-error::before {
     position: absolute;
-    top: 1em;
+    top: 1.3em;
     left: 50%;
     transform: translateX(-50%);
     padding-bottom: 1em;
@@ -398,7 +425,7 @@ export default {
 
   .actn-btns {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   position: relative;
   left: .8em;
   width: 16em;

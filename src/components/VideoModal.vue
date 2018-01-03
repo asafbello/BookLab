@@ -32,7 +32,8 @@ export default {
 }
 
 .vid-modal {
-    background: white;
+    background: #34323c;
+    color: #dfdfdf;
     z-index: 999;
 }
 
