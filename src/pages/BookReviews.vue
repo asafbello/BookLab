@@ -104,7 +104,7 @@ a {
   text-decoration: none;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 768px) {
   .reviews-header {
     display: flex;
     flex-flow: column;

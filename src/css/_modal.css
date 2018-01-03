@@ -5,9 +5,10 @@
     top: 50%;
     left: 50%;
     right: 50%;
-    background: rgba(0, 0, 0, 0.4);
     padding: 8vw;
     margin: 5vw;
+    background: #34323c;
+    color: #dfdfdf;
   }
   .bg-modal {
     position: fixed;

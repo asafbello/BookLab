@@ -58,8 +58,12 @@
         <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
         </article> -->
           <!-- Review modal -->
-        <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
-        <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
+        <div class="modal-wrapper">
+          <transition name="fadeReview">
+            <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
+            <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
+            </div>
+          </transition>
         </div>
       </main>
           <div class="actions">
@@ -80,15 +84,19 @@
     </div>
       <!-- Book reviews -->
       <section v-if="currBook" class="book-reviews">
-        <book-reviews :reviews="currBook.reviews"></book-reviews>
-      </section>
+        <book-reviews v-if="currBook.reviews" :reviews="currBook.reviews"></book-reviews>
         <div v-else class="first-review">Be the first to review {{currBook.title}}!
           <img src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
         </div>
+      </section>
         <!-- Video modal -->
-        <div @click="closeVideoModal" v-if="showVideo" class="bg-modal">
-          <i @click="closeVideoModal" class="el-icon-error close-vid"></i>
-          <video-modal class="klub-modal" :videoId="videoSrc"></video-modal>
+        <div class="video-wrapper">
+          <transition name="fadeVideo">
+            <div @click="closeVideoModal" v-if="showVideo" class="bg-modal">
+              <i @click="closeVideoModal" class="el-icon-error close-vid"></i>
+              <video-modal class="klub-modal" :videoId="videoSrc"></video-modal>
+          </div>
+          </transition>
         </div>
     </section>
   </main>
@@ -130,7 +138,7 @@ export default {
       readState: "Add to list",
       isReadMore: false,
       showVideo: false,
-      videoSrc: null
+      videoSrc: null,
     };
   },
   computed: {
@@ -142,6 +150,7 @@ export default {
       "profilesFromBook"
     ]),
     profilesFromReviews() {
+      if (this.currBook === null) return [];
       var profiles = this.currBook.reviews.map(profile => {
         return {
           avatar: profile.userAvatar,
@@ -271,6 +280,10 @@ export default {
 </script>
 
 <style scoped>
+
+.book-reviews {
+  width: 100%;
+}
 .img-icon {
   cursor: pointer;
 }
@@ -287,6 +300,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 30%;
+  margin-top: 0;
 }
 
 .book-header {
@@ -371,12 +385,14 @@ export default {
 
 .close-vid {
   font-size: 2.5em;
+  color: #dfdfdf;
 }
 
 .el-icon-error::before {
   position: absolute;
-  top: 5.45em;
-  right: 225px;
+  top: 3.45em;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .first-review {
@@ -409,6 +425,22 @@ export default {
   font-size: 2em;
 }
 
+/* Modal fade */
+.fadeReview-enter-active, .fadeReview-leave-active {
+  transition: opacity .5s
+}
+.fadeReview-enter, .fadeReview-leave-to {
+  opacity: 0
+}
+
+/* Video modal fade */
+.fadeVideo-enter-active, .fadeVideo-leave-active {
+  transition: opacity .5s
+}
+.fadeVideo-enter, .fadeVideo-leave-to {
+  opacity: 0
+}
+
 /* ////////////  mobile query  //////////////// */
 
 @media screen and (max-width: 768px) {
@@ -432,8 +464,10 @@ export default {
 
   .el-icon-error::before {
     position: absolute;
-    top: 1.25em;
-    right: 220px;
+    top: 1.3em;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-bottom: 1em;
   }
 
   .book-author {
@@ -443,14 +477,14 @@ export default {
   }
 
   .actn-btns {
-    display: flex;
-    justify-content: space-evenly;
-    position: relative;
-    left: 0.8em;
-    width: 16em;
-    margin-bottom: 0.7em;
-    margin-top: 0.7em;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  left: .8em;
+  width: 16em;
+  margin-bottom: .7em;
+  margin-top: .7em;
+  align-items: center;
   }
 
   .profile-display {

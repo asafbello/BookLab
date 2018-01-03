@@ -41,6 +41,7 @@ export default {
 .profile {
   display: flex;
   width: 95%;
+  flex-flow: row wrap;
 }
 
 .card {
@@ -49,6 +50,10 @@ export default {
   transition: all 0.5s ease;
   padding: 1vw;
   border-radius: 0.75em;
+}
+
+.card img {
+  width: 100%;
 }
 
 .card:hover {
@@ -138,6 +143,14 @@ p {
   padding-top: unset;
 }
 
+.wl-modal-image {
+  width: 100%;
+  display: block;
+  margin: auto;
+}
+
+@media screen and (max-width: 768px) {
+
 .modal-row {
   display: flex;
   flex-direction: row;
@@ -150,6 +163,7 @@ p {
 .wl-modal-image {
   width: 100%;
   display: block;
+  margin: auto;
 }
 
 .klub-modal {
@@ -160,12 +174,7 @@ p {
   display: flex;
   flex-flow: row wrap;
 }
-
-@media screen and (max-width: 768px) {
-  .modal-row {
-    width: 45%;
-    /* justify-content: space-around; */
-  }
 }
+
 </style>
 

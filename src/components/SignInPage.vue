@@ -82,7 +82,7 @@ export default {
   width: 100%;
 }
 
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 768px) {
  .login {
   display: flex;
   flex-flow: column wrap;
