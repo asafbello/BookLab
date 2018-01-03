@@ -32,6 +32,7 @@
       <p class="txt-title"><i class="el-icon-tickets"></i> Latest Reviews In BookLub:</p>
           <div class="space"></div>
         <reviews-cmp :reviews="recentReviews"></reviews-cmp>
+        <quotes-cmp></quotes-cmp>
         <!-- CMPS -->
    </div>
 </template>
@@ -49,6 +50,7 @@ import ShelfCmp from "./ShelfCmp";
 import ProfilesPrev from "../pages/ProfilesPrev";
 import BookSearchRes from "../pages/BookSearchRes";
 import ReviewsCmp from "../pages/ReviewsCmp";
+import QuotesCmp from "../components/QuotesCmp";
 
 export default {
   name: "HomePage",
@@ -129,7 +131,8 @@ export default {
     ShelfCmp,
     ProfilesPrev,
     BookSearchRes,
-    ReviewsCmp
+    ReviewsCmp,
+    QuotesCmp
   }
 };
 </script>

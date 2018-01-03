@@ -61,11 +61,11 @@ export default {
 <style>
 .logo {
   max-height: 7vh;
+  margin-bottom: .7vh;
 }
 .user-area {
   display: flex;
   justify-content: flex-end;
-  /* align-items: center; */
 }
 
 .submenu-items {
@@ -76,5 +76,6 @@ export default {
 .fa:hover{
   cursor: pointer;
 }
+
 </style>
 

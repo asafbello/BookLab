@@ -8,7 +8,7 @@
 
 <script>
  import NavBar from './components/Nav'
- import FooterBar from './components/Footer'
+ import FooterBar from './components/Footer.vue'
 export default {
   name: 'app',
   components:{
@@ -30,7 +30,13 @@ export default {
   bottom: 0;
   left: 0;
   padding: 1rem;
-  background-color: #efefef;
-  text-align: center;
 }
+
+  .el-footer {
+    background-color: #545c64;
+    color: white;
+    text-align: center;
+    line-height: 60px;
+  }
+  
 </style>

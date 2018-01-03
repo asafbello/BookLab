@@ -124,6 +124,8 @@ export default {
 textarea {
   resize: none;
   padding-left: 8px;
+  width: 100%;
+  height: 100%;
 }
 
 .picker {
