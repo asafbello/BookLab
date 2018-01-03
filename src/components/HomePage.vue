@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="page-header">
         <div id="changing-imgs" class="shadow">
         <img src="../assets/img/bookCovers/0.png" class="img-0">
         <img src="../assets/img/bookCovers/1.png" class="img-1">
@@ -32,7 +32,7 @@
       <p class="txt-title"><i class="el-icon-tickets"></i> Latest Reviews In BookLub:</p>
           <div class="space"></div>
         <reviews-cmp :reviews="recentReviews"></reviews-cmp>
-        <quotes-cmp></quotes-cmp>
+        <!-- <quotes-cmp></quotes-cmp> -->
         <!-- CMPS -->
    </div>
 </template>
@@ -132,12 +132,13 @@ export default {
     ProfilesPrev,
     BookSearchRes,
     ReviewsCmp,
-    QuotesCmp
+    // QuotesCmp
   }
 };
 </script>
 
 <style scoped>
+
 .search-book {
   background: linear-gradient(45deg, #7a7993 1%,#1f315b 100%); 
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7a7993', endColorstr='#1f315b',GradientType=1 );
@@ -166,6 +167,49 @@ export default {
   /* text-decoration: underline */
 
 }
+
+body::after {
+  background: url('../assets/img/home.jpeg');
+  background-repeat: no-repeat;
+  content: "";
+  opacity: 0.45;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* .page-header {
+  background-image: url('../assets/img/home.jpeg');
+  background-repeat: no-repeat;
+  opacity: 0.85;
+  z-index: -1;   */
+  /* background-size: cover;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  left: 0; */
+  
+  /* } */
+/* body::after {
+  background: url('../assets/img/home.jpeg');
+  background-repeat: no-repeat;
+  content: "";
+  opacity: 0.45;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: -1;
+} */
+
 .space{
   margin: 5vh;
 }

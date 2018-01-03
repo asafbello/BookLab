@@ -9,6 +9,7 @@
 <script>
  import NavBar from './components/Nav'
  import FooterBar from './components/Footer.vue'
+
 export default {
   name: 'app',
   components:{
@@ -38,5 +39,19 @@ export default {
     text-align: center;
     line-height: 60px;
   }
+
+  body::after {
+  background: url('./assets/img/home.jpeg');
+  background-repeat: no-repeat;
+  content: "";
+  opacity: 0.65;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: -1;
+}
   
 </style>

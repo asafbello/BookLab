@@ -30,7 +30,7 @@
       <div class="actn-btns">
         <i class="fa fa-video-camera vid-review" @click="showVideoModal" aria-hidden="true"> </i>
         <el-button type="primary" @click="showReviewModal">Add Review</el-button>
-        <i class="fa fa-shopping-cart copy-btn" aria-hidden="true"></i>
+        <i class="fa fa-shopping-cart copy-btn" @click="getBuylink" aria-hidden="true"></i>
       </div>
       <!-- Book content -->
       <main class="book-content" v-if="currBook">
@@ -141,6 +141,19 @@ export default {
     }
   },
   methods: {
+    getBuylink() {
+      APIService.getSalesInfo(this.currBook.forigenId)
+        .then(saleLink => {
+            console.log(saleLink)
+            window.open(
+              saleLink,
+              '_blank'
+            )
+            // document.location.href = saleLink;
+
+
+        })
+    },
     showVideoModal() {
       let title = this.currBook.title + " funny book review";
       APIService.getVideo(title).then(videoSrc => {
@@ -459,4 +472,7 @@ export default {
       //   height: this.isReadMore ? "" : "300px"
       // }
     // },
+
+
+
 

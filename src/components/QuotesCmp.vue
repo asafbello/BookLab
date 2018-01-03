@@ -1,10 +1,8 @@
 <template>
-  <el-carousel indicator-position="outside">
-    <el-carousel-item v-for="(quote, idx) in quotes" :key="idx">
-      <h2>{{ quote.q }}</h2>
-      <h4>{{ quote.author }}</h4>
-    </el-carousel-item>
-  </el-carousel>
+<div>
+  <h2>{{quote.q}}</h2>
+  <h4>{{quote.author}}</h4>
+</div>
 </template>
 
 <script>
@@ -15,11 +13,11 @@ export default {
 
   data() {
     return {
-        quotes: []
+        quote: ''
     };
   },
   created() {
-      this.quotes = QuotesService.getQuotes();
+      this.quote = QuotesService.getQuote();
   }
 };
 
