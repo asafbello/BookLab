@@ -1,6 +1,6 @@
 <template v-if="profiles">
-  <section>
-    <ul >
+  <section  class="profile">
+    <!-- <ul >
       <li v-for="(profile, index)  in profiles" :key="index">
           <el-card :body-style="{ padding: '0px' }">
        <router-link :to="'/user/' + profile._id">
@@ -8,7 +8,19 @@
           <p>{{profile.name}}</p>
           </el-card>
       </li>
-    </ul>
+    </ul> -->
+   
+      <div class="card" v-for="(profile, index)  in profiles" :key="index">
+          <el-card :body-style="{ padding: '0px' }">
+              <router-link :to="'/user/' + profile._id"><img :src="profile.avatar" class="wl-modal-image"></router-link> 
+            <div style="padding: 0;padding-bottom:  0;">
+              <div class="bottom clearfix">
+               <p>{{profile.name}}</p>
+              </div>
+            </div>
+          </el-card>
+     
+      </div>
   </section>
 </template>
 
@@ -20,14 +32,47 @@ export default {
       hover: false
     };
   },
-  methods: {
-  }
+  methods: {}
 };
 </script>
 
 
 <style scoped>
-    ul {
+.profile {
+  display: flex;
+  width: 95%;
+}
+
+.card {
+  width: 7%;
+  min-width: 80px;
+  transition: all 0.5s ease;
+  padding: 1vw;
+  border-radius: 0.75em;
+}
+
+.card:hover {
+  box-shadow: 7px 4px 4px 0 rgba(7, 19, 26, 0.12),
+    0 4px 12px 0 rgba(2, 23, 36, 0.12);
+  transform: translateY(-1px);
+}
+
+.card p {
+  overflow-wrap: break-word;
+  margin: 0;
+  visibility: hidden;
+  font-size: 0.9em;
+  color: rgba(255, 255, 255, 0);
+  display: inline;
+  position: relative;
+  cursor: pointer;
+}
+
+.card:hover p {
+  color: #999;
+  visibility: visible;
+}
+/* ul {
       display: flex;
       flex-direction: row;
       margin: 1vw;
@@ -35,25 +80,25 @@ export default {
     li {
       width: 7vw;
       display: block;
-      /* /* height: 5vw; */
       padding: 1vh 0 0 2vh;
       transition: all .5s ease;
       padding: 1vw;
       border-radius: .75em;
              
-    }
+    } 
     li:hover {
     box-shadow: 7px 4px 4px 0 rgba(7, 19, 26, 0.12), 0 4px 12px 0 rgba(2, 23, 36, 0.12);
     transform: translateY(-1px);
     }
 
-    li img {
+    /* li img {
       max-height: 10vh;
       padding: 0;
       display: block;
       max-width: 100%;
       background: gray;
     }
+    
     li p {
       overflow-wrap: break-word;
       padding: 1vw;
@@ -64,15 +109,63 @@ export default {
       color: rgba(255, 255, 255, 0);
       display: inline;
       position: relative;
-      /* top: -40%; */
       cursor: pointer;
-}
-    li:hover p {
-      color: var(--main-color);
-     visibility:visible;
-}
-@media screen and (max-width: 650px) {
+} */
+/* li:hover p {
+  color: var(--main-color);
+  visibility: visible;
+} */
 
+p {
+  margin-bottom: 0;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.el-card {
+  padding: 4px;
+}
+
+.modal-btn {
+  /* width: 10%; */
+  margin: auto;
+}
+
+.bottom clearfix > p {
+  padding-top: unset;
+}
+
+.modal-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  /* height: 20%; */
+  width: 20%;
+  border-radius: 10px;
+}
+
+.wl-modal-image {
+  width: 100%;
+  display: block;
+}
+
+.klub-modal {
+  background: white;
+  padding: 2%;
+  margin: 5vw;
+  margin-bottom: 2vw;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+@media screen and (max-width: 768px) {
+  .modal-row {
+    width: 45%;
+    /* justify-content: space-around; */
+  }
 }
 </style>
 

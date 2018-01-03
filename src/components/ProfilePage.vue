@@ -480,12 +480,12 @@ h2 {
     display: flex;
     flex-flow: row wrap;
     width: 100%;
-    justify-content: flex-end;
+    justify-content: space-around;
   }
 
   .right-panel.jenres {
     width: unset;
-    justify-content: flex-end;
+    justify-content: space-around;;
   }
 
   .book-align {

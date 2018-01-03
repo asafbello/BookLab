@@ -7,15 +7,19 @@
     </article>
     <section class="book-header">
         <!-- List select -->
-      <div class="book-aside">
-        <div class="add-to-shelf">
+        <!-- <div class="add-to-shelf">
             <el-select v-model="readState" placeholder="Wish List">
               <el-option value="Read"></el-option>
               <el-option value="Reading"></el-option>
               <el-option value="WishList"></el-option>
             </el-select>
             <el-button class="add-book" type="primary" @click.native="setBookToList(currBook)">Add To My Shelf</el-button>
-        </div>
+        </div> -->
+
+
+
+      <div class="book-aside">
+        <div class="bookimg-and-rate">
         <img v-if="currBook" class="book-img" :src="currBook.img" />
         <!-- Rating -->
         <div class="block">
@@ -25,34 +29,54 @@
             <el-rate v-else :value=".5" disabled show-score text-color="#ff9900"
             score-template="No rates yet"></el-rate>
         </div>
+        </div>
+
       <!-- Action buttons -->
-      <div class="actn-btns">
+      <!-- <div class="actn-btns">
         <i class="fa fa-video-camera vid-review" @click="showVideoModal" aria-hidden="true"> </i>
         <el-button type="primary" @click="showReviewModal">Add Review</el-button>
         <i class="fa fa-shopping-cart copy-btn" aria-hidden="true"></i>
-      </div>
+      </div> -->
       <!-- Book content -->
       <main class="book-content" v-if="currBook">
         <div>
+        <div class="title-and-author">
           <h1 v-if="currBook">{{currBook.title}}</h1>
           <span class="pageCount">{{currBook.pages }} pages 
           <i class="fa fa-file-text-o" aria-hidden="true"></i>
           </span>
+        <h5 class="book-author">By {{currBook.author}}</h5>
         </div>
-        <h5 class="book-author">{{currBook.author}}</h5>
+      </div>
           <!-- Book description start -->
         <article class="book-review">
           <p class="book-desc" v-html="currBook.desc"></p>
         </article>
+     
         <!-- Book description end -->
-        <article class="links">
+        <!-- <article class="links">
         <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
-        </article>
+        </article> -->
           <!-- Review modal -->
         <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
         <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
         </div>
       </main>
+          <div class="actions">
+            <img class="img-icon" src="https://png.icons8.com/color/100/000000/youtube-play.png" @click="showVideoModal">
+            <img class="img-icon" src="https://png.icons8.com/dusk/100/000000/hand-with-pen.png" @click="showReviewModal">
+            <img class="img-icon" src="https://png.icons8.com/office/100/000000/collaboration.png">
+            <div class="add-to-shelf" >
+              <div class="select-menu">
+            <img class="img-icon" src="https://png.icons8.com/office/100/000000/book-shelf.png"  @click.native="setBookToList(currBook)">
+            <el-select v-model="readState" placeholder="Wish List">
+              <el-option value="Read">Read <img src="https://png.icons8.com/metro/20/000000/checkmark.png"></el-option>
+              <el-option value="Reading">Reading <img src="https://png.icons8.com/ios/20/000000/reading.png"></el-option>
+              <el-option value="WishList">Wish list <img src="https://png.icons8.com/wired/20/000000/star-of-bethlehem.png"></el-option>
+            </el-select>
+            </div>
+        </div>
+        </div>
     </div>
       <!-- Book reviews -->
       <section v-if="currBook" class="book-reviews">
@@ -103,7 +127,7 @@ export default {
     return {
       ratingVal: null,
       showModal: false,
-      readState: "Mark Book",
+      readState: "Add to list",
       isReadMore: false,
       showVideo: false,
       videoSrc: null
@@ -127,7 +151,7 @@ export default {
       });
       // this.$store
       //   .commit({ type: SET_PROFILES , profiles })
-      return profiles
+      return profiles;
     }
   },
   methods: {
@@ -247,6 +271,23 @@ export default {
 </script>
 
 <style scoped>
+.img-icon {
+  cursor: pointer;
+}
+
+.title-and-author {
+  text-align: left;
+}
+
+.actions {
+  width: 15%;
+}
+
+.bookimg-and-rate {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
 
 .book-header {
   display: flex;
@@ -262,8 +303,9 @@ export default {
 .book-aside {
   display: flex;
   justify-content: flex-start;
-  flex-flow: column nowrap;
-  max-width: 280px;
+  flex-direction: row;
+  /* flex-flow: column nowrap; */
+  /* max-width: 280px; */
   margin: 20px 20px;
 }
 
@@ -272,9 +314,12 @@ export default {
 }
 
 .book-img {
-  max-width: 280px;
+  /* max-width: 280px; */
+  width: 50%;
   height: auto;
   display: block;
+  margin: auto;
+  margin-top: 0;
   margin-bottom: 15px;
 }
 
@@ -290,6 +335,7 @@ export default {
   padding-right: 2vw;
   padding-left: 2vw;
   overflow: hidden;
+  text-align: left;
 }
 .add-to-shelf {
   display: flex;
@@ -317,7 +363,10 @@ export default {
 }
 
 .book-content {
-  margin-top: 25px;
+  /* margin-top: 25px; */
+  display: flex;
+  flex-direction: column;
+  width: 50%;
 }
 
 .close-vid {
@@ -340,15 +389,15 @@ export default {
 
 .book-author {
   font-size: 1.5em;
-  margin-top: .8em;
-  margin-bottom: .8em;
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
 }
 
 .profile-display {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  margin-top: .5em;
+  margin-top: 0.5em;
   border: 1px solid var(--main-color);
   border-radius: 1em;
   margin-right: 1.5em;
@@ -382,41 +431,71 @@ export default {
   }
 
   .el-icon-error::before {
-  position: absolute;
-  top: 1.25em;
-  right: 220px;
+    position: absolute;
+    top: 1.25em;
+    right: 220px;
   }
 
   .book-author {
-  font-size: 1.5em;
-  margin-top: .8em;
-  margin-bottom: .8em;
+    font-size: 1.5em;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
   }
 
   .actn-btns {
-  display: flex;
-  justify-content: space-evenly;
-  position: relative;
-  left: .8em;
-  width: 16em;
-  margin-bottom: .7em;
-  margin-top: .7em;
-  align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+    position: relative;
+    left: 0.8em;
+    width: 16em;
+    margin-bottom: 0.7em;
+    margin-top: 0.7em;
+    align-items: center;
   }
 
   .profile-display {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  margin-top: .5em;
-  border: 1px solid var(--main-color);
-  border-radius: 1em;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-top: 0.5em;
+    border: 1px solid var(--main-color);
+    border-radius: 1em;
   }
 
   .profile-title {
-  margin-top: .4em;
-  font-size: 1.2em;
+    margin-top: 0.4em;
+    font-size: 1.2em;
   }
+
+  .book-aside {
+    flex-direction: column;
+  }
+
+  .book-img {
+    width: 100%;
+  }
+
+  .img-icon {
+    width: 25%;
+  }
+  .actions {
+    flex-direction: row;
+    width: 100%;
+  }
+}
+
+.book-content {
+  width: 95%;
+}
+
+.title-and-author {
+  margin-top: 5%;
+}
+
+.bookimg-and-rate {
+  width: 50%;
+  margin: auto;
+  margin-bottom: 3%;
 }
 </style>
 
