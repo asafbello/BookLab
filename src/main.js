@@ -13,7 +13,7 @@ import lodash from 'lodash'
 import moment from 'moment'
 import cloneDeep from 'clone-deep'
 import locale from 'element-ui/lib/locale/lang/en'
-// import filters from './filters/filters.js'
+import './filters/filters.js'
 
 
 Vue.use(ElementUI,  { locale })
@@ -25,6 +25,5 @@ new Vue({
   store,
   router,
   template: '<App/>',
-  components: { App },
-  // filters
+  components: { App }
 })

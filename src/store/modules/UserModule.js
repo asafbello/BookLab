@@ -13,10 +13,9 @@ export const GET_USER = 'user/getUser'
 export const ADD_TO_WISH_LIST = 'user/addToWishList'
 export const ADD_TO_READ_LIST = 'user/addToReadList'
 export const UPDATE_USER_WISH_LIST = 'user/addToWishList'
-export const SET_CURR_READING = 'user/currentlyReading'
+export const ADD_TO_READING_LIST = 'user/currentlyReading'
 
-
-
+const UPDATE_USER_LISTS = 'user/updateUserLists'
 const STORAGE_KEY = 'loggedinUser';
 
 export default {
@@ -46,6 +45,12 @@ export default {
             state.loggedinUser.reviews.push(reviewUser)
             state.loggedinUser.readList.push(reviewUser)
         },
+        [UPDATE_USER_LISTS](state , {book, list}) {
+            if(list === 'wishList') { state.loggedinUser.wishList.push(book) }
+            else if (list === 'readList') { state.loggedinUser.readList.push(book) }
+            else { state.loggedinUser.currentlyReading = book}
+            LocalService.save(STORAGE_KEY, state.loggedinUser)
+        }
 
     },
     actions: {
@@ -105,25 +110,28 @@ export default {
         [ADD_TO_WISH_LIST] ({commit}, {id, book}) {
             UserService
                 .addToWishList(id, book)
-                .then(user => {
-                // commit({ type: UPDATE_USER_WISH_LIST, user })
-                // saveToLocalStorage(this.state.loggedinUser)
-                })
+                .then(_ => {
+                        console.log('added to wish list')
+                        commit({ type: UPDATE_USER_LISTS, book , list: 'wishList' })
+                        })
+                .catch(err => {throw err})
         },
         [ADD_TO_READ_LIST] ({commit}, {id, book}) {
             UserService
                 .addToReadList(id, book) 
-                .then(user => {
-                // commit({ type: UPDATE_USER_WISH_LIST, user })
-                // saveToLocalStorage(this.state.loggedinUser)
+                .then(_ => { console.log('added to read list')
+                commit({ type: UPDATE_USER_LISTS, book , list:'readList' })
                 })
+                .catch(err => {throw err})
         },
-        [SET_CURR_READING] ({commit}, {id, book}) {
+        [ADD_TO_READING_LIST] ({commit}, {id, book}) {
             UserService
                 .setCurrentlyReading(id, book) 
-                .then(user => {
-                    console.log('cuu reading');
+                .then(_ => {
+                     console.log('added to reading list')
+                     commit({ type: UPDATE_USER_LISTS, book , list:'currentlyReading' })
                 })
+                .catch(err => {throw err})
         },
         
     }

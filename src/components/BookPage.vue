@@ -1,50 +1,38 @@
 <template>
   <main>
     <!-- Readers' profiles -->
-    <article class="profile-display" v-if="profilesFromReviews.length > 0">
-      <h3 class="profile-title">Also read by</h3>
-      <profiles-prev :profiles="profilesFromReviews"></profiles-prev>
+    <article class="profile-display" v-if="profilesFromReviews">
+          <h3 class="profile-title">Also read by</h3>
+          <profiles-prev :profiles="profilesFromReviews">
+                          </profiles-prev>
     </article>
     <section class="book-header">
-        <!-- List select -->
-        <!-- <div class="add-to-shelf">
-            <el-select v-model="readState" placeholder="Wish List">
-              <el-option value="Read"></el-option>
-              <el-option value="Reading"></el-option>
-              <el-option value="WishList"></el-option>
-            </el-select>
-            <el-button class="add-book" type="primary" @click.native="setBookToList(currBook)">Add To My Shelf</el-button>
-        </div> -->
-
-
-
-      <div class="book-aside">
-        <div class="bookimg-and-rate">
-        <img v-if="currBook" class="book-img" :src="currBook.img" />
-        <!-- Rating -->
-        <div class="block">
-          <span class="rating-title">Avg Rating</span>
-            <el-rate v-if="bookRate" :value="bookRate" disabled show-score text-color="#ff9900"
-            score-template="{value} stars"></el-rate>
-            <el-rate v-else :value=".5" disabled show-score text-color="#ff9900"
-            score-template="No rates yet"></el-rate>
-        </div>
+        <div class="book-aside">
+           <div class="bookimg-and-rate">
+                  <img v-if="currBook"
+                      class="book-img"
+                      :src="currBook.img" />
+                      <!-- Rating -->
+                      <div class="block">
+                             <span class="rating-title">Avg Rating</span>
+                             <el-rate v-if="bookRate"
+                                     :value="bookRate"
+                                      disabled show-score text-color="#ff9900"
+                                      score-template="{value} stars">
+                                      </el-rate>
+                          <el-rate v-else :value=".5" disabled show-score text-color="#ff9900"
+                          score-template="No rates yet"></el-rate>
+                      </div>
               <div class="select-menu">
-            <img class="img-icon-select" src="https://png.icons8.com/office/100/000000/book-shelf.png"  @click.native="setBookToList(currBook)">
-            <el-select v-model="readState" placeholder="Wish List">
-              <el-option value="Read">Read <img src="https://png.icons8.com/metro/20/000000/checkmark.png"></el-option>
-              <el-option value="Reading">Reading <img src="https://png.icons8.com/ios/20/000000/reading.png"></el-option>
-              <el-option value="WishList">Wish list <img src="https://png.icons8.com/wired/20/000000/star-of-bethlehem.png"></el-option>
-            </el-select>
-            </div>
+              <set-book-to-list-cmp :book="currBook">
+              </set-book-to-list-cmp>
+              </div>
         </div>
 
-      <!-- Action buttons -->
-      <!-- <div class="actn-btns">
-        <i class="fa fa-video-camera vid-review" @click="showVideoModal" aria-hidden="true"> </i>
-        <el-button type="primary" @click="showReviewModal">Add Review</el-button>
-        <i class="fa fa-shopping-cart copy-btn" @click="getBuylink" aria-hidden="true"></i>
-       </div> -->
+      <!-- Buy a copy btn- do not erase -->
+
+        <!-- <i class="fa fa-shopping-cart copy-btn" @click="getBuylink" aria-hidden="true"></i> -->
+
       <!-- Book content -->
       <main class="book-content" v-if="currBook">
         <div>
@@ -61,10 +49,6 @@
           <p class="book-desc" v-html="currBook.desc"></p>
         </article>
      
-        <!-- Book description end -->
-        <!-- <article class="links">
-        <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
-        </article> -->
           <!-- Review modal -->
         <div class="modal-wrapper">
           <transition name="fadeReview">
@@ -82,14 +66,6 @@
         </div>
         
         </div>
-              <!-- <div v-if="screenWidth" class="select-menu-mobile">
-            <img class="img-icon-mobile" src="https://png.icons8.com/office/100/000000/book-shelf.png"  @click.native="setBookToList(currBook)">
-            <el-select v-model="readState" placeholder="Wish List">
-              <el-option value="Read">Read <img src="https://png.icons8.com/metro/20/000000/checkmark.png"></el-option>
-              <el-option value="Reading">Reading <img src="https://png.icons8.com/ios/20/000000/reading.png"></el-option>
-              <el-option value="WishList">Wish list <img src="https://png.icons8.com/wired/20/000000/star-of-bethlehem.png"></el-option>
-            </el-select>
-            </div> -->
       </main>
             <section v-if="currBook" class="book-reviews">
         <book-reviews v-if="currBook.reviews" :reviews="currBook.reviews"></book-reviews>
@@ -121,16 +97,14 @@ import ProfilesPrev from "../pages/ProfilesPrev.vue";
 import BookReviews from "../pages/BookReviews.vue";
 import VideoModal from "../components/VideoModal.vue";
 import BookPreview from "../components/BookPreview.vue";
+import SetBookToListCmp from "../pages/SetBookToListCmp.vue";
+
 import _ from "lodash";
 import BookService from "../services/BookService.js";
 import APIService from "../services/APIService.js";
 import { ADD_BOOK, GET_BOOK } from "../store/modules/BookModule.js";
-import {
-  UPDATE_USER,
-  ADD_TO_WISH_LIST,
-  ADD_TO_READ_LIST,
-  SET_CURR_READING
-} from "../store/modules/UserModule.js";
+import {  UPDATE_USER} from "../store/modules/UserModule.js";
+
 import { UPDATE_BOOK_AND_USER } from "../store/modules/ReviewModule.js";
 import { mapGetters } from "vuex";
 import { SET_PROFILES } from "../store/modules/ProfileModule.js";
@@ -141,13 +115,13 @@ export default {
     ReviewModal,
     VideoModal,
     BookReviews,
-    ProfilesPrev
+    ProfilesPrev,
+    SetBookToListCmp
   },
   data() {
     return {
       ratingVal: null,
       showModal: false,
-      readState: "Add to list",
       isReadMore: false,
       showVideo: false,
       videoSrc: null
@@ -155,7 +129,7 @@ export default {
   },
   computed: {
     screenWidth() {
-      if (window.innerWidth < 768) return true
+      if (window.innerWidth < 768) return true;
       else return false;
     },
 
@@ -182,14 +156,10 @@ export default {
   },
   methods: {
     getBuylink() {
-      APIService.getSalesInfo(this.currBook.forigenId)
-        .then(saleLink => {
-            console.log(saleLink)
-            window.open(
-              saleLink,
-              '_blank'
-            )
-        })
+      APIService.getSalesInfo(this.currBook.forigenId).then(saleLink => {
+        console.log(saleLink);
+        window.open(saleLink, "_blank");
+      });
     },
     showVideoModal() {
       let title = this.currBook.title + " funny book review";
@@ -257,31 +227,6 @@ export default {
           });
       }
     },
-    setBookToList(book) {
-      if (!this.$store.getters.isUser) {
-        this.$message.error("Oops, Please log in to add to a shelf");
-      } else {
-        if (this.readState === "WishList") {
-          this.$store.dispatch({
-            type: ADD_TO_WISH_LIST,
-            id: this.$store.state.user.loggedinUser._id,
-            book
-          });
-        } else if (this.readState === "Read") {
-          this.$store.dispatch({
-            type: ADD_TO_READ_LIST,
-            id: this.$store.state.user.loggedinUser._id,
-            book
-          });
-        } else if (this.readState === "Reading") {
-          this.$store.dispatch({
-            type: SET_CURR_READING,
-            id: this.$store.state.user.loggedinUser._id,
-            book
-          });
-        }
-      }
-    }
   },
   created() {
     var googleBookId = this.$route.params.googleBookId;
@@ -307,7 +252,6 @@ export default {
 </script>
 
 <style scoped>
-
 .img-icon-select {
   margin: auto;
 }
@@ -481,14 +425,6 @@ export default {
   opacity: 0;
 }
 
-.select-menu {
-  display: flex;
-  flex-direction: column;
-  margin-top: 5%;
-  margin: auto;
-  margin-top: 5%;
-}
-
 
 
 /* ////////////  mobile query  //////////////// */
@@ -504,13 +440,13 @@ export default {
   }
 
   .select-menu-mobile {
-  display: flex;
-  flex-direction: column;
-  margin-top: 5%;
-  margin: auto;
-  margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    margin: auto;
+    margin-top: 5%;
     width: 100%;
-}
+  }
 
   .book-header {
     display: flex;
@@ -580,7 +516,6 @@ export default {
   .select-menu {
     width: 50%;
     margin-top: 15%;
-  
   }
 
   .img-icon {

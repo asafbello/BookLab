@@ -39,6 +39,7 @@ function getUsers() {
 function addToWishList(userId, book) {
     return axios.put(`${URL}/wishList`, {userId, book} )
         .then(res => {
+            console.log(res)
             return res.data
         })
     
@@ -52,7 +53,7 @@ function addToReadList(userId, book) {
 }
 
 function removeFromWishList(userId, bookId) {
-    return axios.put(`${URL}/removeFromWishList`, {userId, bookId} )
+    return axios.put(`${URL}/removeFromWishList`, {userId, bookId})
         .then(res => {
             return res.data;
         }).catch(err => {

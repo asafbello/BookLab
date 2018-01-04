@@ -1,15 +1,15 @@
 <template>
-  <section>
+  <section v-if="currProfile">
   <div class="no-user" v-if="noProfile"><h1>Sorry 404 No Profile avilable</h1></div>
   <div v-else class="main-container">
-          <profile-card :proflie="currProfile"
-                         :isUser="isProfileOfLoggenInUser"
-                          @delete="deleteUser" @edit="editProfile">
+          <profile-card :profile="currProfile"
+                        :isUser="isProfileOfLoggedInUser"
+                        @delete="deleteUser" @edit="editProfile">
           </profile-card>
   <section class="content-wrapper">
       <div class="statistics-wrapper">
-          <proflie-statistics :proflie="currProfile"  :isUser="isProfileOfLoggenInUser">
-          </proflie-statistics>
+          <profile-statistics :profile="currProfile"  :isUser="isProfileOfLoggedInUser">
+          </profile-statistics>
       </div>
       <div>
         <h2>Wish List</h2>
@@ -22,10 +22,10 @@
           </div>
         <h2>Books read</h2>
           <hr>
-          <div class="read-list">
-              <book-preview class="book-preview"
-                             v-for="(book , index) in currProfile.readList"
-                            :img-url="book.img" :key="index" @click.native="goTobookDetails(book.forigenId)">
+          <div class="read-list" v-for="(book , index) in currProfile.readList" :key="index">
+              <book-preview class="book-preview" 
+                            :imgUrl="book.img"
+                              @click.native="goTobookDetails(book.forigenId)">
                             </book-preview>
           </div>
       </div>
@@ -66,7 +66,7 @@ import ShelfCmp from "./ShelfCmp";
 import store from "../store/store.js";
 import bookPreview from "./BookPreview";
 import ProfileCard from "../pages/ProfileCard";
-import ProflieStatistics from "../pages/ProflieStatistics";
+import ProfileStatistics from "../pages/ProfileStatistics";
 
 import {
   DELETE_USER,  SIGNOUT,  UPDATE_USER,  REMOVE_FROM_WISH_LIST} from "../store/modules/UserModule.js";
@@ -76,16 +76,23 @@ export default {
   name: "ProfilePage",
   components: {
     ProfileCard,
-    ProflieStatistics,
+    ProfileStatistics,
     bookPreview,
   },
 
   computed: {
     currProfile() {
+      console.log('inside currPurfike', this.$store.state)
       return this.$store.state.profile.currProfile;
     },
-    isProfileOfLoggenInUser() {
-      return this.$store.state.user.loggedinUser._id === this.$store.state.profile.currProfile._id
+    isProfileOfLoggedInUser() {
+      console.log('before the check')
+      try {
+        return this.$store.state.user.loggedinUser._id === this.$store.state.profile.currProfile._id
+      } catch (error) {
+        return false
+      }
+      // this.$store.state.user.loggedinUser._id === this.$store.state.profile.currProfile._id)
     },
     screenWidth() {
       if (window.innerWidth > 1300) {
@@ -121,7 +128,7 @@ export default {
         type: GET_PROFILE,
         id
       })
-      .then(_ => { console.log('finy your proflie')})
+      .then(_ => { console.log('finy your profile')})
       .catch(err => {
           self.noProfile = true})
   },
