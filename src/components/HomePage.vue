@@ -1,20 +1,22 @@
 <template>
-    <div>
+    <div class="page-header">
+        <div id="changing-imgs" class="shadow">
+        <img src="../assets/img/bookCovers/0.png" class="img-0">
+        <img src="../assets/img/bookCovers/1.png" class="img-1">
+        <img src="../assets/img/bookCovers/2.png" class="img-2">
+        </div>
       <section class="search-book">
-        <!-- <h1>hii | uppercase</h1> -->
-        <div>
-            <el-input  @keyup.native="searchForBook()" 
-               suffix-icon="el-icon-search" 
-               :placeholder="'search and add '+ select" 
-               v-model="input5" class="input-with-select">
-              <el-select v-model="select" slot="prepend" placeholder="Select">
-                    <el-option label="book" value="book"></el-option>
-                    <el-option label="author" value="author"></el-option>
-              </el-select>
-              </el-input>
-            </div>
-          <el-button  v-if="!input5"  @click.native="searchForBook()" type="primary" icon="el-icon-search">Search</el-button>
-          <el-button  v-else @click.native="clearSearch()" type="primary" icon="el-icon-search">Clear</el-button>
+                <el-input  @keyup.native="searchForBook()" 
+                  suffix-icon="el-icon-search" 
+                  :placeholder="'search and add '+ select" 
+                  v-model="input5" class="input-with-select">
+                  <el-select v-model="select" slot="prepend" placeholder="Select">
+                        <el-option label="book" value="book"></el-option>
+                        <el-option label="author" value="author"></el-option>
+                  </el-select>
+                  </el-input>
+              <el-button  v-if="!input5"  @click.native="searchForBook()" type="primary" icon="el-icon-search">Search</el-button>
+              <el-button  v-else @click.native="clearSearch()" type="primary" icon="el-icon-search">Clear</el-button>
         </section>
         <!-- CMPS -->
           <book-search-res :searchRes="bookSearchRes" v-loading="searching"
@@ -30,7 +32,7 @@
       <p class="txt-title"><i class="el-icon-tickets"></i> Latest Reviews In BookLub:</p>
           <div class="space"></div>
         <reviews-cmp :reviews="recentReviews"></reviews-cmp>
-        <quotes-cmp></quotes-cmp>
+        <!-- <quotes-cmp></quotes-cmp> -->
         <!-- CMPS -->
    </div>
 </template>
@@ -130,21 +132,27 @@ export default {
     ProfilesPrev,
     BookSearchRes,
     ReviewsCmp,
-    QuotesCmp
+    // QuotesCmp
   }
 };
 </script>
 
 <style scoped>
+
 .search-book {
-  padding: 2vw 3vw 0 3vw;
+  background: linear-gradient(45deg, #7a7993 1%,#1f315b 100%); 
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7a7993', endColorstr='#1f315b',GradientType=1 );
+  padding: 2vw 3vw 5vw 3vw;
   display: flex;
   flex-direction: row;
-  flex: 1;
+  /* flex: 1; */
   justify-content: center;
+  align-items: flex-end;
+  height: 40vh;
 }
 .input-with-select {
-  width: 70vw;
+  width: 65vw;
+  z-index: 1;
 }
 
 .page-entry {
@@ -160,7 +168,54 @@ export default {
   /* text-decoration: underline */
 
 }
+
+body::after {
+  background: url('../assets/img/home.jpeg');
+  background-repeat: no-repeat;
+  content: "";
+  opacity: 0.45;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* .page-header {
+  background-image: url('../assets/img/home.jpeg');
+  background-repeat: no-repeat;
+  opacity: 0.85;
+  z-index: -1;   */
+  /* background-size: cover;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: "";
+  left: 0; */
+  
+  /* } */
+/* body::after {
+  background: url('../assets/img/home.jpeg');
+  background-repeat: no-repeat;
+  content: "";
+  opacity: 0.45;
+  background-size: cover;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: -1;
+} */
+
 .space{
   margin: 5vh;
+}
+
+.el-button {
+  z-index: 1;
 }
 </style>

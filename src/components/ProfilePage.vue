@@ -1,109 +1,92 @@
 <template>
-    <div class="main-container" v-if="loggedinUser">
-  
-    <el-card :body-style="{ padding: '0px' }" class="left-panel" v-if="!isEditing">
-      <img :src="loggedinUser.avatar" class="profile-img">
-      <div style="padding: 14px;" class="left-panel-content">
-        <span>{{loggedinUser.username}}</span>
-        <div class="bottom clearfix">
-          <time class="time">Joined at: {{ loggedinUser.joinedAt }}</time> <br>
-          <div class="profile-btns">
-          <el-button type="text" class="button" @click="deleteUser(loggedinUser._id)">Delete Profile</el-button><br>
-          <el-button type="text" class="button"  @click="editProfile" v-if="!isEditing">Edit Profile</el-button>
-          </div>
-        </div>
+  <section>
+  <div class="no-user" v-if="noProfile"><h1>Sorry 404 No Profile avilable</h1></div>
+  <div v-else class="main-container">
+          <profile-card :proflie="currProfile"
+                         :isUser="isProfileOfLoggenInUser"
+                          @delete="deleteUser" @edit="editProfile">
+          </profile-card>
+  <section class="content-wrapper">
+      <div class="statistics-wrapper">
+          <proflie-statistics :proflie="currProfile"  :isUser="isProfileOfLoggenInUser">
+          </proflie-statistics>
       </div>
-    </el-card>
-<section class="content-wrapper" v-if="!isEditing">
-  <div class="statistics-wrapper">
-      <div class="statistics">
-          <div class="statistics-item">
-            <div class="icon-count">
-              <p>{{pagesRead}}</p>
-            <p>Pages read </p></div><img class="icon" src="https://png.icons8.com/dusk/64/open-book.png" title="Open Book" width="64" height="64"></div>
-          <div class="statistics-item">
-          <div class="icon-count">
-            <p>{{loggedinUser.readList.length}}</p>
-            <p>Books read </p> </div><img @click="showWishList(loggedinUser.readList)" class="icon" src="https://png.icons8.com/nolan/64/checkmark.png" title="Checkmark" width="64" height="64"></div>
-          <div class="statistics-item">
-            <div class="icon-count">
-              <p>{{loggedinUser.wishList.length}}</p>
-            <p>Books in wish list</p> </div><img @click="showWishList(loggedinUser.wishList)" class="icon" src="https://png.icons8.com/dusk/64/book-shelf.png" title="Book Shelf" width="64" height="64">
-            </div> 
-  </div>
+      <div>
         <h2>Wish List</h2>
-        <hr>
-      <div class="read-list">
-          <book-preview class="book-preview" v-for="(book1, index) in loggedinUser.wishList.slice(0, screenWidth)" :img-url="book1.img" :key="index" @click.native="goTobookDetails(book1.forigenId)"></book-preview>
-      </div>
+          <hr>
+          <div class="read-list">
+              <book-preview class="book-preview"
+                            v-for="(book1, index) in currProfile.wishList"
+                            :img-url="book1.img" :key="index" @click.native="goTobookDetails(book1.forigenId)">
+                            </book-preview>
+          </div>
         <h2>Books read</h2>
-        <hr>
-      <div class="read-list">
-          <book-preview class="book-preview" v-for="(book , index) in loggedinUser.readList.slice(0, screenWidth)" :img-url="book.img" :key="index" @click.native="goTobookDetails(book.forigenId)"></book-preview>
+          <hr>
+          <div class="read-list">
+              <book-preview class="book-preview"
+                             v-for="(book , index) in currProfile.readList"
+                            :img-url="book.img" :key="index" @click.native="goTobookDetails(book.forigenId)">
+                            </book-preview>
+          </div>
       </div>
-  </div>
-<div class="right-panel jenres">
+    <!-- <div class="right-panel jenres">
+          <div class="curr-book-reading">
+                <div class="book-align">
+                    <h3>Reading right now</h3>
+                          <book-preview :img-url="currProfile.currentlyReading.img"
+                                        @click.native="goTobookDetails(currProfile.currentlyReading.forigenId)">
+                            </book-preview>
+                </div>
+                <div class="jenres" v-if="!isEditing">
+                  <div class="jenres-wrapper">
+                      <h1>Favorite jenres</h1>
+                      <p v-for="jenre in currProfile.favoriteJenre" :key="jenre">{{jenre}}</p>
+                    </div>
+                </div> -->
 
-  <div class="curr-book-reading">
-      <div class="book-align">
-      <h3>Reading right now</h3>
-      <book-preview :img-url="loggedinUser.currentlyReading.img" @click.native="goTobookDetails(loggedinUser.currentlyReading.forigenId)"></book-preview>
-      </div>
-      <div class="jenres" v-if="!isEditing">
-        <div class="jenres-wrapper">
-        <h1>Favorite jenres</h1>
-        <p v-for="jenre in loggedinUser.favoriteJenre" :key="jenre">{{jenre}}</p></div>
-    </div>
-  </div>
-</div>
-
-<modal-component v-if="showWishListModal" :list="modalList" @closeFromCancel="showWishList"></modal-component>
-
-
-
-</section>      
-
-        <form class="signin-form " v-if="isEditing">
+    <!-- </div>
+    </div> -->
+  </section>      
+        <!-- <form class="signin-form " v-if="isEditing">
           <h4>Password</h4>
              <el-input type="password" placeholder="password" v-model="updatedUser.pass"></el-input>
           <h4>User Name</h4>
              <el-input type="text" placeholder="username" v-model="updatedUser.username"></el-input>
           <h4>Profile Image</h4>
              <el-input type="text" placeholder="Copy image URL" v-model="updatedUser.avatar"></el-input>
-
             <el-button type="default" v-if="isEditing" @click="isEditing = false">Cancel</el-button>
             <el-button type="default" v-if="isEditing" @click="saveUpdatedPrifile">Save</el-button>
-        </form>
-    </div>
-
+        </form> -->
+        </div>
+  </section>
 </template>
 
 <script>
 import ShelfCmp from "./ShelfCmp";
 import store from "../store/store.js";
 import bookPreview from "./BookPreview";
-import ModalComponent from "./ModalComponent";
+import ProfileCard from "../pages/ProfileCard";
+import ProflieStatistics from "../pages/ProflieStatistics";
 
 import {
-  DELETE_USER,
-  SIGNOUT,
-  UPDATE_USER,
-  GET_USER
-} from "../store/modules/UserModule.js";
+  DELETE_USER,  SIGNOUT,  UPDATE_USER,  REMOVE_FROM_WISH_LIST} from "../store/modules/UserModule.js";
+import {GET_PROFILE} from "../store/modules/ProfileModule.js";
 
 export default {
   name: "ProfilePage",
   components: {
+    ProfileCard,
+    ProflieStatistics,
     bookPreview,
-    ModalComponent
   },
 
   computed: {
-    loggedinUser() {
-      // return this.$store.state.user.loggedinUser;
-      return this.$store.state.user.currProfile;
+    currProfile() {
+      return this.$store.state.profile.currProfile;
     },
-
+    isProfileOfLoggenInUser() {
+      return this.$store.state.user.loggedinUser._id === this.$store.state.profile.currProfile._id
+    },
     screenWidth() {
       if (window.innerWidth > 1300) {
         return 5;
@@ -116,58 +99,36 @@ export default {
   },
   data() {
     return {
-      modalList: "",
-      showWishListModal: false,
-      pagesRead: 0,
+      noProfile: false,
       userImg: null,
       userId: this.$store.state.user.loggedinUser._id,
       isEditing: false,
       updatedUser: {
         username: this.$store.state.user.loggedinUser.username,
         name: this.$store.state.user.loggedinUser.name,
-        lastName: this.$store.state.user.loggedinUser.lastName,
-        pass: this.$store.state.user.loggedinUser.pass,
         avatar: this.$store.state.user.loggedinUser.avatar,
-        isAdmin: "",
         reviews: this.$store.state.user.loggedinUser.bookReviews,
-        friends: this.$store.state.user.loggedinUser.friends,
         readList: this.$store.state.user.loggedinUser.uBooks,
-        joinedAt: this.$store.state.user.loggedinUser.joinedAt
       }
     };
   },
   created() {
+    //GETTING PROFILE FROM PARMARS ID
     var id = this.$route.params.id;
+    var self = this
     this.$store
       .dispatch({
-        type: GET_USER,
-        id: id
+        type: GET_PROFILE,
+        id
       })
-      .then(x => {
-        var pagesCount = this.$store.state.user.currProfile.readList.reduce(
-          (acu, curr) => {
-            return acu + curr.pages;
-          },
-          0
-        );
-        this.pagesRead = pagesCount;
-      });
+      .then(_ => { console.log('finy your proflie')})
+      .catch(err => {
+          self.noProfile = true})
   },
   methods: {
     goTobookDetails(id) {
-      console.log('id: ', id);
-      // this.$router.push(`/book/${this.loggedinUser.currentlyReading._id}`);
+      // ADD SOME TRANSITON
       this.$router.push(`/book/${id}`);
-    },
-
-    showWishList(listType) {
-      document.addEventListener("keyup", evt => {
-        if (evt.keyCode === 27) {
-          this.showWishListModal = false;
-        }
-      });
-      this.modalList = listType;
-      this.showWishListModal = !this.showWishListModal;
     },
     deleteReview(bookId) {
       // this.updatedUser.reviews = this.updatedUser.reviews.filter(review => review.id != bookId)
@@ -180,7 +141,8 @@ export default {
     },
 
     editProfile(userId, updatedUser) {
-      this.isEditing = !this.isEditing;
+      console.log('editind');
+      // this.isEditing = !this.isEditing;
     },
 
     saveUpdatedPrifile() {
@@ -197,7 +159,8 @@ export default {
       this.isEditing = !this.isEditing;
     },
 
-    deleteUser(userId) {
+    deleteUser() {
+      var userId = this.$store.state.user.loggedinUser._id
       this.$confirm(
         "This will permanently delete the Profile. Continue?",
         "Warning",
@@ -292,11 +255,6 @@ export default {
   margin-bottom: 5px;
 }
 
-.profile-btns {
-  display: flex;
-  flex-direction: column;
-}
-
 h4 {
   color: #999;
   text-align: left;
@@ -312,16 +270,6 @@ h3 {
   flex-flow: column;
 }
 
-.shelf {
-  width: 30%;
-}
-
-.statistics-item {
-  display: flex;
-  flex-direction: column-reverse;
-  color: #999;
-}
-
 .statistics-wrapper {
   width: 60%;
   color: #999;
@@ -335,13 +283,6 @@ h3 {
   justify-content: space-between;
 }
 
-.statistics {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  align-self: flex-start;
-}
-
 .fa {
   font-size: 5em;
 }
@@ -350,74 +291,18 @@ input {
   border: none;
   background: inherit;
 }
-.left-panel {
-  width: 15%;
-  margin-top: 6%;
-  margin-left: 3%;
-  align-self: flex-start;
-}
-
-.left-panel-content {
-  display: flex;
-  flex-flow: column;
-}
-
-.left-panel-content > * {
-  margin-bottom: 5px;
-}
-
-.left-panel > * {
-  margin-bottom: 10px;
-}
 
 h1 {
   font-size: 2em;
+  text-align: center;
 }
 
 h2 {
   margin-top: 5%;
 }
 
-.profile-img {
-  width: 100%;
-}
-
 .edit-btn {
   width: 100%;
-}
-
-.time {
-  font-size: 13px;
-  color: #999;
-}
-
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-}
-
-.button {
-  padding: 0;
-  float: right;
-}
-
-.image {
-  width: 100%;
-  display: block;
-}
-
-.clearfix {
-  display: flex;
-  flex-direction: column;
-}
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-
-.clearfix:after {
-  clear: both;
 }
 
 /* ////////////  mobile query  //////////////// */
@@ -430,17 +315,6 @@ h2 {
     justify-content: space-between;
   }
 
-  .statistics-wrapper {
-    width: 100%;
-  }
-
-  .left-panel {
-    width: 95%;
-    height: 25%;
-    margin-top: 6%;
-    margin: auto;
-  }
-
   .content-wrapper {
     display: flex;
     width: 95%;
@@ -448,24 +322,6 @@ h2 {
     justify-content: space-between;
     margin-top: 2%;
   }
-
-  .statistics {
-    width: 100%;
-    justify-content: space-around;
-    margin-top: 1%;
-  }
-
-  .profile-img {
-    margin-top: 2%;
-    width: 40%;
-  }
-
-  .profile-btns {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
   .curr-book-reading {
     flex-direction: row;
     margin-top: 5%;
@@ -475,12 +331,12 @@ h2 {
     display: flex;
     flex-flow: row wrap;
     width: 100%;
-    justify-content: flex-end;
+    justify-content: space-around;
   }
 
   .right-panel.jenres {
     width: unset;
-    justify-content: flex-end;
+    justify-content: space-around;;
   }
 
   .book-align {
@@ -490,6 +346,10 @@ h2 {
   .signin-form {
     margin-left: 0;
     width: 95%;
+  }
+
+  .statistics-wrapper {
+    width: 100%;
   }
 }
 </style>

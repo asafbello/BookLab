@@ -1,5 +1,6 @@
 
 import axios from 'axios'
+import { resolve } from 'url';
 
 
 let URL = 'http://localhost:3003'
@@ -21,6 +22,7 @@ function getUserById(id) {
     .then(res => {
         return res.data
     })
+    .catch(err =>{throw err})
     
 }
 
@@ -47,6 +49,25 @@ function addToReadList(userId, book) {
         .then(res => {
             return res.data
         })
+}
+
+function removeFromWishList(userId, bookId) {
+    return axios.put(`${URL}/removeFromWishList`, {userId, bookId} )
+        .then(res => {
+            return res.data;
+        }).catch(err => {
+            throw err
+        });
+}
+
+function removeFromReadList(userId, bookId) {
+    return axios.put(`${URL}/removeFromReadList`, {userId, bookId} )
+        .then(res => {
+            console.log('res: ', res);
+            return res.data;
+        }).catch(err => {
+            throw err
+        });
 }
 
 function setCurrentlyReading(userId, book) {
@@ -82,7 +103,6 @@ function editUser(userId, updatedUser) {
 function uploadImage(file) {
     const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/diowvie2f/image/upload'
     const CLOUDINARY_PRESET = 'qvpbsmfe';
-    console.log('userservice');
     // fileUpload.addEventListener('change', function (event) {
     var file = event.target.files[0]
     var formData = new FormData()
@@ -113,5 +133,7 @@ export default {
     addToWishList,
     addToReadList,
     setCurrentlyReading,
-    getUsers
+    getUsers,
+    removeFromWishList,
+    removeFromReadList
 } 

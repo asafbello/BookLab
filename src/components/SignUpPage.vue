@@ -63,7 +63,7 @@
                         <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
                         <div class="el-upload__tip" slot="tip">jpg/png files with a size less than 500kb</div>
                         </el-upload> 
-                <el-form-item label="Choose For Me" prop="avatar" v-if="avatar"> 
+                <el-form-item label="Choose  Me" prop="avatar" v-if="avatar"> 
                         <el-button type="primary"  @click.native="setRandomAvatar"> <img  :src="randomAvatar" class="image mini-img" /> </el-button>                   
                 </el-form-item>    
                 <el-form-item class="sign-up-btn-desktop">
@@ -106,7 +106,16 @@ export default {
             required: true,
             message: "Please input Your name",
             trigger: "blur"
-          }
+          },
+          { max: 12, message: "Your name needs to be at most 12 characters" }
+        ],
+        username: [
+          {
+            required: true,
+            message: "Please input Your name",
+            trigger: "blur"
+          },
+          { max: 12, message: "Your user name needs to be at most 12 characters" }
         ],
         pass: [
           {
@@ -114,7 +123,7 @@ export default {
             message: "Please enter your password",
             trigger: "blur"
           },
-          { min: 2, message: "Your password need to be at least 2" }
+          { min: 2, message: "Your password needs to be at least 2" }
         ]
       }
     };
@@ -122,7 +131,7 @@ export default {
   methods: {
     signup() {
       let valid = true;
-      if (this.signupDetails.name === "" || this.signupDetails.pass <= 2)
+      if (this.signupDetails.name === "" || this.signupDetails.pass <= 2 || this.signupDetails.name.length > 12 || this.signupDetails.username.length > 12)
         valid = false;
       if (valid) {
         this.$store
@@ -137,7 +146,7 @@ export default {
           .catch(err => this.$message.error("Sorry, cant sign you in"));
       } else {
         this.$message({
-          message: "please fill the form",
+          message: "please fill the form correctly",
           type: "warning"
         });
         return false;

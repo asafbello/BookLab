@@ -89,7 +89,7 @@ padding: .5vw;
   opacity: 0;
  transform: translateY(180px);
 }
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 768px) {
  .card-wrapper{
     width: 100%;
  }

@@ -1,22 +1,25 @@
 <template>
   <main>
     <!-- Readers' profiles -->
-    <article class="profile-display">
+    <article class="profile-display" v-if="profilesFromReviews.length > 0">
       <h3 class="profile-title">Also read by</h3>
       <profiles-prev :profiles="profilesFromReviews"></profiles-prev>
     </article>
     <section class="book-header">
         <!-- List select -->
-      <div class="book-aside">
-        <div class="add-to-shelf">
+        <!-- <div class="add-to-shelf">
             <el-select v-model="readState" placeholder="Wish List">
               <el-option value="Read"></el-option>
               <el-option value="Reading"></el-option>
               <el-option value="WishList"></el-option>
             </el-select>
-            <el-button class="add-book" type="primary"
-            @click.native="setBookToList(currBook)">Add To My Shelf</el-button>
-        </div>
+            <el-button class="add-book" type="primary" @click.native="setBookToList(currBook)">Add To My Shelf</el-button>
+        </div> -->
+
+
+
+      <div class="book-aside">
+        <div class="bookimg-and-rate">
         <img v-if="currBook" class="book-img" :src="currBook.img" />
         <!-- Rating -->
         <div class="block">
@@ -26,29 +29,42 @@
             <el-rate v-else :value=".5" disabled show-score text-color="#ff9900"
             score-template="No rates yet"></el-rate>
         </div>
+              <div class="select-menu">
+            <img class="img-icon-select" src="https://png.icons8.com/office/100/000000/book-shelf.png"  @click.native="setBookToList(currBook)">
+            <el-select v-model="readState" placeholder="Wish List">
+              <el-option value="Read">Read <img src="https://png.icons8.com/metro/20/000000/checkmark.png"></el-option>
+              <el-option value="Reading">Reading <img src="https://png.icons8.com/ios/20/000000/reading.png"></el-option>
+              <el-option value="WishList">Wish list <img src="https://png.icons8.com/wired/20/000000/star-of-bethlehem.png"></el-option>
+            </el-select>
+            </div>
+        </div>
+
       <!-- Action buttons -->
-      <div class="actn-btns">
+      <!-- <div class="actn-btns">
         <i class="fa fa-video-camera vid-review" @click="showVideoModal" aria-hidden="true"> </i>
         <el-button type="primary" @click="showReviewModal">Add Review</el-button>
-        <i class="fa fa-shopping-cart copy-btn" aria-hidden="true"></i>
-      </div>
+        <i class="fa fa-shopping-cart copy-btn" @click="getBuylink" aria-hidden="true"></i>
+       </div> -->
       <!-- Book content -->
       <main class="book-content" v-if="currBook">
         <div>
+        <div class="title-and-author">
           <h1 v-if="currBook">{{currBook.title}}</h1>
           <span class="pageCount">{{currBook.pages }} pages 
           <i class="fa fa-file-text-o" aria-hidden="true"></i>
           </span>
+        <h5 class="book-author">By {{currBook.author}}</h5>
         </div>
-        <h5 class="book-author">{{currBook.author}}</h5>
+      </div>
           <!-- Book description start -->
         <article class="book-review">
           <p class="book-desc" v-html="currBook.desc"></p>
         </article>
+     
         <!-- Book description end -->
-        <article class="links">
+        <!-- <article class="links">
         <el-button class="chat-btn" type="primary">Join Book Chat <span class="down-arrow">↓</span></el-button>
-        </article>
+        </article> -->
           <!-- Review modal -->
         <div class="modal-wrapper">
           <transition name="fadeReview">
@@ -57,15 +73,34 @@
             </div>
           </transition>
         </div>
+                  <div class="actions">
+            <img class="img-icon" src="https://png.icons8.com/color/100/000000/youtube-play.png" @click="showVideoModal">
+            <img class="img-icon" src="https://png.icons8.com/dusk/100/000000/hand-with-pen.png" @click="showReviewModal">
+            <img class="img-icon" src="https://png.icons8.com/office/100/000000/collaboration.png">
+            <div class="add-to-shelf" >
+
+        </div>
+        
+        </div>
+              <!-- <div v-if="screenWidth" class="select-menu-mobile">
+            <img class="img-icon-mobile" src="https://png.icons8.com/office/100/000000/book-shelf.png"  @click.native="setBookToList(currBook)">
+            <el-select v-model="readState" placeholder="Wish List">
+              <el-option value="Read">Read <img src="https://png.icons8.com/metro/20/000000/checkmark.png"></el-option>
+              <el-option value="Reading">Reading <img src="https://png.icons8.com/ios/20/000000/reading.png"></el-option>
+              <el-option value="WishList">Wish list <img src="https://png.icons8.com/wired/20/000000/star-of-bethlehem.png"></el-option>
+            </el-select>
+            </div> -->
       </main>
-    </div>
-      <!-- Book reviews -->
-      <section v-if="currBook" class="book-reviews">
+            <section v-if="currBook" class="book-reviews">
         <book-reviews v-if="currBook.reviews" :reviews="currBook.reviews"></book-reviews>
         <div v-else class="first-review">Be the first to review {{currBook.title}}!
           <img src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
         </div>
       </section>
+    </div>
+
+      <!-- Book reviews -->
+
         <!-- Video modal -->
         <div class="video-wrapper">
           <transition name="fadeVideo">
@@ -112,13 +147,18 @@ export default {
     return {
       ratingVal: null,
       showModal: false,
-      readState: "Mark Book",
+      readState: "Add to list",
       isReadMore: false,
       showVideo: false,
-      videoSrc: null,
+      videoSrc: null
     };
   },
   computed: {
+    screenWidth() {
+      if (window.innerWidth < 768) return true
+      else return false;
+    },
+
     ...mapGetters([
       "currBook",
       "isUser",
@@ -137,10 +177,20 @@ export default {
       });
       // this.$store
       //   .commit({ type: SET_PROFILES , profiles })
-      return profiles
+      return profiles;
     }
   },
   methods: {
+    getBuylink() {
+      APIService.getSalesInfo(this.currBook.forigenId)
+        .then(saleLink => {
+            console.log(saleLink)
+            window.open(
+              saleLink,
+              '_blank'
+            )
+        })
+    },
     showVideoModal() {
       let title = this.currBook.title + " funny book review";
       APIService.getVideo(title).then(videoSrc => {
@@ -258,6 +308,37 @@ export default {
 
 <style scoped>
 
+.img-icon-select {
+  margin: auto;
+}
+.book-reviews {
+  width: 30%;
+}
+.img-icon {
+  cursor: pointer;
+  width: 25%;
+}
+
+.title-and-author {
+  text-align: left;
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.bookimg-and-rate {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 25%;
+  margin: 0;
+  margin-top: 5%;
+}
+
 .book-header {
   display: flex;
   flex-direction: column;
@@ -271,9 +352,10 @@ export default {
 
 .book-aside {
   display: flex;
-  justify-content: flex-start;
-  flex-flow: column nowrap;
-  max-width: 280px;
+  justify-content: space-between;
+  flex-direction: row;
+  /* flex-flow: column nowrap; */
+  /* max-width: 280px; */
   margin: 20px 20px;
 }
 
@@ -282,9 +364,12 @@ export default {
 }
 
 .book-img {
-  max-width: 280px;
+  /* max-width: 280px; */
+  width: 50%;
   height: auto;
   display: block;
+  margin: auto;
+  margin-top: 0;
   margin-bottom: 15px;
 }
 
@@ -300,6 +385,7 @@ export default {
   padding-right: 2vw;
   padding-left: 2vw;
   overflow: hidden;
+  text-align: left;
 }
 .add-to-shelf {
   display: flex;
@@ -327,7 +413,10 @@ export default {
 }
 
 .book-content {
-  margin-top: 25px;
+  /* margin-top: 25px; */
+  display: flex;
+  flex-direction: column;
+  width: 35%;
 }
 
 .close-vid {
@@ -352,15 +441,15 @@ export default {
 
 .book-author {
   font-size: 1.5em;
-  margin-top: .8em;
-  margin-bottom: .8em;
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
 }
 
 .profile-display {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  margin-top: .5em;
+  margin-top: 0.5em;
   border: 1px solid var(--main-color);
   border-radius: 1em;
   margin-right: 1.5em;
@@ -373,24 +462,56 @@ export default {
 }
 
 /* Modal fade */
-.fadeReview-enter-active, .fadeReview-leave-active {
-  transition: opacity .5s
+.fadeReview-enter-active,
+.fadeReview-leave-active {
+  transition: opacity 0.5s;
 }
-.fadeReview-enter, .fadeReview-leave-to {
-  opacity: 0
+.fadeReview-enter,
+.fadeReview-leave-to {
+  opacity: 0;
 }
 
 /* Video modal fade */
-.fadeVideo-enter-active, .fadeVideo-leave-active {
-  transition: opacity .5s
+.fadeVideo-enter-active,
+.fadeVideo-leave-active {
+  transition: opacity 0.5s;
 }
-.fadeVideo-enter, .fadeVideo-leave-to {
-  opacity: 0
+.fadeVideo-enter,
+.fadeVideo-leave-to {
+  opacity: 0;
 }
+
+.select-menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%;
+  margin: auto;
+  margin-top: 5%;
+}
+
+
 
 /* ////////////  mobile query  //////////////// */
 
 @media screen and (max-width: 768px) {
+  .book-reviews {
+    width: 100%;
+    margin-top: 3%;
+  }
+
+  .el-input {
+    width: 100%;
+  }
+
+  .select-menu-mobile {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%;
+  margin: auto;
+  margin-top: 5%;
+    width: 100%;
+}
+
   .book-header {
     display: flex;
     flex-flow: column;
@@ -418,45 +539,77 @@ export default {
   }
 
   .book-author {
-  font-size: 1.5em;
-  margin-top: .8em;
-  margin-bottom: .8em;
+    font-size: 1.5em;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
   }
 
   .actn-btns {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  left: .8em;
-  width: 16em;
-  margin-bottom: .7em;
-  margin-top: .7em;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    left: 0.8em;
+    width: 16em;
+    margin-bottom: 0.7em;
+    margin-top: 0.7em;
+    align-items: center;
   }
 
   .profile-display {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  margin-top: .5em;
-  border: 1px solid var(--main-color);
-  border-radius: 1em;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-top: 0.5em;
+    border: 1px solid var(--main-color);
+    border-radius: 1em;
   }
 
   .profile-title {
-  margin-top: .4em;
-  font-size: 1.2em;
+    margin-top: 0.4em;
+    font-size: 1.2em;
+  }
+
+  .book-aside {
+    flex-direction: column;
+  }
+
+  .book-img {
+    width: 100%;
+  }
+
+  .select-menu {
+    width: 50%;
+    margin-top: 15%;
+  
+  }
+
+  .img-icon {
+    width: 100%;
+  }
+
+  .actions {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .book-content {
+    width: 95%;
+  }
+
+  .title-and-author {
+    margin-top: 5%;
+    text-align: center;
+  }
+
+  .bookimg-and-rate {
+    width: 50%;
+    margin: auto;
+    margin-bottom: 3%;
   }
 }
 </style>
 
- <p class="book-desc" :style="styleReadMore" @click="isReadMore = !isReadMore"></p>
 
 
-  Read more function on methods:
-    // styleReadMore() {
-      // return {
-      //   height: this.isReadMore ? "" : "300px"
-      // }
-    // },
+
 

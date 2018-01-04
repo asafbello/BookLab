@@ -17,6 +17,21 @@ import BookService from './BookService.js'
 //         .catch(err => console.log(err))
 // }
 
+function getSalesInfo(googleId) {
+    const SALE_URL = 'https://www.googleapis.com/books/v1/volumes';
+
+    return axios
+    .get(`${SALE_URL}/${googleId}`)
+        .then(res => {
+            console.log(res.data.saleInfo.buyLink);
+            return res.data.saleInfo.buyLink;
+        })
+        .catch(err => {
+            console.error(err);
+            err;
+        });
+}
+
 function getBookFromGoogle(foreingId) {
     return axios
     .get(`${GOOGLE_URL}/${foreingId}`)
@@ -64,5 +79,6 @@ export default {
     getBookFromGoogle,
     searchBook,
     getBooksShelf,
-    getVideo
+    getVideo,
+    getSalesInfo
 }

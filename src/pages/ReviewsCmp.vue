@@ -3,7 +3,7 @@
     <el-carousel class="carousel">
       <el-carousel-item  v-for="(review, index) in reviews" :key="index">
           <div class="reveiw-flex">
-               <div class="img-wrraper"> <img :src="review.userAvatar" class="avatar"/></div>
+                <img :src="review.userAvatar" class="avatar"/>
             <blockquote>
             <router-link :to="'/user/' + review.byUserId">
                         {{review.userName}} said: </router-link>
@@ -33,67 +33,67 @@ export default {
     return {
       hover: false
     };
-    computed:{
+    computed: {
     }
-  },
+  }
 };
 </script>
 
 <style scoped>
-.carousel{
-    height: 100%;
+.carousel {
+  height: 100%;
 }
 blockquote {
-    background-color: rgb(255, 255, 255);
-    border-radius: 6px;
-    font-family: Georgia, serif;
-    font-size: 1.2em;
-    line-height: 1.4;
+  background-color: rgb(255, 255, 255);
+  border-radius: 6px;
+  font-family: Georgia, serif;
+  font-size: 1.2em;
+  line-height: 1.4;
 }
 p.author {
-    background-color: transparent;
-    font-weight: 500;
-    font-size: 22px;
-    line-height:22px;
-    margin: 13px 0 0 18px;
+  background-color: transparent;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 22px;
+  margin: 13px 0 0 18px;
 }
 strong {
-    color: rgb(68, 68, 68);
+  color: rgb(68, 68, 68);
 }
-
 
 a {
-    color: rgb(64, 131, 169);
- text-decoration: none;
+  color: rgb(64, 131, 169);
+  text-decoration: none;
 }
-.avatar{
-    width: 7vw;
-    display: block;
-    border-radius: 2em;
-    border: .1vw solid rgba(182, 182, 182, 0.363)
+.avatar {
+  width: 10vw;
+  display: block;
+  border-radius: 2em;
+  border: 0.1vw solid rgba(182, 182, 182, 0.363);
+  box-shadow: 7px 4px 4px 0 rgba(7, 19, 26, 0.12),
+    0 4px 12px 0 rgba(2, 23, 36, 0.12);
 }
-.book-name a{
-color: var(--secondary-color)
+.book-name a {
+  color: var(--secondary-color);
 }
-.reveiw-flex{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+.reveiw-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
-
-.reveiw-flex *{
-    padding: .5vw;
-    margin: 0;
+.reveiw-flex * {
+  padding: 0.5vw;
+  margin: 0;
 }
-.img-wrraper{
+/* .img-wrraper{
     background: rgb(245, 245, 245);;
     margin-bottom: .5vw;
-}
-@media screen and (max-width: 650px) {
-    .reviews-header {
+} */
+@media screen and (max-width: 768px) {
+  .reviews-header {
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -101,9 +101,18 @@ color: var(--secondary-color)
     margin-left: 3vw;
     margin-right: 3vw;
   }
-  .review-wrapper {
+  
+  -wrapper {
     width: 22em;
   }
-}
 
+  .reveiw-flex {
+      width: 95%;
+      margin: auto;
+  }
+
+  .avatar {
+      width: 20vw;
+  }
+}
 </style>

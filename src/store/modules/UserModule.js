@@ -4,7 +4,6 @@ import LocalService from '../../services/StorageService.js'
 export const SIGNUP = 'user/signup';
 export const SIGNIN = 'user/signin';
 export const SET_USER = 'user/setUser';
-export const SET_PROFILE = 'user/setProfile';
 export const SIGNOUT = 'user/signout';
 export const DELETE_USER = 'user/deleteUser';
 export const UPDATE_USER = 'user/editUser';
@@ -17,12 +16,12 @@ export const UPDATE_USER_WISH_LIST = 'user/addToWishList'
 export const SET_CURR_READING = 'user/currentlyReading'
 
 
+
 const STORAGE_KEY = 'loggedinUser';
 
 export default {
     state: {
         loggedinUser:  LocalService.load(STORAGE_KEY),
-        currProfile: null
     },
     getters: {
         isUser(state) {
@@ -31,9 +30,6 @@ export default {
         loggedInUser(state) {
             return state.loggedInUser;
         }
-        //     isAdmin(state) {
-        //         return state.loggedinUser && state.loggedinUser.isAdmin
-        //     }
     },
     mutations: {
         [SET_USER](state, { user }) {
@@ -43,25 +39,20 @@ export default {
             state.loggedinUser = null;
         },
         [UPDATE_USER](state, { user }) {
+            LocalService.save(STORAGE_KEY,user)
             state.loggedinUser = user;
         },
         [ADD_REVIEW_USER](state, { reviewUser }) {
             state.loggedinUser.reviews.push(reviewUser)
             state.loggedinUser.readList.push(reviewUser)
         },
-        [SET_PROFILE](state, { profile }) {
-            state.currProfile = profile;
-        },
-        // [UPDATE_USER_WISH_LIST](state, {book}) {
-        //     state.loggedInUser.wishList.push(book)
-        // }
+
     },
     actions: {
         [UPDATE_USER]({ commit, state }, { userId, updatedUser }) {
             return UserService.editUser(userId, updatedUser)
                 .then(user => {
                     commit({ type: UPDATE_USER, user })
-                    LocalService.save(STORAGE_KEY,this.state.loggedinUser)
                 })
         },
         [SIGNUP]({ commit }, { signupDetails }) {
@@ -127,7 +118,6 @@ export default {
                 // saveToLocalStorage(this.state.loggedinUser)
                 })
         },
-
         [SET_CURR_READING] ({commit}, {id, book}) {
             UserService
                 .setCurrentlyReading(id, book) 
