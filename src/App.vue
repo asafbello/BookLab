@@ -44,7 +44,7 @@ export default {
   background: url('./assets/img/home.jpeg');
   background-repeat: no-repeat;
   content: "";
-  opacity: 0.65;
+  opacity: 0.8;
   background-size: cover;
   position: fixed;
   top: 0;
