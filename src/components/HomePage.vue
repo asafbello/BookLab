@@ -103,12 +103,10 @@ export default {
     }
   },
   created() {
-    console.log(this.$filters)
     // GET BOOKS
     this.$store
       .dispatch({ type: LOAD_BOOKS })
       .then(books => {
-        console.log("we have books :)");
         this.loading = false;
       })
       .catch(err => {
@@ -146,17 +144,13 @@ export default {
 <style scoped>
 
 .search-book {
-  background: linear-gradient(45deg, #7a7993 1%,#1f315b 100%); 
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7a7993', endColorstr='#1f315b',GradientType=1 );
+  background: linear-gradient(0deg, #7a7993 1%,#1f315b 100%); 
   padding: 2vw 3vw 5vw 3vw;
   display: flex;
   flex-direction: column;
   align-content: space-between;
   justify-content: space-between;
   height: 40vh;
-  /* position: absolute; 
-  top: 10px;
-  z-index: 0; */
 }
 .welcome-user{
   color: rgb(226, 226, 226);
@@ -166,6 +160,7 @@ export default {
   flex-direction: column;
   align-content: flex-end;
   justify-content: flex-end;
+  text-align: right;
 }
 
 .welcome-user h2{
@@ -175,6 +170,7 @@ export default {
   line-height: 50px;
 }
 .welcome-user h1{
+  padding: 1vw 0 0 0;
 color: #fff; 
 font-family: 'Righteous';
  font-size: 2em; 
@@ -196,7 +192,7 @@ font-family: 'Righteous';
 .txt-title{
   margin: 0 0 0 0 ;
   padding: 1vh 0 0 2vw;
-  color: var(--main-color);
+  color: white;
   text-align: left;
 }
 

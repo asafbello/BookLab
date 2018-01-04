@@ -2,9 +2,11 @@
 <template v-if="searchRes">
         <el-row class="card-wrapper">
           <transition-group name="list">
-            <el-col :span="8"  v-for="(book,index) in searchRes" :key="book.id" class="card-book list-item">
+            <el-col v-for="(book,index) in searchRes" :key="book.id" class="card-book list-item">
               <el-card :body-style="{ padding: '0px' }" class="card-container">
-                <img :src="book.volumeInfo.imageLinks.thumbnail" class="image">
+                 <router-link :to="'/book/' + book.id">
+                    <img :src="book.volumeInfo.imageLinks.thumbnail" class="image">
+                 </router-link>
                   <div>
                       <div class="bottom clearfix">
                       <span><i class="fa fa-book" aria-hidden="true"></i> {{book.volumeInfo.title}}</span>
@@ -62,7 +64,14 @@ padding: .5vw;
     flex-wrap: wrap;
     align-items: space-between;
     justify-content: center;
+      top: -4.3vw;
+      margin: 0 auto;
+      background: rgba(0, 0, 0, 0.288);
+      border-radius: 2em;
+      border: .1vw solid rgba(255, 255, 255, 0.397);
+      border-top: none;
   }
+
   .card-book{
     width: 15vw;
     transition: all .5s ease;
@@ -97,6 +106,13 @@ padding: .5vw;
      width: 10vw;
      font-size: .5em;
    }
+}
+@media screen and (max-width: 500px) {
+ .card-wrapper{
+    top:5vw;
+    padding: 0;
+    margin: 0;
+ }
 }
 
 </style>

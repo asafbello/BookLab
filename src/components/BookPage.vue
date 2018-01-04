@@ -37,7 +37,7 @@
       <main class="book-content" v-if="currBook">
         <div>
         <div class="title-and-author">
-          <h1 v-if="currBook">{{currBook.title}}</h1>
+          <h1 v-if="currBook" >{{currBook.title}}</h1>
           <span class="pageCount">{{currBook.pages }} pages 
           <i class="fa fa-file-text-o" aria-hidden="true"></i>
           </span>
@@ -46,7 +46,13 @@
       </div>
           <!-- Book description start -->
         <article class="book-review">
-          <p class="book-desc" v-html="currBook.desc"></p>
+          <!-- <p class="book-desc" v-html="currBook.desc"></p> -->
+          <el-collapse>
+            <el-collapse-item title="Read Book Description" name="1">
+              <div v-html="currBook.desc"></div>
+              
+             </el-collapse-item>
+          </el-collapse>
         </article>
      
           <!-- Review modal -->
@@ -263,15 +269,16 @@ export default {
   width: 25%;
 }
 
-.title-and-author {
-  text-align: left;
-}
-
 .actions {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  margin-top: 1vw;
+  background-color: rgba(238, 238, 238, 0.808);
+}
+.actions *{
+  background-color: rgba(247, 247, 247, 0.808);
 }
 
 .bookimg-and-rate {
@@ -383,6 +390,10 @@ export default {
   cursor: pointer;
 }
 
+.title-and-author{
+  background-color: rgba(238, 238, 238, 0.808);
+}
+
 .book-author {
   font-size: 1.5em;
   margin-top: 0.8em;
@@ -402,7 +413,7 @@ export default {
 
 .profile-title {
   margin-top: 1em;
-  font-size: 2em;
+  font-size: 1em;
 }
 
 /* Modal fade */
@@ -502,7 +513,7 @@ export default {
 
   .profile-title {
     margin-top: 0.4em;
-    font-size: 1.2em;
+    font-size: .9em;
   }
 
   .book-aside {
@@ -534,6 +545,7 @@ export default {
   .title-and-author {
     margin-top: 5%;
     text-align: center;
+    text-align: left;
   }
 
   .bookimg-and-rate {
