@@ -60,7 +60,6 @@ blockquote {
   height: 100%;
 }
 
-
 p.author {
   background-color: transparent;
   font-weight: 500;

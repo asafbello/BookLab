@@ -4,7 +4,7 @@
       <el-carousel :interval="6000" type="card">
             <el-carousel-item v-for="book in shelf" :key="book.forigenId">
               <router-link :to="'/book/' + book.forigenId">
-                   <h3>
+                   <h3 class="book-title">
                      <i class="fa fa-book" aria-hidden="true"></i> {{ book.title }}
                     </h3>
                   <p v-loading="loading"><img :src="book.img"  class="image" v-on:load="isLoading"></p>
@@ -12,10 +12,10 @@
             </el-carousel-item>
       </el-carousel>
   </div>
-          <div class="shelf animated  swing" v-if="show">
+          <!-- <div class="shelf animated  swing" v-if="show">
               <div class="bottom-shelf"></div>
               <div class="bottom-shelf-edge"></div>
-          </div>
+          </div> -->
 </section>
 </template>
 
@@ -44,7 +44,6 @@ export default {
 
 <style scoped>
 .el-carousel__item h3 {
-  color: var(--special-btn);
   font-size: 1.3em;
   opacity: 0.75;
   /* line-height: 200px; */
@@ -53,7 +52,7 @@ export default {
 }
 .el-carousel__item a {
   text-decoration: none;
-  color: var(--special-btn);
+  color: black;
 }
 .el-carousel__item a:hover {
   text-decoration: underline;
@@ -68,7 +67,8 @@ img {
 }
 
 .el-carousel__item:nth-child(2n + 1) {
-  background-color: var(--main-color);
+  /* background-color: var(--main-color); */
+  background-color: #ffffffde;
   opacity: 0.95;
 }
 .shelf-cmp {
@@ -81,6 +81,10 @@ img {
   margin-top: 2vh;
   width: 100%;
   max-width: 800px;
+}
+
+.book-title a {
+  color: black;
 }
 </style>
 

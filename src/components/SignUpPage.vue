@@ -107,7 +107,7 @@ export default {
             message: "Please input Your name",
             trigger: "blur"
           },
-          { max: 12, message: "Your name needs to be at most 12 characters" }
+          { max: 24, message: "Your name needs to be at most 12 characters" }
         ],
         username: [
           {

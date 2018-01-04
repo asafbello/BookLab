@@ -30,12 +30,12 @@
                             element-loading-spinner="el-icon-loading"
                             element-loading-background="rgba(0, 0, 0, 0.342)">
           </book-search-res>
-          <p class="txt-title"><i class="fa fa-user" aria-hidden="true"></i> Recently Joined Readers:</p>
+          <p class="txt-title"><i class="fa fa-user" aria-hidden="true"></i> Recently Joined Readers</p>
           <profiles-prev :profiles="profilesToDisplay"></profiles-prev>
-                    <p class="txt-title"><i class="fa fa-book" aria-hidden="true"></i> Latest Books In BookLub:</p>
+                    <p class="txt-title"><i class="fa fa-book" aria-hidden="true"></i> Running books</p>
           <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"  v-loading="loading"></shelf-cmp>
         <div class="space"></div>
-      <p class="txt-title"><i class="el-icon-tickets"></i> Latest Reviews In BookLub:</p>
+      <p class="txt-title"><i class="el-icon-tickets"></i> What Readers Think</p>
           <div class="space"></div>
         <reviews-cmp :reviews="recentReviews"></reviews-cmp>
         <!-- <quotes-cmp></quotes-cmp> -->
@@ -168,6 +168,7 @@ export default {
   justify-content: flex-end;
 }
 
+
 .welcome-user h2{
   font-size: 2em;
    letter-spacing: -1px;
@@ -188,17 +189,35 @@ font-family: 'Righteous';
   z-index: 1;
 }
 
+.el-card {
+    background: transparent;
+    border: none;
+}
+
 .page-entry {
   display: flex;
   justify-content: center;
   flex-direction: row;
 }
+
 .txt-title{
   margin: 0 0 0 0 ;
   padding: 1vh 0 0 2vw;
-  color: var(--main-color);
+  color: white;
   text-align: left;
-}
+  font-size: 1.1em;
+  margin-bottom: .9vh;
+  margin-top: 3vh;
+ }
+
+ .profile {
+    justify-content: flex-start;
+    background-color: #ffffffde;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    margin-bottom: 1vh;
+    margin-top: 3vh;
+ }
 
 .space{
   margin: 5vh;
@@ -216,5 +235,13 @@ font-family: 'Righteous';
       .welcome-user{
         visibility: hidden;
       }
+
+    .txt-title{
+      margin: 0 0 0 0 ;
+      padding: 1vh 0 0 2vw;
+      color: white;
+      text-align: left;
+      font-size: 1.1em;
+ }
 }
 </style>
