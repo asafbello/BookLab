@@ -1,10 +1,10 @@
-import Vuex from 'vuex';
 import Vue from 'vue'
+import moment from "moment"
 
-Vue.use
 
-export default Vue.filter('uppercase', val => {
-    return val.toUpperCase();
+Vue.filter('toDate', val => {
+    if (!val) return
+    return moment().to(val);
 });
 
 

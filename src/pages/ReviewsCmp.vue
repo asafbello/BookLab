@@ -2,9 +2,9 @@
   <section>
     <el-carousel class="carousel">
       <el-carousel-item  v-for="(review, index) in reviews" :key="index">
-          <div class="reveiw-flex">
+          <div class="review-flex">
                 <img :src="review.userAvatar" class="avatar"/>
-            <blockquote>
+            <blockquote height="100%">
             <router-link :to="'/user/' + review.byUserId">
                         {{review.userName}} said: </router-link>
                          &ldquo;{{review.review.txt}}&rdquo; ,
@@ -18,7 +18,7 @@
                 text-color="#ff9900 "
                 score-template="{value} stars">
             </el-rate>
-            <p>{{review.createdAt | dateFrom}}</p>
+            <p>{{review.createdAt | toDate}}</p>
             </blockquote>
             </div>
         </el-carousel-item>
@@ -43,13 +43,24 @@ export default {
 .carousel {
   height: 100%;
 }
+
+.review-flex {
+  background-color: #ffffffde;
+}
+
 blockquote {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255, 0);
   border-radius: 6px;
   font-family: Georgia, serif;
   font-size: 1.2em;
   line-height: 1.4;
 }
+
+.el-carousel__item.is-animating {
+  height: 100%;
+}
+
+
 p.author {
   background-color: transparent;
   font-weight: 500;
@@ -76,7 +87,7 @@ a {
 .book-name a {
   color: var(--secondary-color);
 }
-.reveiw-flex {
+.review-flex {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -84,7 +95,7 @@ a {
   width: 100%;
 }
 
-.reveiw-flex * {
+.review-flex * {
   padding: 0.5vw;
   margin: 0;
 }
@@ -106,7 +117,7 @@ a {
     width: 22em;
   }
 
-  .reveiw-flex {
+  .review-flex {
       width: 95%;
       margin: auto;
   }

@@ -1,7 +1,7 @@
-<template>
+<template class="nav-header">
     <div>
         <div class="line"></div> 
-            <el-menu  class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+            <el-menu  class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="transparent" text-color="#fff" active-text-color="#ffd04b">
             <el-menu-item class="logo-container" index="1" >
             <router-link to="/"><img  @mouseover="toglleLogo" :class="{flip:show}" class="animated logo" src="../assets/img/logo.png"/></router-link>
             </el-menu-item>
@@ -59,6 +59,11 @@ export default {
 </script>
 
 <style>
+
+.nav-header {
+  color: transparent;
+}
+
 .logo {
   max-height: 7vh;
   margin-bottom: .7vh;

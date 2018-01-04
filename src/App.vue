@@ -24,6 +24,7 @@ export default {
   position: relative;
   padding-bottom: 30vh;
   min-height: 100%;
+  background-color: rgba(0, 0, 0, 0.144);
 }
   .footer {
   position: absolute;
@@ -42,10 +43,11 @@ export default {
 
   
 body::after {
+  background-color: #00000021;
   background: url("./assets/img/cover.jpeg");
   background-repeat: no-repeat;
   content: "";
-  opacity: 0.45;
+  /* opacity: 0.25; */
   background-size: cover;
   position: fixed;
   top: 0;

@@ -6,6 +6,11 @@
         <img src="../assets/img/bookCovers/2.png" class="img-2">
         </div>
       <section class="search-book">
+        <div class="welcome-user">
+                    <h2> welcome to bookLub</h2>
+                    <h1>The Number One Social Network For Books</h1>
+        </div>
+            <div class="search-bar">
                 <el-input  @keyup.native="searchForBook()" 
                   suffix-icon="el-icon-search" 
                   :placeholder="'search and add '+ select" 
@@ -17,6 +22,7 @@
                   </el-input>
               <el-button  v-if="!input5"  @click.native="searchForBook()" type="primary" icon="el-icon-search">Search</el-button>
               <el-button  v-else @click.native="clearSearch()" type="primary" icon="el-icon-search">Clear</el-button>
+          </div>
         </section>
         <!-- CMPS -->
           <book-search-res :searchRes="bookSearchRes" v-loading="searching"
@@ -144,11 +150,38 @@ export default {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7a7993', endColorstr='#1f315b',GradientType=1 );
   padding: 2vw 3vw 5vw 3vw;
   display: flex;
-  flex-direction: row;
-  /* flex: 1; */
-  justify-content: center;
-  align-items: flex-end;
+  flex-direction: column;
+  align-content: space-between;
+  justify-content: space-between;
   height: 40vh;
+  /* position: absolute; 
+  top: 10px;
+  z-index: 0; */
+}
+.welcome-user{
+  color: rgb(226, 226, 226);
+  display: flex;
+  padding-left: 35vw;
+  margin: 4vw;
+  flex-direction: column;
+  align-content: flex-end;
+  justify-content: flex-end;
+}
+
+.welcome-user h2{
+  font-size: 2em;
+   letter-spacing: -1px;
+   text-shadow: 1px 1px 0 #000;
+  line-height: 50px;
+}
+.welcome-user h1{
+color: #fff; 
+font-family: 'Righteous';
+ font-size: 2em; 
+ font-weight: normal;
+  /* line-height: 60px; */
+ text-transform: uppercase;
+ text-shadow: 2px 2px 0 #000;
 }
 .input-with-select {
   width: 65vw;
@@ -165,51 +198,7 @@ export default {
   padding: 1vh 0 0 2vw;
   color: var(--main-color);
   text-align: left;
-  /* text-decoration: underline */
-
 }
-
-body::after {
-  background: url('../assets/img/home.jpeg');
-  background-repeat: no-repeat;
-  content: "";
-  opacity: 0.45;
-  background-size: cover;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: -1;
-}
-
-/* .page-header {
-  background-image: url('../assets/img/home.jpeg');
-  background-repeat: no-repeat;
-  opacity: 0.85;
-  z-index: -1;   */
-  /* background-size: cover;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  content: "";
-  left: 0; */
-  
-  /* } */
-/* body::after {
-  background: url('../assets/img/home.jpeg');
-  background-repeat: no-repeat;
-  content: "";
-  opacity: 0.45;
-  background-size: cover;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: -1;
-} */
 
 .space{
   margin: 5vh;
@@ -217,5 +206,15 @@ body::after {
 
 .el-button {
   z-index: 1;
+}
+
+@media screen and (max-width: 500px) {
+    .search-book {
+      background: inherit;
+      height: 5vh;
+      }
+      .welcome-user{
+        visibility: hidden;
+      }
 }
 </style>

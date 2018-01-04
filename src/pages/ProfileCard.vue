@@ -4,7 +4,7 @@
             <div style="padding: 14px;" class="left-panel-content">
               <span>{{profile.username}}</span>
               <div class="bottom clearfix">
-                <time class="time">Joined at: {{profile.joinedAt }}</time> <br>
+                <time class="time">Joined: {{profile.joinedAtNaaman | toDate }}</time> <br>
                 <div class="profile-btns">
                 <el-button type="text" v-if="isUser" class="button" @click.native="deleteUser">Delete Profile</el-button>
                 <el-button type="text" v-if="isUser" class="button"  @click.native="editProfile">Edit Profile</el-button>
