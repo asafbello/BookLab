@@ -10,20 +10,20 @@
         </div>
         <div class="statistics-item">
             <div class="icon-count">
-                <img @click="openModal(proflie.readList)"
+                <img @click="openModal(profile.readList)"
                         class="icon clickable" src="https://png.icons8.com/nolan/64/checkmark.png"
                         title="Checkmark" width="64" height="64">
                 <p>Books read </p>
-                <p>{{proflie.readList.length}}</p>
+                <p>{{profile.readList.length}}</p>
             </div>
         </div>
         <div class="statistics-item">
             <div class="icon-count">
-        <img @click="openModal(proflie.wishList)" 
+        <img @click="openModal(profile.wishList)" 
                 class="icon clickable" src="https://png.icons8.com/dusk/64/book-shelf.png"
                 title="Book Shelf" width="64" height="64">
                 <p>Books in wish list</p>
-                <p>{{proflie.wishList.length}}</p>
+                <p>{{profile.wishList.length}}</p>
         </div>
         </div>
             <profile-book-list-modal v-if="showModal" 
@@ -37,7 +37,7 @@
 <script>
 import ProfileBookListModal from "../components/ProfileBookListModal";
 export default {
-  props: ["proflie", "isUser"],
+  props: ["profile", "isUser"],
   components: { ProfileBookListModal },
   data() {
     return {

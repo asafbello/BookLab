@@ -3,8 +3,9 @@
         <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
             <div class="flipper">
                 <div class="front">
-                 <img class="book-img" style="box-shadow: 7px 7px 15px 0px rgb(177, 177, 180);
-" :src="imgUrl"/>
+                 <img class="book-img"
+				 	   style="box-shadow: 7px 7px 15px 0px rgb(177, 177, 180)"
+						:src="imgUrl"/>
                 </div>
                 <div class="back">
                     <img  class="book-img" :src="imgUrl" />
