@@ -2,7 +2,7 @@
   <section class="select-menu">
     <img class="img-icon-select"
                         src="https://png.icons8.com/office/100/000000/book-shelf.png">
-              <el-select v-if="!isReadList" v-model="readState" placeholder="placeholder"  @change="setBookToList">
+              <el-select v-if="!isReadList" v-model="readState" placeholder="Mark Book"  @change="setBookToList">
                   <el-option v-for="list in listOptions"
                                 :key="list.value"
                                 :label="list.label"
@@ -26,15 +26,15 @@ export default {
       readState: null,
       listOptions: [
         {
-          value: "read",
+          value: "Read",
           label: "Read"
         },
         {
-          value: "reading",
+          value: "Reading",
           label: "Currently Reading"
         },
         {
-          value: "wishList",
+          value: "Wish List",
           label: "Wish List"
         }
       ]

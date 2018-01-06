@@ -4,10 +4,11 @@
         <img src="../assets/img/bookCovers/0.png" class="img-0">
         <img src="../assets/img/bookCovers/1.png" class="img-1">
         <img src="../assets/img/bookCovers/2.png" class="img-2">
+        <img src="../assets/img/bookCovers/4.png" class="img-2">
         </div>
       <section class="search-book">
         <div class="welcome-user">
-                    <h2> welcome to bookLub</h2>
+                    <h2> Welcome to BookLub</h2>
                     <h1>The Number One Social Network For Books</h1>
         </div>
             <div class="search-bar">
@@ -222,6 +223,7 @@ font-family: 'Righteous';
 .el-button {
   z-index: 1;
 }
+
 
 @media screen and (max-width: 500px) {
     .search-book {

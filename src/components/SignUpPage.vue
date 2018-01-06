@@ -151,6 +151,7 @@ export default {
         });
         return false;
       }
+      console.log(this.signupDetails);
     },
     handleRemove(file, fileList) {
       console.log(file, fileList);
@@ -167,8 +168,9 @@ export default {
       var file = target.files;
       UserService.uploadImage(file)
         .then(imgUrl => {
-          console.log("photo uploaded");
+          console.log("photo uploaded", imgUrl);
           this.signupDetails.avatar = imgUrl;
+          console.log(this.signupDetails);
           this.avatar = false;
         })
         .catch(err => {

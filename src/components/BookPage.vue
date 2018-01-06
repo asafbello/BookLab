@@ -73,13 +73,13 @@
         
         </div>
       </main>
-            <section v-if="currBook" class="book-reviews">
-        <book-reviews v-if="currBook.reviews" :reviews="currBook.reviews"></book-reviews>
-        <div v-else class="first-review">Be the first to review {{currBook.title}}!
-          <img src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
-        </div>
-      </section>
-    </div>
+        <section v-if="currBook" class="book-reviews">
+          <book-reviews v-if="currBook.reviews.length !== 0" :reviews="currBook.reviews"></book-reviews>
+          <div v-else class="first-review">Be the first to review {{currBook.title}}!
+            <img src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
+          </div>
+        </section>
+      </div>
 
       <!-- Book reviews -->
 
@@ -155,8 +155,6 @@ export default {
           _id: profile.byUserId
         };
       });
-      // this.$store
-      //   .commit({ type: SET_PROFILES , profiles })
       return profiles;
     }
   },
@@ -258,6 +256,7 @@ export default {
 </script>
 
 <style scoped>
+
 .img-icon-select {
   margin: auto;
 }

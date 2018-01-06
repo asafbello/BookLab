@@ -118,8 +118,8 @@ function uploadImage(file) {
         },
         data: formData
     }).then(res => {
-        console.log(res);
-        res.data.url
+        console.log(res.data.url);
+        return res.data.url
     })
 
 }
