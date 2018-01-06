@@ -54,6 +54,8 @@
     animation-delay: 15s;
    } 
 
+
+
    @media screen and (max-width: 500px) {
     #changing-imgs{
       visibility: hidden;
