@@ -1,15 +1,29 @@
 <template>
     <div class="page-header">
         <div id="changing-imgs" class="shadow">
-        <img v-if="0" src="../assets/img/bookCovers/0.png" class="img-0">
-        <img v-if="1" src="../assets/img/bookCovers/1.png" class="img-1">
-        <img v-if="2" src="../assets/img/bookCovers/2.png" class="img-2">
-        <img v-if="3" src="../assets/img/bookCovers/4.png" class="img-2">
+          <transition  name="fadeImgs">
+            <img  v-if="imageNum === 0" src="../assets/img/authors/0.png" class="img-0">
+          </transition>
+          <transition  name="fadeImgs">          
+            <img  v-if="imageNum === 1" src="../assets/img/authors/1.png" class="img-1">
+          </transition>
+          <transition  name="fadeImgs">
+           <img v-if="imageNum === 2" src="../assets/img/authors/2.png" class="img-2">
+          </transition> 
+          <transition  name="fadeImgs">
+            <img v-if="imageNum === 3" src="../assets/img/authors/3.png" class="img-3">
+          </transition>
+          <transition  name="fadeImgs">
+            <img v-if="imageNum === 4" src="../assets/img/authors/4.png" class="img-4">
+          </transition>     
+          <transition  name="fadeImgs">
+            <img v-if="imageNum === 5" src="../assets/img/authors/5.png" class="img-5">
+          </transition>     
         </div>
       <section class="search-book">
         <div class="welcome-user">
                     <h2> Welcome to BookLub</h2>
-                    <h1>The Number One Social Network For Books</h1>
+                    <h1>Where Readers Meet Online</h1>
         </div>
             <div class="search-bar">
                 <el-input  @keyup.native="searchForBook()" 
@@ -31,12 +45,12 @@
                             element-loading-spinner="el-icon-loading"
                             element-loading-background="rgba(0, 0, 0, 0.342)">
           </book-search-res>
-          <p class="txt-title"><i class="fa fa-user" aria-hidden="true"></i> Recently Joined Readers</p>
+          <p class="txt-title"><i class="fa fa-user" aria-hidden="true"></i>Top Readers</p>
           <profiles-prev :profiles="profilesToDisplay"></profiles-prev>
-                    <p class="txt-title"><i class="fa fa-book" aria-hidden="true"></i> Running books</p>
+                    <p class="txt-title"><i class="fa fa-book" aria-hidden="true"></i> Featured Books</p>
           <shelf-cmp v-if="booksToDisplay" :shelf="booksToDisplay"  v-loading="loading"></shelf-cmp>
         <div class="space"></div>
-      <p class="txt-title"><i class="el-icon-tickets"></i> What Readers Think</p>
+      <p class="txt-title"><i class="fa fa-comments" aria-hidden="true"></i>What Readers Think</p>
           <div class="space"></div>
         <reviews-cmp :reviews="recentReviews"></reviews-cmp>
         <!-- <quotes-cmp></quotes-cmp> -->
@@ -70,7 +84,8 @@ export default {
       loading: true,
       searchMode: "Clear",
       searching: false,
-      recentReviews:null
+      recentReviews: null,
+      imageNum: 0
     };
   },
   methods: {
@@ -101,14 +116,6 @@ export default {
       this.input5 = "";
       this.bookSearchRes = [];
       // this.searchMode = 'Search'
-    },
-    changeImages() {
-      let imgNum = 0; 
-      setInterval(() => {
-        if(imgNum === 4) imgNum = 0; 
-        else imgNum++;
-      }, 2500)
-
     }
   },
   created() {
@@ -131,35 +138,63 @@ export default {
         console.log("err", err);
       });
     // GET REVIEWS
-  ReviewService.getReviews()
-        .then(reviews => this.recentReviews = reviews)
-        .catch(err => console.log(err))
+    ReviewService.getReviews()
+      .then(reviews => (this.recentReviews = reviews))
+      .catch(err => console.log(err));
 
     // CHANGE IMAGES
-  changeImages()
+    setInterval(() => {
+      if (this.imageNum === 5) this.imageNum = 0;
+      else this.imageNum++;
+    }, 2500);
   },
 
   computed: {
     //MAP GAETEERS
-      ...mapGetters(['booksToDisplay', 'isUser', 'loggedInUser', 'profilesToDisplay']), 
+    ...mapGetters([
+      "booksToDisplay",
+      "isUser",
+      "loggedInUser",
+      "profilesToDisplay"
+    ]),
+    imageSrc() {
+      return `../assets/img/bookCovers/${this.imageNum}.png`;
+    }
   },
   watcher: {},
   components: {
     ShelfCmp,
     ProfilesPrev,
     BookSearchRes,
-    ReviewsCmp,
+    ReviewsCmp
     // QuotesCmp
   }
 };
 </script>
 
 <style scoped>
-.page-header{
 
+/* Fade images */
+.fadeImgs-enter-active,
+.fadeImgs-leave-active {
+  transition: opacity 0.5s;
 }
+.fadeImgs-enter,
+.fadeImgs-leave-to {
+  opacity: 0;
+}
+
+.img-5 {
+  margin-left: 5.6vw;
+}
+
+.img-4 {
+  margin-left: 4vw;
+  /* margin-top: 2vh; */
+}
+
 .search-book {
-  background: linear-gradient(0deg, #7a7993 1%,#1f315b 100%); 
+  background: linear-gradient(0deg, #7a7993 1%, #1f315b 100%);
   padding: 2vw 3vw 5vw 3vw;
   display: flex;
   flex-direction: column;
@@ -167,7 +202,7 @@ export default {
   justify-content: space-between;
   height: 40vh;
 }
-.welcome-user{
+.welcome-user {
   color: rgb(226, 226, 226);
   display: flex;
   padding-left: 35vw;
@@ -178,22 +213,21 @@ export default {
   text-align: right;
 }
 
-
-.welcome-user h2{
+.welcome-user h2 {
   font-size: 2em;
-   letter-spacing: -1px;
-   text-shadow: 1px 1px 0 #000;
+  letter-spacing: -1px;
+  text-shadow: 1px 1px 0 #000;
   line-height: 50px;
 }
-.welcome-user h1{
+.welcome-user h1 {
   padding: 1vw 0 0 0;
-color: #fff; 
-font-family: 'Righteous';
- font-size: 2em; 
- font-weight: normal;
+  color: #fff;
+  font-family: "Righteous";
+  font-size: 2em;
+  font-weight: normal;
   /* line-height: 60px; */
- text-transform: uppercase;
- text-shadow: 2px 2px 0 #000;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0 #000;
 }
 .input-with-select {
   width: 65vw;
@@ -201,8 +235,8 @@ font-family: 'Righteous';
 }
 
 .el-card {
-    background: transparent;
-    border: none;
+  background: transparent;
+  border: none;
 }
 
 .page-entry {
@@ -211,49 +245,55 @@ font-family: 'Righteous';
   flex-direction: row;
 }
 
-.txt-title{
-  margin: 0 0 0 0 ;
-  padding: 1vh 0 0 2vw;
-  color: white;
-  text-align: left;
-  font-size: 1.1em;
-  margin-bottom: .9vh;
-  margin-top: 3vh;
- }
-
- .profile {
-    justify-content: flex-start;
-    background-color: #ffffffde;
-    margin-left: 2vw;
-    margin-right: 2vw;
-    margin-bottom: 1vh;
-    margin-top: 3vh;
- }
-
-.space{
-  margin: 5vh;
+.txt-title {
+  font-size: 1.8em;
+  display: flex;
+  justify-content: center;
+  background: #ffffffde;
+  color: #535a7b;
+  width: 33vw;
+  display: flex;
+  margin: auto;
+  margin-top: 6vh; 
+  margin-bottom: 1vh;
 }
+
+.profile {
+  justify-content: space-between;
+  background-color: #ffffffde;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  margin-bottom: 1vh;
+  /* margin-top: 3vh; */
+}
+
+.fa {
+  margin-right: 1vw;
+}
+
+/* .space {
+  margin: 5vh;
+} */
 
 .el-button {
   z-index: 1;
 }
 
-
 @media screen and (max-width: 500px) {
-    .search-book {
-      background: inherit;
-      height: 5vh;
-      }
-      .welcome-user{
-        visibility: hidden;
-      }
+  .search-book {
+    background: inherit;
+    height: 5vh;
+  }
+  .welcome-user {
+    visibility: hidden;
+  }
 
-    .txt-title{
-      margin: 0 0 0 0 ;
-      padding: 1vh 0 0 2vw;
-      color: white;
-      text-align: left;
-      font-size: 1.1em;
- }
+  .txt-title {
+    margin: 0 0 0 0;
+    padding: 1vh 0 0 2vw;
+    color: white;
+    text-align: left;
+    font-size: 1.1em;
+  }
 }
 </style>

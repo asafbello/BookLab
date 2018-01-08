@@ -128,7 +128,7 @@ export default {
             UserService
                 .setCurrentlyReading(id, book) 
                 .then(_ => {
-                     console.log('added to reading list')
+                     console.log('set Currently reading')
                      commit({ type: UPDATE_USER_LISTS, book , list:'currentlyReading' })
                 })
                 .catch(err => {throw err})

@@ -71,6 +71,7 @@ img {
   background-color: #ffffffde;
   opacity: 0.95;
 }
+
 .shelf-cmp {
   display: flex;
   flex-direction: column;
@@ -78,7 +79,7 @@ img {
   align-items: center;
 }
 .books {
-  margin-top: 2vh;
+  /* margin-top: 2vh; */
   width: 100%;
   max-width: 800px;
 }

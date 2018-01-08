@@ -15,4 +15,12 @@ body{
     color: var(--main-nav-color)
 }
 
+div > .el-carousel__indicators--outside {
+    display: none;
+  }
+
+ul.el-carousel__indicators {
+    display: none;
+}
+
 

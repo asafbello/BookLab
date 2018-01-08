@@ -5,13 +5,13 @@
   #changing-imgs img {
     position: absolute;
     height: 50vh;
-    left: -12vw;
+    left: -8vw;
     top:5.9vw;
     padding: 0; 
     transition: opacity 1s ease-in-out;
   }
   
-   #changing-imgs img.transparent {
+   /* #changing-imgs img.transparent {
   opacity:0;
   }
     @keyframes changing-imgsFadeInOut {
@@ -30,7 +30,7 @@
     100% {
       opacity:0;
     }
-  }
+  } */
   
   /* #changing-imgs img {
         animation-name: changing-imgsFadeInOut;

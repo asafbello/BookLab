@@ -3,11 +3,11 @@
       <div class="card" v-for="(profile, index)  in profiles" :key="index">
           <el-card :body-style="{ padding: '0px' }">
               <router-link :to="'/user/' + profile._id"><img :src="profile.avatar" class="wl-modal-image"></router-link> 
-            <div style="padding: 0;padding-bottom:  0;">
+            <!-- <div style="padding: 0;padding-bottom:  0;">
               <div class="bottom clearfix">
                <p>{{profile.name}}</p>
               </div>
-            </div>
+            </div> -->
           </el-card>
      
       </div>
@@ -135,7 +135,7 @@ p {
 .el-card {
   padding: 4px;
   background: rgba(255, 255, 255, 0.733);
-  height: 8vw;
+  /* height: 8vw; */
 }
 
 .el-card img {

@@ -30,7 +30,7 @@ export default {
           label: "Read"
         },
         {
-          value: "Reading",
+          value: "Currently Reading",
           label: "Currently Reading"
         },
         {
@@ -49,7 +49,7 @@ export default {
       if (!this.$store.getters.isUser) {
         this.$message.error("Oops, Please log in to add to a shelf");
       } else {
-        if (this.readState === "wishList") {
+        if (this.readState === "Wish List") {
           console.log("wishList");
           this.$store
             .dispatch({
@@ -71,7 +71,7 @@ export default {
                 }),
               (self.readState = null)
             );
-        } else if (this.readState === "read") {
+        } else if (this.readState === "Read") {
              console.log("read");
           this.$store
             .dispatch({
@@ -94,8 +94,8 @@ export default {
               (self.readState = null)
             );
         } else {
-            console.log('reading')
-          this.$store
+            console.log('Reading')
+          this.$store   
             .dispatch({
               type: ADD_TO_READING_LIST,
               id: this.$store.state.user.loggedinUser._id,
