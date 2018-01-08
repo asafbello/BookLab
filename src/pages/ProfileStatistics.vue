@@ -47,29 +47,32 @@ export default {
   },
   computed: {
     pagesRead() {
+      console.log("inside  the reducer");
       var pagesCount = this.$store.state.profile.currProfile.readList.reduce(
         (acu, curr) => {
-          return acu + curr.pages;
+          if (curr.pages) return acu + curr.pages;
+          return acu + curr.review.pages;
         },
         0
       );
-      if (!pagesCount) return 0;
+      // if (!pagesCount) return 0;
+      console.log("inside pageread after first return statement");
       return pagesCount;
     }
   },
-  methods:{
-        openModal(list) {
-            console.log(list)
-        document.addEventListener("keyup", evt => {
+  methods: {
+    openModal(list) {
+      console.log(list);
+      document.addEventListener("keyup", evt => {
         if (evt.keyCode === 27) {
           this.showModal = false;
         }
       });
       this.modalList = list;
-      this.showModal = true
+      this.showModal = true;
     },
-    closeModal(){
-         this.showModal = false
+    closeModal() {
+      this.showModal = false;
     }
   }
 };
@@ -78,7 +81,8 @@ export default {
 .statistics-item {
   display: flex;
   flex-direction: column;
-  color: #999;
+  /* color: #999; */
+  color: white;
 }
 .statistics {
   display: flex;
@@ -89,8 +93,8 @@ export default {
   margin-top: 1%;
 }
 
-.clickable{
-    cursor: pointer;
+.clickable {
+  cursor: pointer;
 }
 @media screen and (max-width: 768px) {
 }

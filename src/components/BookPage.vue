@@ -75,8 +75,9 @@
       </main>
         <section v-if="currBook" class="book-reviews">
           <book-reviews v-if="currBook.reviews.length !== 0" :reviews="currBook.reviews"></book-reviews>
-          <div v-else class="first-review">Be the first to review {{currBook.title}}!
-            <img src="https://media0.giphy.com/media/WoWm8YzFQJg5i/giphy.gif" />
+          <div v-else class="first-review">
+            <p class="gif-title">Come on, be the first to review {{currBook.title}}!</p>
+            <img src="https://media.giphy.com/media/il1yesdofGlZ6/giphy.gif" />
           </div>
         </section>
       </div>
@@ -242,7 +243,9 @@ export default {
         });
       } else {
         var self = this.$store;
-        APIService.getBookFromGoogle(googleBookId).then(function(bookToAdd) {
+        APIService.getBookFromGoogle(googleBookId)
+          .then(function(bookToAdd) {
+            console.log(bookToAdd)
           if (bookToAdd._id) return;
           self.dispatch({
             type: ADD_BOOK,
@@ -259,6 +262,7 @@ export default {
 
 .img-icon-select {
   margin: auto;
+    background: transparent;
 }
 .book-reviews {
   width: 30%;
@@ -266,6 +270,11 @@ export default {
 .img-icon {
   cursor: pointer;
   width: 25%;
+  background: transparent;
+}
+
+img.img-icon {
+  background: transparent;
 }
 
 .actions {
@@ -302,11 +311,14 @@ export default {
 
 .book-aside {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   flex-direction: row;
   /* flex-flow: column nowrap; */
   /* max-width: 280px; */
+  justify-content: space-between;
+  align-items: center;
   margin: 20px 20px;
+  margin: 0vh 2vw;
 }
 
 .add-book {
@@ -382,7 +394,15 @@ export default {
 }
 
 .first-review {
-  margin-bottom: 2vw;
+  font-style: inherit;
+  font-size: 1.3em;
+  color: #dfdfdf;
+}
+
+.gif-title {
+  padding-bottom: .3vh;
+  display: flex;
+  justify-content: center;
 }
 
 .el-icon-error {
@@ -413,6 +433,7 @@ export default {
 .profile-title {
   margin-top: 1em;
   font-size: 1em;
+  color: white;
 }
 
 /* Modal fade */
@@ -513,6 +534,7 @@ export default {
   .profile-title {
     margin-top: 0.4em;
     font-size: .9em;
+    color: white;
   }
 
   .book-aside {

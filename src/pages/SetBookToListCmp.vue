@@ -59,7 +59,7 @@ export default {
             })
             .then(_ =>
               this.$message({
-                message: "This Book Added To Your Wish List",
+                message: "This Book Was Added To Your Wish List",
                 type: "success"
               })
             )
@@ -81,7 +81,7 @@ export default {
             })
             .then(_ =>
               this.$message({
-                message: "This Book Added To Your Read List",
+                message: "This Book Was Added To Your Read List",
                 type: "success"
               })
             )
@@ -103,7 +103,7 @@ export default {
             })
             .then(_ =>
               this.$message({
-                message: "This Book Added To Your Reading List",
+                message: "This Book Was Added To Your Reading List",
                 type: "success"
               })
             )

@@ -46,6 +46,8 @@ export default {
 
 .review-flex {
   background-color: #ffffffde;
+  width: 95vw;
+  margin: auto;
 }
 
 blockquote {
@@ -91,7 +93,6 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
 }
 
 .review-flex * {

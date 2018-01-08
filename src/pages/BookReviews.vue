@@ -77,6 +77,7 @@ margin-bottom: 0.5%;
 .review {
   width: 100%;
   margin: 2%;
+  /* z-index: -1; */
   /* justify-content: space-around; */
   
 }

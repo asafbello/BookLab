@@ -2,7 +2,7 @@
   <section>
       <footer class="footer">
         <div class="links">
-          This app powered by
+          This app is powered by
         <a class="nav-link" href="https://nemo369.github.io/naaman/" target="_blank"> Naaman,</a>
         <a class="nav-link" href="https://github.com/asafbello" target="_blank"> Asaf</a>  and 
         <a class="nav-link" href="https://charlesmarlow.github.io/proj-gallery/" target="_blank"> Nadav </a>
@@ -50,13 +50,14 @@ export default {
 
 .footer {
   background-color: rgba(88, 88, 88, 0.849);
-   color: lightgrey;
+  color: lightgrey;
   padding: 0 1vw;
   display: flex;
   justify-content: space-between;
   position: fixed;
   height: 5vh;
   z-index: 99;
+  padding-top: 2vh;
 }
 .nav-link {
   color: lightgrey; 

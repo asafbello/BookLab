@@ -1,16 +1,6 @@
 <template v-if="profiles">
   <section  class="profile">
-    <!-- <ul >
-      <li v-for="(profile, index)  in profiles" :key="index">
-          <el-card :body-style="{ padding: '0px' }">
-       <router-link :to="'/user/' + profile._id">
-          <img :src="profile.avatar" /></router-link>  
-          <p>{{profile.name}}</p>
-          </el-card>
-      </li>
-    </ul> -->
-   
-      <div class="card" v-for="(profile, index)  in profiles.slice(0, screenWidth)" :key="index">
+      <div class="card" v-for="(profile, index)  in profiles" :key="index">
           <el-card :body-style="{ padding: '0px' }">
               <router-link :to="'/user/' + profile._id"><img :src="profile.avatar" class="wl-modal-image"></router-link> 
             <div style="padding: 0;padding-bottom:  0;">
@@ -144,6 +134,14 @@ p {
 
 .el-card {
   padding: 4px;
+  background: rgba(255, 255, 255, 0.733);
+  height: 8vw;
+}
+
+.el-card img {
+    /* height: 6vw; */
+    overflow: hidden;
+    min-height: 5vw;
 }
 
 .modal-btn {

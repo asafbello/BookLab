@@ -1,32 +1,62 @@
 #changing-imgs {
-    position: relative;
+    position: block;
     margin:0 auto;
-    left: -40vw;
-    top: -11vh;
   }
   #changing-imgs img {
     position: absolute;
     height: 50vh;
+    left: -12vw;
+    top:5.9vw;
+    padding: 0; 
     transition: opacity 1s ease-in-out;
   }
   
-  #changing-imgs img.transparent {
+   #changing-imgs img.transparent {
   opacity:0;
   }
     @keyframes changing-imgsFadeInOut {
     0% {
     opacity:0;
     }
-    10% {
+    25% {
       opacity:1;
     }
-    30% {
-      opacity:1;
-    }
-    36% {
+    50% {
       opacity:0;
     }
-    70% {
+    75% {
+      opacity:0;
+    }
+    100% {
+      opacity:0;
+    }
+  }
+  
+  /* #changing-imgs img {
+        animation-name: changing-imgsFadeInOut;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        animation-duration: 2.5s;
+        animation-direction: alternate;
+  }
+  #changing-imgs img:nth-of-type(1) {
+    animation-delay: 0s;
+  }  */
+/*   
+  #changing-imgs img.transparent {
+  opacity:0;
+  }
+    @keyframes changing-imgsFadeInOut {
+    0% {
+    opacity:1;
+    }
+    25% {
+      opacity:1;
+    }
+    50% {
+      opacity:0;
+    }
+    75% {
       opacity:0;
     }
     100% {
@@ -37,24 +67,45 @@
   #changing-imgs img {
         animation-name: changing-imgsFadeInOut;
         animation-timing-function: ease-in-out;
-        animation-iteration-count: 50;
-        animation-duration: 15s;
+        animation-iteration-count: infinite;
+        animation-duration: 5s;
         animation-direction: alternate;
   }
-  #changing-imgs img:nth-of-type(1) {
-    animation-delay: 0s;
+  #changing-imgs img:nth-of-type(2) {
+    animation-delay: 2.5s;
+  }
+  
+  #changing-imgs img.transparent {
+  opacity:0;
+  }
+    @keyframes changing-imgsFadeInOut {
+    0% {
+    opacity:0;
+    }
+    25% {
+      opacity:0;
+    }
+    50% {
+      opacity:0;
+    }
+    75% {
+      opacity:1;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  #changing-imgs img {
+        animation-name: changing-imgsFadeInOut;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+        animation-duration: 7.5s;
+        animation-direction: alternate;
   }
   #changing-imgs img:nth-of-type(2) {
     animation-delay: 5s;
-  }
-  #changing-imgs img:nth-of-type(3) {
-    animation-delay: 10s;
-   } 
-  #changing-imgs img:nth-of-type(4) {
-    animation-delay: 15s;
-   } 
-
-
+  } */
 
    @media screen and (max-width: 500px) {
     #changing-imgs{

@@ -33,6 +33,7 @@ export default {
 /* entire container, keeps perspective */
 .flip-container {
 	perspective: 1000px;
+	margin-bottom: 1vh;
 }
 	/* flip the pane when hovered
        For full flip: 180deg */

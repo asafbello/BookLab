@@ -10,12 +10,12 @@ import axios from 'axios'
 import BookService from './BookService.js'
 
 
-//REAL FUNCTION FROM GOOGLE
-// function searchBook(query, type) {
-//         return axios.get(`https://www.googleapis.com/books/v1/volumes?printType=books&q=${query}`)
-//         .then(res => res.data.items)
-//         .catch(err => console.log(err))
-// }
+// REAL FUNCTION FROM GOOGLE
+function searchBook(query, type) {
+        return axios.get(`https://www.googleapis.com/books/v1/volumes?printType=books&q=${query}`)
+        .then(res => res.data.items)
+        .catch(err => console.log(err))
+}
 
 function getSalesInfo(googleId) {
     const SALE_URL = 'https://www.googleapis.com/books/v1/volumes';
@@ -32,22 +32,31 @@ function getSalesInfo(googleId) {
         });
 }
 
-function getBookFromGoogle(foreingId) {
-    return axios
-    .get(`${GOOGLE_URL}/${foreingId}`)
-        .then(res => {
-            return res.data
-        })
-        .catch(err => err)
+function getBookFromGoogle(googleId) {
+    return axios.get(`https://www.googleapis.com/books/v1/volumes/${googleId}`)
+            .then(res => {
+               return res.data
+            })
+            .catch(err => {
+                throw err
+            })
 }
+// function getBookFromGoogle(foreingId) {
+//     return axios
+//     .get(`${GOOGLE_URL}/${foreingId}`)
+//         .then(res => {
+//             return res.data
+//         })
+//         .catch(err => err)
+// }
 
-function searchBook(query, type) {
-    var txt = {txt : query}
-    return axios
-    .post(`${GOOGLE_URL}`, txt)
-        .then(res => res.data)
-        .catch(err => err)
-}
+// function searchBook(query, type) {
+//     var txt = {txt : query}
+//     return axios
+//     .post(`${GOOGLE_URL}`, txt)
+//         .then(res => res.data)
+//         .catch(err => err)
+// }
 
 function getBooksShelf(shelf) {
         var prmBooks = shelf.map(id => {

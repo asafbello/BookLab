@@ -1,10 +1,10 @@
 <template>
     <div class="page-header">
         <div id="changing-imgs" class="shadow">
-        <img src="../assets/img/bookCovers/0.png" class="img-0">
-        <img src="../assets/img/bookCovers/1.png" class="img-1">
-        <img src="../assets/img/bookCovers/2.png" class="img-2">
-        <img src="../assets/img/bookCovers/4.png" class="img-2">
+        <img v-if="0" src="../assets/img/bookCovers/0.png" class="img-0">
+        <img v-if="1" src="../assets/img/bookCovers/1.png" class="img-1">
+        <img v-if="2" src="../assets/img/bookCovers/2.png" class="img-2">
+        <img v-if="3" src="../assets/img/bookCovers/4.png" class="img-2">
         </div>
       <section class="search-book">
         <div class="welcome-user">
@@ -101,6 +101,14 @@ export default {
       this.input5 = "";
       this.bookSearchRes = [];
       // this.searchMode = 'Search'
+    },
+    changeImages() {
+      let imgNum = 0; 
+      setInterval(() => {
+        if(imgNum === 4) imgNum = 0; 
+        else imgNum++;
+      }, 2500)
+
     }
   },
   created() {
@@ -126,7 +134,11 @@ export default {
   ReviewService.getReviews()
         .then(reviews => this.recentReviews = reviews)
         .catch(err => console.log(err))
+
+    // CHANGE IMAGES
+  changeImages()
   },
+
   computed: {
     //MAP GAETEERS
       ...mapGetters(['booksToDisplay', 'isUser', 'loggedInUser', 'profilesToDisplay']), 
@@ -143,7 +155,9 @@ export default {
 </script>
 
 <style scoped>
+.page-header{
 
+}
 .search-book {
   background: linear-gradient(0deg, #7a7993 1%,#1f315b 100%); 
   padding: 2vw 3vw 5vw 3vw;

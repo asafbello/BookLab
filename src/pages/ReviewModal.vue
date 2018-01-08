@@ -117,6 +117,10 @@ export default {
 
 <style scoped>
 
+.modal-header {
+  z-index: 666;
+}
+
 .review-author {
   font-size: 16px;
 }

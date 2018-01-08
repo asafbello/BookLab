@@ -12,7 +12,7 @@
           </profile-statistics>
       </div>
       <div>
-        <h2>Wish List</h2>
+        <h2 class="list-title">Wish List</h2>
           <hr>
           <div class="read-list">
               <book-preview class="book-preview"
@@ -20,7 +20,7 @@
                             :img-url="book1.img" :key="index" @click.native="goTobookDetails(book1.forigenId)">
                             </book-preview>
           </div>
-        <h2>Books read</h2>
+        <h2 class="list-title">Books read</h2>
           <hr>
           <div class="read-list" v-for="(book , index) in currProfile.readList" :key="index">
               <book-preview class="book-preview" 
@@ -201,6 +201,10 @@ export default {
 .read-list {
   display: flex;
   margin-top: 5%;
+}
+
+.list-title {
+  color: rgba(255, 255, 255, 0.781);
 }
 
 .book-preview {
