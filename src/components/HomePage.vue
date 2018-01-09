@@ -1,5 +1,23 @@
 <template>
     <div class="page-header">
+      <section class="search-book">
+        <div class="welcome-user">
+                    <h2> Welcome to BookLub</h2>
+                    <h1>Where Readers Meet Online</h1>
+        </div>
+            <div class="search-bar">
+                <el-input  @keyup.native="searchForBook()" 
+                  suffix-icon="el-icon-search" 
+                  :placeholder="'search and add '+ select" 
+                  v-model="input5" class="input-with-select">
+                  <el-select v-model="select" slot="prepend" placeholder="Select">
+                        <el-option label="book" value="book"></el-option>
+                        <el-option label="author" value="author"></el-option>
+                  </el-select>
+                  </el-input>
+              <el-button  v-if="!input5"  @click.native="searchForBook()" type="primary" icon="el-icon-search">Search</el-button>
+              <el-button  v-else @click.native="clearSearch()" type="primary" icon="el-icon-search">Clear</el-button>
+          </div>
         <div id="changing-imgs" class="shadow">
           <transition  name="fadeImgs">
             <img  v-if="imageNum === 0" src="../assets/img/authors/0.png" class="img-0">
@@ -20,24 +38,6 @@
             <img v-if="imageNum === 5" src="../assets/img/authors/5.png" class="img-5">
           </transition>     
         </div>
-      <section class="search-book">
-        <div class="welcome-user">
-                    <h2> Welcome to BookLub</h2>
-                    <h1>Where Readers Meet Online</h1>
-        </div>
-            <div class="search-bar">
-                <el-input  @keyup.native="searchForBook()" 
-                  suffix-icon="el-icon-search" 
-                  :placeholder="'search and add '+ select" 
-                  v-model="input5" class="input-with-select">
-                  <el-select v-model="select" slot="prepend" placeholder="Select">
-                        <el-option label="book" value="book"></el-option>
-                        <el-option label="author" value="author"></el-option>
-                  </el-select>
-                  </el-input>
-              <el-button  v-if="!input5"  @click.native="searchForBook()" type="primary" icon="el-icon-search">Search</el-button>
-              <el-button  v-else @click.native="clearSearch()" type="primary" icon="el-icon-search">Clear</el-button>
-          </div>
         </section>
         <!-- CMPS -->
           <book-search-res :searchRes="bookSearchRes" v-loading="searching"
