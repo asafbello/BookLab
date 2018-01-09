@@ -11,7 +11,6 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import lodash from 'lodash'
 import moment from 'moment'
-import cloneDeep from 'clone-deep'
 import locale from 'element-ui/lib/locale/lang/en'
 import './filters/filters.js'
 
