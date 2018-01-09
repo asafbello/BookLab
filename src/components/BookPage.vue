@@ -3,30 +3,25 @@
     <!-- Readers' profiles -->
     <article class="profile-display" v-if="profilesFromReviews">
           <h3 class="profile-title">Also read by</h3>
-          <profiles-prev :profiles="profilesFromReviews">
-                          </profiles-prev>
+          <profiles-prev :profiles="profilesFromReviews"></profiles-prev>
     </article>
-    <section class="book-header">
+      <section class="book-header">
         <div class="book-aside">
            <div class="bookimg-and-rate">
-                  <img v-if="currBook"
-                      class="book-img"
-                      :src="currBook.img" />
-                      <!-- Rating -->
-                      <div class="block">
-                             <span class="rating-title">Avg Rating</span>
-                             <el-rate v-if="bookRate"
-                                     :value="bookRate"
-                                      disabled show-score text-color="#ff9900"
-                                      score-template="{value} stars">
-                                      </el-rate>
+                  <img v-if="currBook" class="book-img" :src="currBook.img" />
+                  <!-- Rating -->
+                    <div class="block">
+                      <span class="rating-title">Avg Rating</span>
+                      <el-rate v-if="bookRate" :value="bookRate"
+                      disabled show-score text-color="#ff9900"
+                      score-template="{value} stars">s</el-rate>
                           <el-rate v-else :value=".5" disabled show-score text-color="#ff9900"
                           score-template="No rates yet"></el-rate>
                       </div>
-              <div class="select-menu">
-              <set-book-to-list-cmp :book="currBook">
-              </set-book-to-list-cmp>
-              </div>
+            <div class="select-menu">
+            <set-book-to-list-cmp :book="currBook">
+            </set-book-to-list-cmp>
+            </div>
         </div>
 
       <!-- Buy a copy btn- do not erase -->
@@ -39,8 +34,9 @@
         <div class="title-and-author">
           <h1 v-if="currBook" >{{currBook.title}}</h1>
           <span class="pageCount">{{currBook.pages }} pages 
-          <i class="fa fa-file-text-o" aria-hidden="true"></i>
+          <!-- <i class="fa fa-file-text-o" aria-hidden="true"></i> -->
           </span>
+          <hr>
         <h5 class="book-author">By {{currBook.author}}</h5>
         </div>
       </div>
@@ -49,8 +45,7 @@
           <!-- <p class="book-desc" v-html="currBook.desc"></p> -->
           <el-collapse>
             <el-collapse-item title="Read Book Description" name="1">
-              <div v-html="currBook.desc"></div>
-              
+              <div v-html="currBook.desc"></div> 
              </el-collapse-item>
           </el-collapse>
         </article>
@@ -66,18 +61,14 @@
                   <div class="actions">
             <img class="img-icon" src="https://png.icons8.com/color/100/000000/youtube-play.png" @click="showVideoModal">
             <img class="img-icon" src="https://png.icons8.com/dusk/100/000000/hand-with-pen.png" @click="showReviewModal">
-            <img class="img-icon" src="https://png.icons8.com/office/100/000000/collaboration.png">
-            <div class="add-to-shelf" >
-
-        </div>
-        
+            <img class="img-icon" src="https://png.icons8.com/office/100/000000/collaboration.png"> 
         </div>
       </main>
         <section v-if="currBook" class="book-reviews">
           <book-reviews v-if="currBook.reviews.length !== 0" :reviews="currBook.reviews"></book-reviews>
           <div v-else class="first-review">
-            <p class="gif-title">Come on, be the first to review {{currBook.title}}!</p>
-            <img src="https://media.giphy.com/media/il1yesdofGlZ6/giphy.gif" />
+            <p class="gif-title">Come on, be the first to review "{{currBook.title}}"</p>
+            <img class="book-gif" src="https://media.giphy.com/media/il1yesdofGlZ6/giphy.gif" />
           </div>
         </section>
       </div>
@@ -263,6 +254,8 @@ export default {
 .img-icon-select {
   margin: auto;
     background: transparent;
+    display: none;
+
 }
 .book-reviews {
   width: 30%;
@@ -275,6 +268,13 @@ export default {
 
 img.img-icon {
   background: transparent;
+}
+
+.book-gif {
+  border: black;
+  width: 100%;
+  margin-top: -1vw;
+  margin-left: -3vw;
 }
 
 .actions {
@@ -295,7 +295,6 @@ img.img-icon {
   justify-content: flex-start;
   width: 25%;
   margin: 0;
-  margin-top: 5%;
 }
 
 .book-header {
@@ -303,6 +302,10 @@ img.img-icon {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: #ffffffde;
+  margin-top: 4vh;
+  margin-right: 2vw;
+  margin-left: 2vw;
 }
 
 .block {
@@ -311,14 +314,11 @@ img.img-icon {
 
 .book-aside {
   display: flex;
-  /* justify-content: space-between; */
   flex-direction: row;
-  /* flex-flow: column nowrap; */
-  /* max-width: 280px; */
   justify-content: space-between;
-  align-items: center;
-  margin: 20px 20px;
-  margin: 0vh 2vw;
+  /* align-items: center; */
+  margin: 2vh 2vw;
+  width: 100%;
 }
 
 .add-book {
@@ -378,7 +378,8 @@ img.img-icon {
   /* margin-top: 25px; */
   display: flex;
   flex-direction: column;
-  width: 35%;
+  /* width: 35%; */
+
 }
 
 .close-vid {
@@ -397,12 +398,20 @@ img.img-icon {
   font-style: inherit;
   font-size: 1.3em;
   color: #dfdfdf;
+  display: flex;
+  flex-direction: column;
+  justify-content: baseline;
+  align-items: end;
 }
 
 .gif-title {
   padding-bottom: .3vh;
   display: flex;
   justify-content: center;
+  color: black;
+  font-family: inherit;
+  font-weight: bold;
+  margin-top: 0;
 }
 
 .el-icon-error {
@@ -456,7 +465,10 @@ img.img-icon {
   opacity: 0;
 }
 
-
+.select-menu {
+  margin-right: 5vw;
+  margin-left: 5vw
+}
 
 /* ////////////  mobile query  //////////////// */
 
@@ -477,6 +489,10 @@ img.img-icon {
     margin: auto;
     margin-top: 5%;
     width: 100%;
+  }
+
+  section.select-menu {
+    display: none;
   }
 
   .book-header {
@@ -539,6 +555,8 @@ img.img-icon {
 
   .book-aside {
     flex-direction: column;
+    width: 100%;
+    padding-top: 1vh;
   }
 
   .book-img {

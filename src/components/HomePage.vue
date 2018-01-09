@@ -161,6 +161,9 @@ export default {
       return `../assets/img/bookCovers/${this.imageNum}.png`;
     }
   },
+  destroyed: {
+
+  },
   watcher: {},
   components: {
     ShelfCmp,
@@ -270,10 +273,6 @@ export default {
 .fa {
   margin-right: 1vw;
 }
-
-/* .space {
-  margin: 5vh;
-} */
 
 .el-button {
   z-index: 1;

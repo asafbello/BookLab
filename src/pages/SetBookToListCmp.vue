@@ -1,14 +1,22 @@
 <template v-if="book">
   <section class="select-menu">
-    <img class="img-icon-select"
-                        src="https://png.icons8.com/office/100/000000/book-shelf.png">
-              <el-select v-if="!isReadList" v-model="readState" placeholder="Mark Book"  @change="setBookToList">
+    <!-- <img class="img-icon-select"
+    src="https://png.icons8.com/office/100/000000/book-shelf.png"> -->
+              <el-select v-if="!isReadList" v-model="readState" placeholder="Mark Book" @change="setBookToList">
                   <el-option v-for="list in listOptions"
                                 :key="list.value"
                                 :label="list.label"
                                 :value="list.value"></el-option>
               </el-select>
-              <h3 v-if="!!isReadList">{{isReadList}}</h3>
+              <el-select v-else v-model="list.value" placeholder="Change Selection" @change="setBookToList">
+                  <el-option v-for="list in listOptions"
+                                :key="list.value"
+                                :label="list.label"
+                                :value="list.value"></el-option>
+              </el-select>
+              <!-- <h3 v-if="!!isReadList">{{isReadList}}</h3> -->
+
+              {{bookInLoggedInUserList}}
   </section>
 </template>
 
@@ -40,7 +48,18 @@ export default {
       ]
     };
   },
-  computed: {},
+  computed: {
+    bookInLoggedInUserList() {
+      var user = this.$store.state.user.loggedinUser; 
+      var bookId = this.$route.params.googleBookId; 
+
+      var wishList = user.wishList.filter(book => {
+        return book.googleBookId === bookId
+      })
+      console.log(wishList);
+      return !!wishList
+    }
+  },
   methods: {
     setBookToList() {
       var self = this;
