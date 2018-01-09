@@ -1,22 +1,11 @@
 <template v-if="book">
   <section class="select-menu">
-    <!-- <img class="img-icon-select"
-    src="https://png.icons8.com/office/100/000000/book-shelf.png"> -->
-              <el-select v-if="!isReadList" v-model="readState" placeholder="Mark Book" @change="setBookToList">
+              <el-select v-model="readState" placeholder="Mark Book" @change="setBookToList">
                   <el-option v-for="list in listOptions"
                                 :key="list.value"
                                 :label="list.label"
                                 :value="list.value"></el-option>
               </el-select>
-              <el-select v-else v-model="list.value" placeholder="Change Selection" @change="setBookToList">
-                  <el-option v-for="list in listOptions"
-                                :key="list.value"
-                                :label="list.label"
-                                :value="list.value"></el-option>
-              </el-select>
-              <!-- <h3 v-if="!!isReadList">{{isReadList}}</h3> -->
-
-              {{bookInLoggedInUserList}}
   </section>
 </template>
 
@@ -48,17 +37,22 @@ export default {
       ]
     };
   },
-  computed: {
-    bookInLoggedInUserList() {
+  created(){
       var user = this.$store.state.user.loggedinUser; 
       var bookId = this.$route.params.googleBookId; 
 
       var wishList = user.wishList.filter(book => {
-        return book.googleBookId === bookId
+        return book.forigenId === bookId
       })
-      console.log(wishList);
-      return !!wishList
-    }
+      var readList = user.readList.filter(book => {
+        return book.forigenId === bookId
+      })
+      console.log(wishList,user,bookId,'wish list')
+      if(wishList.length > 0) this.readState = 'Wish List'
+      else if(readList .length > 0) this.readState = 'Read'
+      else this.readStat = null
+  },
+  computed: {
   },
   methods: {
     setBookToList() {
@@ -80,7 +74,8 @@ export default {
               this.$message({
                 message: "This Book Was Added To Your Wish List",
                 type: "success"
-              })
+              }),
+              self.readState = 'Wish List'
             )
             .catch(
               err =>
@@ -88,10 +83,8 @@ export default {
                   message: "Oops, Something went wrong",
                   type: "error"
                 }),
-              (self.readState = null)
             );
         } else if (this.readState === "Read") {
-             console.log("read");
           this.$store
             .dispatch({
               type: ADD_TO_READ_LIST,
@@ -102,7 +95,8 @@ export default {
               this.$message({
                 message: "This Book Was Added To Your Read List",
                 type: "success"
-              })
+              }),
+              self.readState = 'Read'
             )
             .catch(
               err =>
@@ -110,7 +104,6 @@ export default {
                   message: "Oops, Something went wrong",
                   type: "error"
                 }),
-              (self.readState = null)
             );
         } else {
             console.log('Reading')
@@ -124,7 +117,8 @@ export default {
               this.$message({
                 message: "This Book Was Added To Your Reading List",
                 type: "success"
-              })
+              }),
+              self.readState = 'Currently Reading'
             )
             .catch(
               err =>
@@ -132,7 +126,6 @@ export default {
                   message: "Oops, Something went wrong",
                   type: "error"
                 }),
-              (self.readState = null)
             );
         }
       }

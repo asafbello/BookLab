@@ -7,6 +7,7 @@
     </article>
       <section class="book-header">
         <div class="book-aside">
+          <div class="left-side">
            <div class="bookimg-and-rate">
                   <img v-if="currBook" class="book-img" :src="currBook.img" />
                   <!-- Rating -->
@@ -34,7 +35,6 @@
         <div class="title-and-author">
           <h1 v-if="currBook" >{{currBook.title}}</h1>
           <span class="pageCount">{{currBook.pages }} pages 
-          <!-- <i class="fa fa-file-text-o" aria-hidden="true"></i> -->
           </span>
           <hr>
         <h5 class="book-author">By {{currBook.author}}</h5>
@@ -43,7 +43,7 @@
           <!-- Book description start -->
         <article class="book-review">
           <!-- <p class="book-desc" v-html="currBook.desc"></p> -->
-          <el-collapse>
+          <el-collapse> 
             <el-collapse-item title="Read Book Description" name="1">
               <div v-html="currBook.desc"></div> 
              </el-collapse-item>
@@ -58,17 +58,26 @@
             </div>
           </transition>
         </div>
-                  <div class="actions">
-            <img class="img-icon" src="https://png.icons8.com/color/100/000000/youtube-play.png" @click="showVideoModal">
-            <img class="img-icon" src="https://png.icons8.com/dusk/100/000000/hand-with-pen.png" @click="showReviewModal">
-            <img class="img-icon" src="https://png.icons8.com/office/100/000000/collaboration.png"> 
+          <div class="actions">
+            <span  @click="showVideoModal">Video Review</span>
+            <i class="fa fa-video-camera actn" aria-hidden="true" @click="showVideoModal"></i>
+            <span @click="showReviewModal">Add Review</span>
+            <i class="fa fa-pencil-square-o actn" aria-hidden="true" @click="showReviewModal"></i>
+            <span>Join Chat</span>
+            <i class="fa fa-comments-o actn" aria-hidden="true"></i>
         </div>
       </main>
+      </div>
+      <div class="border"></div>
         <section v-if="currBook" class="book-reviews">
           <book-reviews v-if="currBook.reviews.length !== 0" :reviews="currBook.reviews"></book-reviews>
           <div v-else class="first-review">
             <p class="gif-title">Come on, be the first to review "{{currBook.title}}"</p>
-            <img class="book-gif" src="https://media.giphy.com/media/il1yesdofGlZ6/giphy.gif" />
+                <span @click="showReviewModal">Add Review
+                <i class="fa fa-pencil-square-o"
+                         aria-hidden="true"
+                          @click="showReviewModal"></i></span>
+            <img @click="showReviewModal" class="book-gif" src="https://media.giphy.com/media/il1yesdofGlZ6/giphy.gif" />
           </div>
         </section>
       </div>
@@ -258,8 +267,26 @@ export default {
 
 }
 .book-reviews {
-  width: 30%;
+  max-width: 30%;
+  padding-right: 2vw;
+
 }
+
+.left-side {
+  display: flex;
+}
+.border {
+  position: relative;
+  padding: 0 2em;
+}
+.border::after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  border-right: 1px solid black;
+  left: calc(50% - 1px)
+}
+
 .img-icon {
   cursor: pointer;
   width: 25%;
@@ -273,28 +300,34 @@ img.img-icon {
 .book-gif {
   border: black;
   width: 100%;
-  margin-top: -1vw;
-  margin-left: -3vw;
+  /* margin-top: -1vw;
+  margin-left: -3vw; */
 }
 
 .actions {
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: row wrap;
   justify-content: space-around;
-  margin-top: 1vw;
+  margin-top: 4vw;
   background-color: rgba(238, 238, 238, 0.808);
+  cursor: pointer;
 }
 .actions *{
   background-color: rgba(247, 247, 247, 0.808);
+}
+
+.actn {
+  background:  rgb(238, 238, 238);
 }
 
 .bookimg-and-rate {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  width: 25%;
+  /* width: 25%; */
   margin: 0;
+  /* margin-right: -10vw; */
 }
 
 .book-header {
@@ -316,7 +349,6 @@ img.img-icon {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* align-items: center; */
   margin: 2vh 2vw;
   width: 100%;
 }
@@ -326,7 +358,6 @@ img.img-icon {
 }
 
 .book-img {
-  /* max-width: 280px; */
   width: 50%;
   height: auto;
   display: block;
@@ -366,10 +397,6 @@ img.img-icon {
   margin-bottom: 2vw;
 }
 
-/* .fa-video-camera {
-  transform: rotateY(180deg);
-} */
-
 .book-review {
   cursor: pointer;
 }
@@ -378,6 +405,7 @@ img.img-icon {
   /* margin-top: 25px; */
   display: flex;
   flex-direction: column;
+  /* border-right: 1px solid black; */
   /* width: 35%; */
 
 }
@@ -412,6 +440,8 @@ img.img-icon {
   font-family: inherit;
   font-weight: bold;
   margin-top: 0;
+  /* margin-left: -4vw;
+  margin-right: 2vw; */
 }
 
 .el-icon-error {
