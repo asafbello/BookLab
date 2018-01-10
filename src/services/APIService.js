@@ -23,7 +23,6 @@ function getSalesInfo(googleId) {
     return axios
     .get(`${SALE_URL}/${googleId}`)
         .then(res => {
-            console.log(res.data.saleInfo.buyLink);
             return res.data.saleInfo.buyLink;
         })
         .catch(err => {

@@ -1,7 +1,7 @@
 <template v-if="profiles">
   <section class="profile-prev">
     <div  class="profile">
-      <div class="imgae-profile"  v-for="(profile, index)  in profiles" :key="index">
+      <div class="image-profile"  v-for="(profile, index)  in profiles" :key="index">
               <router-link :to="'/user/' + profile._id">  
                       <img :src="profile.avatar" class="squere-photo">
                 </router-link> 
@@ -50,7 +50,7 @@ export default {
   margin: 0;
   padding: 0;
 }
-.imgae-profile{
+.image-profile{
   border: .1vw solid rgba(0, 0, 0, 0.205);
   max-width: 10%;;
   height: 10vw;

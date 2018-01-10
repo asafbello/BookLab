@@ -5,6 +5,7 @@
             <el-menu-item class="logo-container" index="1" >
             <router-link to="/"><img  @mouseover="toglleLogo" :class="{flip:show}" class="animated logo" src="../assets/img/logo.png"/></router-link>
             </el-menu-item>
+            <router-link to="/"><el-menu-item index="1">Home</el-menu-item></router-link>
             <el-menu-item index="1-2">Readers</el-menu-item>
             <div class="user-area" v-if="!loggedInUser">
               <router-link to="/user/SignUpPage"><el-menu-item index="4">Sign Up</el-menu-item></router-link>

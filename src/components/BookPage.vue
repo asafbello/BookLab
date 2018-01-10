@@ -1,29 +1,30 @@
 <template>
   <main>
     <!-- Readers' profiles -->
-    <article class="profile-display" v-if="profilesFromReviews">
-          <h3 class="profile-title">Also read by</h3>
-          <profiles-prev :profiles="profilesFromReviews"></profiles-prev>
-    </article>
+    <p class="profile-display"><i class="fa fa-user" aria-hidden="true"></i>Also Read By</p>
+    <profiles-prev :profiles="profilesFromReviews"></profiles-prev>
+
+      <!-- Page start -->
       <section class="book-header">
         <div class="book-aside">
           <div class="left-side">
            <div class="bookimg-and-rate">
-                  <img v-if="currBook" class="book-img" :src="currBook.img" />
-                  <!-- Rating -->
-                    <div class="block">
-                      <span class="rating-title">Avg Rating</span>
-                      <el-rate v-if="bookRate" :value="bookRate"
-                      disabled show-score text-color="#ff9900"
-                      score-template="{value} stars">s</el-rate>
-                          <el-rate v-else :value=".5" disabled show-score text-color="#ff9900"
-                          score-template="No rates yet"></el-rate>
-                      </div>
-            <div class="select-menu">
-            <set-book-to-list-cmp :book="currBook">
-            </set-book-to-list-cmp>
-            </div>
-        </div>
+            <img v-if="currBook" class="book-img" :src="currBook.img" />
+                  
+            <!-- Rating -->
+              <div class="block">
+                <span class="rating-title">Avg Rating</span>
+                <el-rate v-if="bookRate" :value="bookRate"
+                disabled show-score text-color="#ff9900"
+                score-template="{value} stars">s</el-rate>
+                    <el-rate v-else :value=".5" disabled show-score text-color="#ff9900"
+                    score-template="No rates yet"></el-rate>
+                </div>
+                  <div class="select-menu">
+                  <set-book-to-list-cmp :book="currBook">
+                  </set-book-to-list-cmp>
+                </div>
+              </div>
 
       <!-- Buy a copy btn- do not erase -->
 
@@ -42,49 +43,38 @@
       </div>
           <!-- Book description start -->
         <article class="book-review">
-          <!-- <p class="book-desc" v-html="currBook.desc"></p> -->
-          <el-collapse> 
+          <p class="book-desc" v-html="currBook.desc" @click="readMore"></p>
+          <!-- <el-collapse> 
             <el-collapse-item title="Read Book Description" name="1">
               <div v-html="currBook.desc"></div> 
              </el-collapse-item>
-          </el-collapse>
+          </el-collapse> -->
         </article>
      
           <!-- Review modal -->
         <div class="modal-wrapper">
           <transition name="fadeReview">
             <div class="bg-modal" @click="closeFromCancel" v-if="showModal" @closeModalOnEsc="showReviewModal">
-            <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel"  class="klub-modal" @addUserReview="addRateToBook"></review-modal>
+            <review-modal :currBook="currBook" @click.native.stop @closeFromCancel="closeFromCancel" 
+             class="klub-modal" @addUserReview="addRateToBook"></review-modal>
             </div>
           </transition>
         </div>
           <div class="actions">
-            <span  @click="showVideoModal">Video Review</span>
-            <i class="fa fa-video-camera actn" aria-hidden="true" @click="showVideoModal"></i>
-            <span @click="showReviewModal">Add Review</span>
-            <i class="fa fa-pencil-square-o actn" aria-hidden="true" @click="showReviewModal"></i>
-            <span>Join Chat</span>
-            <i class="fa fa-comments-o actn" aria-hidden="true"></i>
+            <span @click="showVideoModal">Video Review 
+            <i class="fa fa-video-camera" aria-hidden="true" @click="showVideoModal"></i>
+            </span>
+            
+            <span @click="showReviewModal">Add Review <i class="fa fa-pencil-square-o" aria-hidden="true" @click="showReviewModal"></i></span>
+            <!-- <span>Join Chat</span>
+            <i class="fa fa-comments-o" aria-hidden="true"></i> -->
+            <span @click="getBuylink">Buy Copy
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+            </span>
         </div>
       </main>
       </div>
-      <div class="border"></div>
-        <section v-if="currBook" class="book-reviews">
-          <book-reviews v-if="currBook.reviews.length !== 0" :reviews="currBook.reviews"></book-reviews>
-          <div v-else class="first-review">
-            <p class="gif-title">Come on, be the first to review "{{currBook.title}}"</p>
-                <span @click="showReviewModal">Add Review
-                <i class="fa fa-pencil-square-o"
-                         aria-hidden="true"
-                          @click="showReviewModal"></i></span>
-            <img @click="showReviewModal" class="book-gif" src="https://media.giphy.com/media/il1yesdofGlZ6/giphy.gif" />
-          </div>
-        </section>
-      </div>
-
-      <!-- Book reviews -->
-
-        <!-- Video modal -->
+              <!-- Video modal -->
         <div class="video-wrapper">
           <transition name="fadeVideo">
             <div @click="closeVideoModal" v-if="showVideo" class="bg-modal">
@@ -93,9 +83,22 @@
           </div>
           </transition>
         </div>
+      <!-- Book reviews -->
+      <div class="border"></div>
+        <section v-if="currBook" class="book-reviews">
+          <book-reviews v-if="currBook.reviews.length !== 0" :reviews="currBook.reviews"></book-reviews>
+          <div v-else class="first-review">
+            <p class="gif-title">Come on, be the first to review "{{currBook.title}}"</p>
+            <img @click="showReviewModal" class="book-gif" src="https://media.giphy.com/media/il1yesdofGlZ6/giphy.gif" />
+            <span class="gif-btn" @click="showReviewModal">
+              <span @click="showReviewModal" class="gif-btn-txt">Add Review</span>
+            <i class="fa fa-pencil-square-o gif" aria-hidden="true" @click="showReviewModal"></i>
+              </span>
+          </div>
+        </section>
+      </div>
     </section>
   </main>
-
 </template>
 
 <script>
@@ -175,6 +178,9 @@ export default {
     },
     closeVideoModal() {
       this.showVideo = false;
+    },
+    readMore() {
+
     },
     showReviewModal() {
       if (!this.$store.getters.isUser) {
@@ -260,6 +266,45 @@ export default {
 
 <style scoped>
 
+/* Profiles display */
+
+.profile-display {
+  font-size: 1.5em;
+  display: flex;
+  justify-content: center;
+  background: #ffffffde;
+  color:black;
+  width: 33vw;
+  display: flex;
+  margin: auto;
+  margin-top: 6vh; 
+  margin-bottom: 1vh;
+}
+
+.fa-user:before {
+  padding-right: 1vw;
+}
+
+/* ///// Profile Display end ///// */
+
+/* Scrollbar  */
+
+::-webkit-scrollbar {
+    width: .8vw;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: .8vw;
+}
+ 
+::-webkit-scrollbar-thumb {
+    border-radius: .8vw;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+/* Scrollbar end */
+
 .img-icon-select {
   margin: auto;
     background: transparent;
@@ -270,6 +315,11 @@ export default {
   max-width: 30%;
   padding-right: 2vw;
 
+}
+
+.reviews-header {
+    overflow-y: scroll;
+    height: 100%;
 }
 
 .left-side {
@@ -297,11 +347,27 @@ img.img-icon {
   background: transparent;
 }
 
+.gif-btn-txt {
+  padding-right: 2vw;
+  cursor: pointer;
+}
+
 .book-gif {
   border: black;
   width: 100%;
-  /* margin-top: -1vw;
-  margin-left: -3vw; */
+
+}
+
+.fa-pencil-square-o gif {
+  padding-right: 1vw;
+}
+
+.gif-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  margin-top: 2vh;
 }
 
 .actions {
@@ -310,24 +376,15 @@ img.img-icon {
   flex-direction: row wrap;
   justify-content: space-around;
   margin-top: 4vw;
-  background-color: rgba(238, 238, 238, 0.808);
   cursor: pointer;
-}
-.actions *{
-  background-color: rgba(247, 247, 247, 0.808);
-}
-
-.actn {
-  background:  rgb(238, 238, 238);
+  font-size: 1.2em;
 }
 
 .bookimg-and-rate {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  /* width: 25%; */
   margin: 0;
-  /* margin-right: -10vw; */
 }
 
 .book-header {
@@ -339,6 +396,7 @@ img.img-icon {
   margin-top: 4vh;
   margin-right: 2vw;
   margin-left: 2vw;
+  height: 55vh;
 }
 
 .block {
@@ -375,11 +433,16 @@ img.img-icon {
 }
 
 .book-desc {
+   display: flex column;
+   height: 15vh;
+  /* width: 30vw;  */
   padding-right: 2vw;
   padding-left: 2vw;
-  overflow: hidden;
-  text-align: left;
+  /* overflow-y: scroll; */
+  text-align: center;
+
 }
+
 .add-to-shelf {
   display: flex;
   flex-direction: row;
@@ -388,26 +451,18 @@ img.img-icon {
   margin: 0.3vw;
 }
 
-.copy-btn {
-  margin-top: 2vw;
-  font-size: 2em;
-}
-
-.chat-btn {
-  margin-bottom: 2vw;
-}
-
 .book-review {
   cursor: pointer;
+  display: flex column;
+  justify-content: flex-end;
+  height: 18vh;
+  width: 40vw;
+  overflow-y: scroll;
 }
 
 .book-content {
-  /* margin-top: 25px; */
   display: flex;
   flex-direction: column;
-  /* border-right: 1px solid black; */
-  /* width: 35%; */
-
 }
 
 .close-vid {
@@ -429,7 +484,6 @@ img.img-icon {
   display: flex;
   flex-direction: column;
   justify-content: baseline;
-  align-items: end;
 }
 
 .gif-title {
@@ -440,8 +494,6 @@ img.img-icon {
   font-family: inherit;
   font-weight: bold;
   margin-top: 0;
-  /* margin-left: -4vw;
-  margin-right: 2vw; */
 }
 
 .el-icon-error {
@@ -456,17 +508,6 @@ img.img-icon {
   font-size: 1.5em;
   margin-top: 0.8em;
   margin-bottom: 0.8em;
-}
-
-.profile-display {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  margin-top: 0.5em;
-  border: 1px solid var(--main-color);
-  border-radius: 1em;
-  margin-right: 1.5em;
-  margin-left: 1.5em;
 }
 
 .profile-title {
