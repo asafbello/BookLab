@@ -93,9 +93,6 @@ a {
 .book-name a {
   color: var(--secondary-color);
 }
-.review-flex {
-
-}
 
 .review-flex * {
   padding: 0vw ;
@@ -105,10 +102,6 @@ a {
 .review-time {
   margin-top: 2vh; 
 }
-/* .img-wrraper{
-    background: rgb(245, 245, 245);;
-    margin-bottom: .5vw;
-} */
 
 
 @media screen and (max-width: 768px) {
