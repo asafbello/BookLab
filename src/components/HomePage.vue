@@ -215,6 +215,7 @@ export default {
   align-content: flex-end;
   justify-content: flex-end;
   text-align: right;
+  font-family: "Book Antiqua";
 }
 
 .welcome-user h2 {
@@ -226,12 +227,9 @@ export default {
 .welcome-user h1 {
   padding: 1vw 0 0 0;
   color: #fff;
-  font-family: "Righteous";
-  font-size: 2em;
+  font-size: 2.5em;
   font-weight: normal;
-  /* line-height: 60px; */
-  text-transform: uppercase;
-  text-shadow: 2px 2px 0 #000;
+   letter-spacing: 1px;
 }
 .input-with-select {
   width: 65vw;

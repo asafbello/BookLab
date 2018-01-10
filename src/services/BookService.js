@@ -32,8 +32,9 @@ function emptyBook() {
 //         })
 // }
 
+
 function getBooks() {
-    const BookAmount = 6
+    const BookAmount = 10
     return axios
         .get(BOOK_URL)
         .then(res =>{

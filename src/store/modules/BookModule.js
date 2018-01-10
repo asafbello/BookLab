@@ -25,19 +25,8 @@ export default {
         currBook: context => {
             return context.currBook;
         },
-        // profilesFromBook: state => {
-        // //     var profiles = state.currBook.reviews.map(review => {
-        // //         return {
-        // //             id: '3'
-        // //                 //   avatar: review.userAvatar,
-        // //                 //   name: review.userName,
-        // //                 //   _id: review.byUserId
-        // //                 }
-        // // })
-        //     return 's'
-        // },
         booksToDisplay(context) {
-            var { books } = context;
+            var  {books}  = context
             return books
         },
         bookRate: context => {
@@ -51,7 +40,13 @@ export default {
     },
     mutations: {
         [SET_BOOKS](state, { books }) {
-            state.books = books;
+            var booksByReviews = books.sort((a,b) =>{
+                if (a.reviews.length < b.reviews.length)
+                return 1
+              if (a.reviews.length > b.reviews.length)
+                return -1;
+            })
+            state.books = booksByReviews;
         },
         [ADD_BOOK](state, { book }) {
             state.currBook = book;

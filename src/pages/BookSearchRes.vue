@@ -5,16 +5,14 @@
             <el-col v-for="(book,index) in searchRes" :key="book.id" class="card-book list-item">
               <el-card :body-style="{ padding: '0px' }" class="card-container">
                  <router-link :to="'/book/' + book.id">
-                    <img :src="book.volumeInfo.imageLinks.thumbnail" class="image">
+                    <img :src="book.volumeInfo.imageLinks.thumbnail" class="image-book">
                  </router-link>
-                  <div>
                       <div class="bottom clearfix">
-                      <span><i class="fa fa-book" aria-hidden="true"></i> {{book.volumeInfo.title}}</span>
+                      <span class="book-title"><i class="fa fa-book" aria-hidden="true"></i> {{book.volumeInfo.title}}</span>
                         <p class="time" v-if="book.volumeInfo.authors">author: {{book.volumeInfo.authors[0]}}</p>
                         <router-link :to="'/book/' + book.id">
                           <el-button type="text" class="button"><i class="el-icon-info"></i>Book Page</el-button>
                         </router-link>
-                      </div>
                 </div>
               </el-card>
             </el-col>
@@ -34,15 +32,19 @@ export default {
 
 
 <style scoped> 
+.book-title{
+  display: block;
+  
+}
 .bottom{
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
+  height: 17vw;
   align-items: center;
+  padding-top: .4vw;
 }
-.bottom *{
-padding: .5vw;
-}
+
   .time {
     font-size: .6em;
     color: #999;
@@ -52,9 +54,10 @@ padding: .5vw;
     font-size: 1em;
   }
 
-  .image {
+  .image-book {
     width: 100%;
     display: block;
+    height: 20vw;
   }
 
   .card-wrapper{
@@ -65,9 +68,9 @@ padding: .5vw;
     align-items: space-between;
     justify-content: center;
       top: -4.3vw;
-      margin: 0 auto;
+      margin: auto;
       background: rgba(0, 0, 0, 0.288);
-      border-radius: 2em;
+      border-radius: .2em;
       border: .1vw solid rgba(255, 255, 255, 0.397);
       border-top: none;
   }
@@ -80,11 +83,12 @@ padding: .5vw;
   .card-book:hover{
     box-shadow: 0 4px 12px 0 rgba(2, 23, 36, 0.12);
     transform: translateY(-1px);
-    /* cursor: pointer; */
+    cursor: pointer;
   }
   .card-container{
-    height: 40vw;
+    height: auto;
     font-size: .9em;
+    overflow-y: hidden;
   }
 
 .list-enter-active, .list-leave-active {
