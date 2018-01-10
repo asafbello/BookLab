@@ -18,7 +18,7 @@
                 text-color="#ff9900 "
                 score-template="{value} stars">
             </el-rate>
-            <p>{{review.createdAt | toDate}}</p>
+            <p class="review-time">{{review.createdAt | toDate}}</p>
             </blockquote>
             </div>
         </el-carousel-item>
@@ -46,8 +46,13 @@ export default {
 
 .review-flex {
   background-color: #ffffffde;
-  width: 95vw;
+  width: 55vw;
+  height: 100%;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 blockquote {
@@ -89,20 +94,23 @@ a {
   color: var(--secondary-color);
 }
 .review-flex {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
 }
 
 .review-flex * {
-  padding: 0.5vw;
+  padding: 0vw ;
   margin: 0;
+}
+
+.review-time {
+  margin-top: 2vh; 
 }
 /* .img-wrraper{
     background: rgb(245, 245, 245);;
     margin-bottom: .5vw;
 } */
+
+
 @media screen and (max-width: 768px) {
   .reviews-header {
     display: flex;

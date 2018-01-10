@@ -3,12 +3,14 @@
     /* margin:0 auto; */
   }
   #changing-imgs img {
+    /* background-color: hotpink; */
     display: inline;
     bottom: 0;
     position: absolute;
-    height: 50vh;
+    height: 100%;
     left: 0;
-    top:6.9vw;
+    /* top:5.8vw; */
+    bottom: 0;
     padding: 0; 
     transition: opacity 1s ease-in-out;
     overflow-y: hidden;

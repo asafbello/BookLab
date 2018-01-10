@@ -197,6 +197,7 @@ export default {
 }
 
 .search-book {
+  position: relative;
   background: linear-gradient(0deg, #7a7993 1%, #1f315b 100%);
   padding: 2vw 3vw 5vw 3vw;
   display: flex;

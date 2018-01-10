@@ -23,7 +23,7 @@
     </ul> -->
   
       <div class="review" v-for="(review, index) in reviews" :key="index"> 
-          <div class=".eview-wrapper ">
+          <div class=".review-wrapper ">
             <blockquote>
             <router-link :to="'/user/' + review.byUserId">{{review.userName}} said: </router-link>
            <p> &ldquo;{{review.review.txt}}&rdquo;</p>
