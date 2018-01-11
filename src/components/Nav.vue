@@ -6,7 +6,7 @@
             <router-link to="/"><img  @mouseover="toglleLogo" :class="{flip:show}" class="animated logo" src="../assets/img/logo.png"/></router-link>
             </el-menu-item>
             <router-link to="/"><el-menu-item index="1">Home</el-menu-item></router-link>
-            <el-menu-item index="1-2">Readers</el-menu-item>
+            <router-link to="/readers"><el-menu-item index="1-2">Readers</el-menu-item></router-link>
             <div class="user-area" v-if="!loggedInUser">
               <router-link to="/user/SignUpPage"><el-menu-item index="4">Sign Up</el-menu-item></router-link>
               <router-link to="/user/SignInPage"><el-menu-item index="5">Sign In</el-menu-item></router-link>

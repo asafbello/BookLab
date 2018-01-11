@@ -6,6 +6,7 @@ import SignUpPage from '@/components/SignUpPage'
 import SignInPage from '@/components/SignInPage'
 import ProfilePage from '@/components/ProfilePage'
 import BookReviewPage from '@/pages/BookReviewPage'
+import ReadersPrev from '@/pages/ReadersPrev'
 
 Vue.use(Router)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/user/:id',
       name: 'ProfilePage',
       component: ProfilePage
+    },    
+    {
+      path: '/readers',
+      name: 'ReadersPrev',
+      component: ReadersPrev
     },    
   ]
 })
