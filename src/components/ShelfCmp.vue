@@ -3,11 +3,11 @@
   <ul class="card">
         <li v-for="book in shelf" :key="book.forigenId" class="wrapper" :style="{ 'background-image': 'url(' + book.img + ')' }">
                 <!-- <img :src="book.img"  class="bg-image" v-on:load="isLoading"> -->
+          <router-link :to="'/book/' + book.forigenId">
               <div class="date">
                 <span ><i class="fa fa-comment" aria-hidden="true"></i> {{book.reviews.length}}</span>
                 <span ><i class="fa fa-heart-o" aria-hidden="true"></i> {{book.title.length}}</span>
               </div>
-          <router-link :to="'/book/' + book.forigenId">
             <div class="data">
                 <div class="content">
                 <span class="author"> <p>{{ book.author }}</p><p>  <i class="fa fa-book" aria-hidden="true"></i></p> </span>
