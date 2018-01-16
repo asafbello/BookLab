@@ -1,6 +1,6 @@
 <template v-if="profiles">
   <section class="profile-prev">
-    <div  class="profile">
+    <div  class="profile" :style="{flexWrap: isMulti}">
       <div class="image-profile"  v-for="(profile, index)  in profiles" :key="index">
               <router-link :to="'/user/' + profile._id">  
                       <img :src="profile.avatar" class="squere-photo">
@@ -17,20 +17,16 @@
 
 <script>
 export default {
-  props: ["profiles"],
+  props: ['profiles', 'isMultiLine'],
   computed: {
-    screenWidth() {
-      if (window.innerWidth > 768) {
-        this.quantity = 10;
-      } else {
-        return 3;
-      }
+    isMulti() {
+      if (this.isMultiLine) return 'wrap'
+      else return 'nowrap'; 
     }
   },
 
   data() {
     return {
-      // quantity: '',
       hover: false
     };
   },
@@ -40,6 +36,7 @@ export default {
 
 
 <style scoped>
+
 .rofile-prev{
   display: block;
 }

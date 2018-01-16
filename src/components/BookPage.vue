@@ -422,6 +422,7 @@ img.img-icon {
   margin: auto;
   margin-top: 0;
   margin-bottom: 15px;
+  cursor: pointer;
 }
 
 .pageCount {
@@ -632,6 +633,7 @@ img.img-icon {
 
   .book-img {
     width: 100%;
+    cursor: pointer;
   }
 
   .select-menu {

@@ -1,17 +1,18 @@
 <template>
     <section>
-    <profiles-cloud :profiles="profilesToDisplay"></profiles-cloud>
+      <profiles-prev :isMultiLine="true" :profiles="profilesToDisplay"></profiles-prev>
+      <hr>
     </section>
 </template>
 
 <script>
-import ProfilesCloud from '../components/ProfileCloud.vue';
+import ProfilesPrev from '../pages/ProfilesPrev.vue';
 import { mapGetters } from 'vuex';
-import {LOAD_PROFILES} from '../store/modules/ProfileModule.js'
+import {LOAD_ALL_PROFILES} from '../store/modules/ProfileModule.js'
 
 export default {
   components: {
-    ProfilesCloud
+    ProfilesPrev
   },
   computed: {
     ...mapGetters([
@@ -22,19 +23,11 @@ export default {
       "profilesFromBook",
       "profilesToDisplay"
     ]),
-    prorfilesByReview() {
-        console.log(this.profilesToDisplay, 'inside the computed');
-        var profileSizes = this.profilesToDisplay.map(profileSize => {
-            let i = 2; 
-            return profileSize.reviews.length;
-        })
-        ret
-    }
   },
   created() {
     //GET PROFILES
     this.$store
-      .dispatch({ type: LOAD_PROFILES })
+      .dispatch({ type: LOAD_ALL_PROFILES })
       .then(_ => {
         this.prorfilesByReview  
         console.log("Getting profiles");
