@@ -4,8 +4,8 @@
             <div class="icon-count">
                 <img class="icon" src="https://png.icons8.com/dusk/64/open-book.png" 
                                 title="Open Book" width="64" height="64">
-                <p>Pages read </p>
-                <p>{{pagesRead}}</p>
+                <!-- <p>Pages read </p> -->
+                <p class="stat-txt">You've read {{pagesRead}} pages</p>
             </div>
         </div>
         <div class="statistics-item">
@@ -13,8 +13,8 @@
                 <img @click="openModal(profile.readList)"
                         class="icon clickable" src="https://png.icons8.com/nolan/64/checkmark.png"
                         title="Checkmark" width="64" height="64">
-                <p>Books read </p>
-                <p>{{profile.readList.length}}</p>
+                <!-- <p>Books read </p> -->
+                <p class="stat-txt">From {{profile.readList.length}} books</p>
             </div>
         </div>
         <div class="statistics-item">
@@ -22,8 +22,8 @@
         <img @click="openModal(profile.wishList)" 
                 class="icon clickable" src="https://png.icons8.com/dusk/64/book-shelf.png"
                 title="Book Shelf" width="64" height="64">
-                <p>Books in wish list</p>
-                <p>{{profile.wishList.length}}</p>
+                <!-- <p>Books in wish list</p> -->
+                <p class="stat-txt">Your wish list</p>
         </div>
         </div>
             <profile-book-list-modal v-if="showModal" 
@@ -78,6 +78,7 @@ export default {
 };
 </script>
 <style scoped>
+
 .statistics-item {
   display: flex;
   flex-direction: column;
@@ -88,9 +89,12 @@ export default {
   display: flex;
   width: 100%;
   align-self: flex-start;
-  width: 100%;
   justify-content: space-around;
   margin-top: 1%;
+}
+
+.stat-txt {
+  color: black;
 }
 
 .clickable {

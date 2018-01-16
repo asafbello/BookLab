@@ -89,6 +89,7 @@ export default {
 .submenu-items {
   display: flex;
   justify-content: flex-start;
+  background: black;
 }
 
 .fa:hover{

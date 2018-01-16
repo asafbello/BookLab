@@ -2,6 +2,7 @@ import UserService from "../../services/UserService.js";
 import LocalService from '../../services/StorageService.js'
 
 export const LOAD_PROFILES = 'profile/loadProfiles';
+export const LOAD_ALL_PROFILES = 'profile/loadAllProfiles';
 export const LOAD_PROFILES_FROM_BOOK = 'profile/loadProfilesFromBook';
 export const GET_PROFILE = 'profile/getUser'
 export const SET_PROFILES = 'profile/setProfiles'
@@ -46,6 +47,12 @@ export default {
                 .then(profiles => {
                     commit({ type: SET_PROFILES, profiles })
                 })
+        },
+        [LOAD_ALL_PROFILES]({commit, state}) {
+            return UserService.getAllUsers() 
+            .then(profiles => {
+                commit({type: SET_PROFILES, profiles})
+            })
         },
         [GET_PROFILE]({ commit }, id) {
             return UserService

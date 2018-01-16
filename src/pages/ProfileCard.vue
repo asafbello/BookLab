@@ -6,8 +6,10 @@
               <div class="bottom clearfix">
                 <time class="time">Joined: {{profile.joinedAtNaaman | toDate }}</time> <br>
                 <div class="profile-btns">
-                <el-button type="text" v-if="isUser" class="button" @click.native="deleteUser">Delete Profile</el-button>
-                <el-button type="text" v-if="isUser" class="button"  @click.native="editProfile">Edit Profile</el-button>
+                  <!-- <el-button type="text" v-if="isUser" class="button" @click.native="deleteUser">Delete Profile</el-button> -->
+                  <i v-if="isUser"  @click="deleteUser" class="fa fa-trash-o" aria-hidden="true"></i>
+                  <!-- <el-button type="text" v-if="isUser" class="button"  @click.native="editProfile">Edit Profile</el-button> -->
+                  <i  v-if="isUser"  @click="editProfile" class="fa fa-pencil-square-o" aria-hidden="true"></i>
                 </div>
               </div>
             </div>
@@ -36,6 +38,10 @@ export default {
   align-self: flex-start;
 }
 
+.left-panel {
+  margin-top: 2%;
+}
+
 .left-panel-content {
   display: flex;
   flex-flow: column;
@@ -50,7 +56,9 @@ export default {
 }
 .profile-btns {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-size: 1.4em;
 }
 .time {
   font-size: 13px;

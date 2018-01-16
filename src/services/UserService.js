@@ -36,6 +36,15 @@ function getUsers() {
     .catch(err =>{throw err})
 }
 
+function getAllUsers() {
+    return axios 
+    .get((`${URL}/data/user`))
+    .then(res => {
+        return res.data
+    })
+    .catch(err => {throw err})
+}
+
 function addToWishList(userId, book) {
     return axios.put(`${URL}/wishList`, {userId, book} )
         .then(res => {
@@ -136,5 +145,6 @@ export default {
     setCurrentlyReading,
     getUsers,
     removeFromWishList,
-    removeFromReadList
+    removeFromReadList,
+    getAllUsers
 } 
