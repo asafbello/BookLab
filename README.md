@@ -1,27 +1,12 @@
-# booklab
+## Checkout The Demo
+To watch this Vuejs app demo click [here](https://mysterious-journey-65205.herokuapp.com/#/)
 
-> A Vue.js project
+## More Info:
+This book-lab project was built in VueJs framework, and NodeJs server.
+It's a PWA app with a responsive, mobile-first design, while using the latest web-technologie
+such as: VueX, SASS,
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## Who Are We?:
+[Naaman](https://nemo369.github.io/naaman/)
+[Nadav](https://github.com/asafbello)
+[Asaf](https://charlesmarlow.github.io/proj-gallery/)

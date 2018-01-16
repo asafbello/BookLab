@@ -92,7 +92,7 @@ h1 {
   position: absolute;
   bottom: 0;
   width: 100%;
-  transform: translateY(3vw);
+  transform: translateY(2.6vw);
   transition: transform 0.3s;
 }
   .content {

@@ -6,7 +6,10 @@
         <a class="nav-link" href="https://nemo369.github.io/naaman/" target="_blank"> Naaman,</a>
         <a class="nav-link" href="https://github.com/asafbello" target="_blank"> Asaf</a>  and 
         <a class="nav-link" href="https://charlesmarlow.github.io/proj-gallery/" target="_blank"> Nadav </a>
-        <span> - click for more</span>
+        <a href="https://github.com/asafbello/BookLab" class="nav-link" target="_blank">
+          <span> <i class="fa fa-github" aria-hidden="true"></i>
+             check out the code</span>
+        </a>
         </div>
         <div class="chat">
           <span class="chat-btn" @click="toggleChat">
@@ -44,6 +47,10 @@ export default {
 </script>
 
 <style scoped> 
+.fa-github{
+  font-size: 1.4em;
+  margin-left: 7vw;
+}
 .links {
   display: inline-block;
 }

@@ -46,7 +46,7 @@ export default {
               if (a.reviews.length > b.reviews.length)
                 return -1;
             })
-            state.books = booksByReviews;
+            state.books = booksByReviews.splice(0, 15);
         },
         [ADD_BOOK](state, { book }) {
             state.currBook = book;

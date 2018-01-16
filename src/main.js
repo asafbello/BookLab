@@ -13,6 +13,7 @@ import lodash from 'lodash'
 import moment from 'moment'
 import locale from 'element-ui/lib/locale/lang/en'
 import './filters/filters.js'
+import './css/lib/font-awesome/css/font-awesome.css'
 
 
 Vue.use(ElementUI,  { locale })

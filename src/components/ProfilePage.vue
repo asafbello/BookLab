@@ -288,11 +288,12 @@ export default {
 /* Trivia Area */
 
 .trivia-area {
+  margin-top: 2%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   background: #ffffff99;
-  margin: 0;
   padding: 0 1vw;
   width: 30%;
   /* height: 100%; */
@@ -417,7 +418,7 @@ h3 {
 .main-container {
   display: flex;
   flex-flow: row wrap;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-around;
 }
 

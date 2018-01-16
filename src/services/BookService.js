@@ -38,7 +38,7 @@ function getBooks() {
     return axios
         .get(BOOK_URL)
         .then(res =>{
-            if (res.data.length >BookAmount) return res.data.splice(0,BookAmount)
+            // if (res.data.length >BookAmount) return res.data.splice(0, BookAmount)
             return res.data
         })
         .catch(e => {
