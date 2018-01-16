@@ -1,5 +1,10 @@
 import moment from 'moment';
 import ioClient from 'socket.io-client'
+let BASE_URL = 'http://localhost:3003';
+
+if (process.env.NODE_ENV !== 'development'){
+    BASE_URL = '/'
+}
 
 var socket = null;
 var nickName = lorem()
@@ -14,7 +19,7 @@ function lorem(size = 5) {
 }
 
 const connectSocket = () => {
-    socket = ioClient('http://localhost:3003');
+    socket = ioClient(BASE_URL);
     socket.on('chat newMsg', function (msg) {
         if (nickName === msg.from) {msgs[msgs.length - 1].processed = true}
         else {

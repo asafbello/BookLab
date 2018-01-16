@@ -1,20 +1,18 @@
 {
     "name": "Booklub",
     "short_name": "Booklub",
-    "start_url": ".",
+    "start_url": "https://mysterious-journey-65205.herokuapp.com/#/",
     "display": "standalone",
     "background_color": "#fff",
     "description": "A place to manage your library and connect with like-minded people",
     "icons": [{
-      "src": "../src/assets/img/logo.png",
+      "src": "../src/assets/img/favicon.png",
       "sizes": "48x48",
       "type": "image/png"
     }, {
     }],
     "related_applications": [{
-      "platform": "web"
-    }, {
-      "platform": "play",
+      "platform": "web",
       "url": "https://mysterious-journey-65205.herokuapp.com/#/"
     }]
   }
