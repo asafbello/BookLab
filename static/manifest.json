@@ -1,6 +1,6 @@
 {
     "name": "Booklub",
-    "short_name": "Booklub",
+    "short_name": "Manage your books library",
     "start_url": "https://mysterious-journey-65205.herokuapp.com/#/",
     "display": "standalone",
     "background_color": "#fff",
